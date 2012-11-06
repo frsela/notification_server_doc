@@ -16,7 +16,23 @@
 
   <section>
     <title>Mobile networks in a Private or Public LAN</title>
-    <para></para>
+    <para>
+      Since on IPv4 the amount of free adresses is really low, celular networks
+      were divided into the ones with real IPv4 adresses (normally for 3G modems)
+      and private adressing model for handsets.
+    </para>
+    <para>
+      On the case of private networks, it's obvious that it's not possible to
+      directly notify the handset when the server has a notification for it, so
+      smartphone manufacturers decided to maintain opened channels with their
+      servers so it's possible to notify handsets asynchronously.
+    </para>
+    <para>
+      On the other hand, if the handset has a public address, or is using IPv6,
+      it's teorically possible to send the message directly making third party
+      solutions unuseful, however in order to protect users, carriers can deploy
+      firewalls to avoid direct access from Internet to the handset.
+    </para>
   </section>
 
   <section>
