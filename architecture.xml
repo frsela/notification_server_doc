@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="architecture"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Notification Server Architecture</title>
+  <para>
+    This chapter explains how is the server designed to be able to process
+    millions of messages per second
+  </para>
+
+  <section>
+    <title>Technologies used</title>
+    <para>
+      [hablar de node.js, mongodb, rabbit]
+    </para>
+  </section>
+
+  <section>
+    <title>Types of servers</title>
+    <para>
+      [hablar de cada uno de los servidores]
+    </para>
+  </section>
+</chapter>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="network_issues"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title xml:id="network_issues_title">Mobile network issues with current PUSH platforms</title>
+  <para>
+    This chapter explains why current solutions are bad for the mobile networks
+    and how we designed this server to solve this issues.
+  </para>
+  <para>
+    In order to understand the complete problem, we need to introduce you on how
+    the mobile nerworks work at radio level and also how the carriers have their
+    network infrastructure. So, go ahead !
+  </para>
+
+  <section>
+    <title>Mobile networks in a Private or Public LAN</title>
+    <para></para>
+  </section>
+
+  <section>
+    <title>Mobile Network. Circuit domain states</title>
+    <para>
+      In the 3GPP TS 25.331 specification, we can query all the circuit domain
+      statues of the RRC Layer (Radio Resource Control).
+    </para>
+    <para>
+      In order to simplify, we only list the third generation (3G) states:
+      <itemizedlist>
+        <listitem>
+          Cell_DCH (Dedicated Channel)
+          <para>
+            When the handset is in this state is because it has a dedicated
+            channel on the mobile network.
+          </para>
+          <para>
+            Normally the network sets a handsent into this state when it's
+            transmitting a big amount of data.
+          </para>
+          <para>
+            The inactivity time of this state is really short, known as T1 timer
+            it should vary between 5 and 20 seconds. If T1 is fired, the handset
+            will be changed to the Cell_FACH state.
+          </para>
+        </listitem>
+        <listitem>
+          Cell_FACH
+          <para>
+            In this state the handset is connected to the mobile network using
+            a shared channel with other handsets.
+          </para>
+          <para>
+            Normally, this state is assigned by the network when the handset is
+            transmitting a small amount of data.
+            So it's common to use it when sending keep-alive packages.
+          </para>
+          <para>
+            The inactivity time of this state is a little longer (30 seconds) and
+            is konwn as T2 timer. When T2 timer is shotted, the handset will be
+            moved to Cell_PCH or URA_PCH (depending on the type of network)
+          </para>
+        </listitem>
+        <listitem>
+          Cell_PCH or URA_PCH (PCH: Paging Channel) (URA: UTRAN Registration Area)
+          <para>
+            In this state the handset is not able to send any data except
+            signalling information in order to be able to localize the handset
+            inside the celullar network.
+          </para>
+          <para>
+            In both states, the RRC connection is established and open, but it's
+            rarely used.
+          </para>
+          <para>
+            In this state, the handset informs the network every time the device
+            change from one sector to another so the network is able to known
+            exactly the BTS which is offering service to the device.
+          </para>
+          <para>
+            The T3 timer defines the maximum time to be in a PCH state. This timer
+            is longer than T1 and T2 and depends on each carrier. When it's fired
+            the handset is moved to IDLE mode so if new data transmission is needed
+            the handset will need near 2 seconds to restablish the channel and a
+            lot of signalling messages.
+          </para>
+        </listitem>
+        <listitem>
+          RRC_IDLE
+          <para>
+            This is the most economical state since the handset radio is practically
+            stopped.
+          </para>
+          <para>
+            In this state, the radio is only listening to radio messages quering
+            the handset to "Wake Up" (paging messages).
+          </para>
+          <para>
+            Also, the handset modem is listening the cell data so each time it
+            detects that the user changed from one LAC (Localization Area Code -
+            Group of multiple BTS) to another, the handset will change to the
+            PCH state in order to inform the network.
+          </para>
+          <para>
+            So when a handset is in this state, it can be Waked Up to a more
+            active state and also the network knowns the LAC where the handset
+            is moving, so if the network needs to inform the handset it should
+            send a broadcast paging message through all the LAC BTS in order to
+            locate the handset.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      The following scheme represent the different radio states ordered by
+      power comsuption on the device:
+    </para>
+    <para>
+      <imagedata fileref="resources/rcc_states.png" align="center" width="5in" />
+    </para>
+  </section>
+
+  <section>
+    <title>Mobile Network. Package domain states</title>
+    <para>
+      In the 3GPP TS 23.060 specification, we can analyse all the package domain
+      states of the GMM Layer (GPRS Mobility Management).
+    </para>
+    <para>
+      The package domain states are simpler than radio ones (only 3 states):
+    </para>
+    <itemizedlist>
+      <listitem>
+        READY (2G) / PMM_CONNECTED (3G)
+        <para>
+          The handset has a PDP context established and is able to send and
+          receive data.
+        </para>
+      </listitem>
+      <listitem>
+        STANDBY (2G) / PMM_IDLE (3G)
+        <para>
+          The handset isn't transmitting anything but the PDP context is not
+          closed, so it maintains a valid IP address.
+        </para>
+        <para>
+          In this state the handset don't consume any resource but the network is
+          maintaining his IP address as a valid one, so it's very important to try
+          to maintain the handset in this state in order to be able to Wake Up
+          it and change to a PMM_CONNECTED state in order to transmit/receive
+          information.
+        </para>
+      </listitem>
+      <listitem>
+        IDLE (2G) / PMM_DETACHED (3G)
+        <para>
+          In this state, the handset hasn't a PDP context established so it hasn't
+          a valid IP address.
+        </para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Mobile Network. States relation</title>
+    <para>
+      In this section we show the relation between RRC and GMM states.
+    </para>
+    <para>
+      In order to simplify this table, we only consider the handset is only using
+      data channels, so no voice nor SMS (circuit domain) is being used.
+    </para>
+    <table frame='all'>
+      <title>RCC - GMM relation</title>
+      <tgroup cols='3' align='left' colsep='1' rowsep='1'>
+        <colspec colname='RCC'/>
+        <colspec colname='GMM'/>
+        <colspec colname='Desc'/>
+        <thead>
+          <row>
+            <entry>RCC State</entry>
+            <entry>GMM State (2G/3G)</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+        <tfoot>
+          <row>
+            <entry>RCC State</entry>
+            <entry>GMM State (2G/3G)</entry>
+            <entry>Description</entry>
+          </row>
+        </tfoot>
+        <tbody>
+          <row>
+            <entry>Cell_DCH</entry>
+            <entry>READY/PMM_CONNECTED</entry>
+            <entry>
+              <para>
+                The handset is transmiting or receiving data information using a
+                dedicated channel or a HSPA shared channel.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>Cell_FACH</entry>
+            <entry>READY/PMM_CONNECTED</entry>
+            <entry>
+              <para>
+                The handset had been transmiting or receiving data some seconds ago
+                and due to inactivity had been moved to the Cell_FACH RCC state.
+              </para>
+              <para>
+                Also it's possible that the handset is transmiting or receiving
+                small amount of data like pings, keep-alives, cell updates,...
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>Cell_PCH/URA_PCH</entry>
+            <entry>READY/PMM_CONNECTED</entry>
+            <entry>
+              <para>
+                The handset had been in Cell_FACH some seconds ago and due to
+                inactivity had been moved to this less resource consume state.
+              </para>
+              <para>
+                However, the signalling channel is available and is able to change
+                to a data transmission state like FACH or DCH with a little amount
+                of signalling.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>Cell_PCH/URA_PCH</entry>
+            <entry>STANDBY/PMM_IDLE</entry>
+            <entry>
+              <para>
+                The handset is not transmiting nor receiving any amount of data
+                and also the signalling connection is closed.
+              </para>
+              <para>
+                However the IP address is maintained by the network and associated
+                to this handset.
+              </para>
+              <para>
+                This is one of the most interesting states since the PDP context
+                is not closed, the IP address is still valid and the handset is
+                not consuming baterry, network traffic,...
+              </para>
+              <para>
+                As soon as the handset needs to restablish the data channel the
+                radio state will be changed to FACH or DCH.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>RRC_IDLE</entry>
+            <entry>STANDBY/PMM_IDLE</entry>
+            <entry>
+              <para>
+                This state is the same as the previous one since the radio state
+                is IDLE.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>RRC_IDLE</entry>
+            <entry>IDLE/PMM_DETACHED</entry>
+            <entry>
+              <para>
+                The handset is not transmitting nor receiving anything and also it
+                hasn't any PDP context established, so no IP address is available
+                for this handset.
+              </para>
+              <para>
+                Normally this state is after 24h of innactivity in the package
+                domain.
+              </para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
+    <title>Mobile Network. Signalling storms</title>
+    <para>
+      This is a carrier well-know effect after the big adoption of smartphones
+      around the word.
+    </para>
+    <para>
+      As we explained in previous sections, each time the network decides to
+      move a handset from one state to another is needed to restablish channels
+      and starts a negotiation between the network and the handset with the
+      signalling protocol.
+    </para>
+    <para>
+      Since nowadays handsets are sending keep-alives to maintain their connections
+      opened, the efect is that the handsets is continously changing from one
+      state to another producing a lot of signalling in the network and also
+      consumes a lot of battery resources.
+    </para>
+  </section>
+
+  <section>
+    <title>Mobile Network. Battery comsuption</title>
+    <para>
+      The battery comsuption depends on the Radio state. The following list
+      represent the amount of battery needed on each state represented in
+      relative units:
+    </para>
+    <itemizedlist>
+      <listitem>RRC IDLE: 1 relative unit</listitem>
+      <listitem>Cell_PCH: &lt; 2 relative unit</listitem>
+      <listitem>URA_PCH: &lt; or equal than Cell_PCH</listitem>
+      <listitem>Cell_FACH: 40 relative units</listitem>
+      <listitem>Cell_DCH: 100 relative units</listitem>
+    </itemizedlist>
+  </section>
+</chapter>

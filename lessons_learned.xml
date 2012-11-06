@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="lessons_learned"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Lessons learned</title>
+  <para>
+    In this chapter we will explain the lessons we learned during the daily work
+    in a high scalable and high performance server infrastructure
+  </para>
+
+</chapter>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="intro"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>Introduction</title>
+  <para>
+    Today mobile applications retrieve asynchronously information from multiple sites.
+    Developers have two ways to retrieve this information:
+  </para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        Polling: Periodically query the information to the server.
+      </listitem>
+      <listitem>
+        Push: The server sends the information to the client when the required
+        information is available.
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para>
+    The first method is strongly discouraged due to the large number of connections
+    made to the server needlessly, because information is not available and you lose time and resources.
+  </para>
+  <para>
+    That is why the PUSH methods are widely used for information retrieval,
+    anyway how PUSH platforms are currently working are misusing mobile radio
+    resources and also consuming lot of battery.
+  </para>
+  <para>
+    This article aims to explain how to manage this kind of messaging, problems
+    with existing solutions and finally how Telefónica Digital, within the framework
+    of the development of Firefox OS operating system, a new solution designed
+    friendlier to the network and low battery consumption on mobile terminals.
+  </para>
+
+  <section>
+    <title>State of the art</title>
+    <para>
+      Historically mobile operators offered (and offer) real mechanisms PUSH notifications,
+      also known as WAP PUSH. WAP PUSH can "wake up" applications when any action
+      is required of them by the server side (without interaction from the user).
+      Sending WAP PUSH messages is done in the domain of circuits, the same used
+      for voice and SMS, and that is why the user don't need to establish a data connection.
+      These kind messages work properly out of the box.
+    </para>
+    <para>
+      WAP PUSH solutions works great when the user is registered in the mobile network,
+      but if you are out of coverage or connected to a WiFi hotspot instead a celular
+      network, you can not receive these messages.
+    </para>
+    <para>
+      Also, if we add that this messages implies an economic cost (basically it
+      is a short message SMS) the effect is that major smartphone operating systems
+      (Apple iOS and Google Android) have implemented a parallel solution that would
+      work regardless of the mobile network to which the user belongs and it can
+      run smoothly when they are using WiFi networks.
+    </para>
+    
+    <section>
+      <title>Current Internet solutions issues</title>
+      <para>
+        Internet PUSH solutions are based on a public accesible server which handles
+        all the notification delivery.
+      </para>
+      <para>
+        These solutions were designed without considering the mobile networks
+        way of working and forces the handset to maintain an open socket with
+        the server in order to avoid misnotifications.
+      </para>
+      <para>
+        This way of working increases the signalling and the handsets battery
+        consume.
+        For more information about this, please refer to the
+        "<xref linkend="network_issues" endterm="network_issues_title" />" chapter
+      </para>
+    </section>
+  </section>
+</chapter>

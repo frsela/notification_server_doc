@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="deployment"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Notification Server Deployment</title>
+  <para>
+    This chapter explains how is the notification server will be deployed
+  </para>
+
+</chapter>

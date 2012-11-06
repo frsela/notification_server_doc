@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="api_ua_ns"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>API between the User Agent and the Notification Server</title>
+  <para>
+    With this API the client device is able to register his applications and
+    itself into the selected notification server.
+  </para>
+  <para>
+    This API isn't yet standarised, anyway the one explained here is an 
+    on working proposal.
+  </para>
+  <para>
+    The UA-NS API is divided in two transport protocols:
+    <itemizedlist>
+      <listitem>
+        POST API: Through the HTTP POST transport protocol the NS will deliver
+        valid UATokens to the device.
+      </listitem>
+      <listitem>
+        WebSocket API: This is the most important one since all the
+        communications (except to recover tokens) with the NS SHALL be driven
+        through this API.
+        <para>
+          On future releases will be supported another channels as Long-Polling
+          solutions in order to cover devices which don't support Web Sockets.
+        </para>
+      </listitem>
+    </itemizedlist>
+    <section>
+      <title>HTTP POST API</title>
+      <para>
+        This channel only offers one method to get a valid UAToken.
+      </para>
+      <section>
+        <title>GET UA TOKEN</title>
+        <para>
+          This method SHOULD be protected to avoid DoS attacks getting millions of
+          valid tokens, in any case, this is out of the scope of this protocol.
+        </para>
+        <para>
+          The TOKEN method is called with a simple URL:
+          <code>https://&lt;notification_server_base_URL&gt;/token</code>
+        </para>
+        <para>
+          The server will respond with an AES encrypted valid token.
+          This token SHALL be used to identify the device in future connections.
+        </para>
+      </section>
+    </section>
+    <section>
+      <title>WebSocket API</title>
+      <para>
+        Through this channel the device will register itself, his applications,
+        and also will be used to deliver PUSH notifications
+      </para>
+      <para>
+        All methods sent through this channel will have the same JSON structure:
+      </para>
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "<type of message>",
+        ... other data ...
+      }
+      ]]>
+      </programlisting>
+      <para>
+        In which messageType defines one of these commands:
+      </para>
+      <section>
+        <title>registerUA</title>
+        <para>
+          With this method the device is able to register itself.
+        </para>
+        <para>
+          When a device is registering to a notification server, it SHALL send
+          his own valid UAToken and also the device can send additional information
+          that can be used to optimize the way the messages will be delivered
+          to this device.
+        </para>
+        <programlisting language="javascript">
+        <![CDATA[
+        {
+          messageType: "registerUA",
+          data: {
+            uatoken: "<a valid UAToken>",
+            interface: {
+              ip: "<current device IP address>",
+              port: "<TCP or UDP port in which the device is waiting for wake up notifications>"
+            },
+            mobilenetwork: {
+              mcc: "<Mobile Country Code>",
+              mnc: "<Mobile Network Code>"
+            }
+          }
+        }
+        ]]>
+        </programlisting>
+        <para>
+          The interface and mobilenetwork optional data will be used by the server
+          to identify if it has the required infrastructure into the user's mobile
+          network in order to send wakeup messages to the IP and port indicated
+          in the interface data so it's able to close the WebSocket channel to reduce
+          signalling and battery consume.
+        </para>
+        <para>
+          The server response can be:
+          <programlisting language="javascript">
+          <![CDATA[
+          {
+            status: "REGISTERED",
+            statusCode: 200,
+            messageType: "registerUA"
+          }
+          ]]>
+          </programlisting>
+          <programlisting language="javascript">
+          <![CDATA[
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "Data received is not a valid JSON package",
+            messageType: "registerUA"
+          }
+          ]]>
+          </programlisting>
+          <programlisting language="javascript">
+          <![CDATA[
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "Token is not valid for this server",
+            messageType: "registerUA"
+          }
+          ]]>
+          </programlisting>
+          <programlisting language="javascript">
+          <![CDATA[
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "...",
+            messageType: "registerUA"
+          }
+          ]]>
+          </programlisting>
+        </para>
+      </section>
+      <section>
+        <title>registerWA</title>
+        <para>
+          This method is used to register installed applications on the device.
+          This shall be send to the notification server after a valid UA registration.
+        </para>
+        <para>
+          Normally, this method will be used each time an application requires a
+          new push notification URL (through the WA-UA API) or also each time the
+          device is powered on and is re-registering previously registered applications.
+        </para>
+        <para>
+          The required data for application registration is the WAToken and the
+          public key.
+        </para>
+        <programlisting language="javascript">
+        <![CDATA[
+        {
+          messageType: "registerWA",
+          data: {
+            uatoken: "<a valid UAToken>",
+            watoken: "<the WAToken>",
+            pbkbase64: "<BASE64 coded public key>"
+          }
+        }
+        ]]>
+        </programlisting>
+        <para>
+          The server response can be:
+          <programlisting language="javascript">
+          <![CDATA[
+          {
+            status: "REGISTERED",
+            statusCode: 200,
+            url: "<publicURL required to send notifications>",
+            messageType: "registerUA"
+          }
+          ]]>
+          </programlisting>
+          <programlisting language="javascript">
+          <![CDATA[
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "...",
+            messageType: "registerWA"
+          }
+          ]]>
+          </programlisting>
+        </para>
+        <para>
+          The device service should redirect the received URL to the correct
+          application.
+        </para>
+      </section>
+      <section>
+        <title>getAllMessages</title>
+        <para>
+          This method is used to retrieve all pending messages for one device.
+        </para>
+        <para>
+          This will be used each time the device is Waked Up, so it's polling
+          pending messages.
+        </para>
+        <programlisting language="javascript">
+        <![CDATA[
+        {
+          messageType: "getAllMessages",
+          data: {
+            uatoken: "<a valid UAToken>"
+          }
+        }
+        ]]>
+        </programlisting>
+        <para>
+          The server response can be:
+          <programlisting language="javascript">
+          <![CDATA[
+          {
+            messageType: "getAllMessages",
+            [
+              <Array of notifications with the same format
+               as defined in the notification method>
+            ]
+          }
+          ]]>
+          </programlisting>
+        </para>
+      </section>
+      <section>
+        <title>notification</title>
+        <para>
+          This message will be used by the server to inform about new notification
+          to the device.
+        </para>
+        <para>
+          All recieved notification will have this structure:
+        </para>
+        <programlisting language="javascript">
+        <![CDATA[
+        {
+          messageType: "notification",
+          id: "<ID used by the Application Server>",
+          message: "<Message payload>",
+          timestamp: "<Since EPOCH Time>",
+          priority: "<prio>",
+          messageId: "<ID of the message>",
+          url: "<publicURL which identifies the final application>"
+        }
+        ]]>
+        </programlisting>
+      </section>
+      <section>
+        <title>ack</title>
+        <para>
+          For each received notification through notification or getAllMessages,
+          the server SHOULD be notified in order to free resources related to
+          this notifications.
+        </para>
+        <para>
+          This message is used to acknoledge the message reception.
+        </para>
+          <programlisting language="javascript">
+          <![CDATA[
+          {
+            messageType: "ack",
+            messageId: "<ID of the received message>"
+          }
+          ]]>
+          </programlisting>
+      </section>
+    </section>
+  </para>
+</section>

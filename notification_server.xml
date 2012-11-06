@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book xmlns="http://docbook.org/ns/docbook"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      version="5.0" xml:lang="en"
+      id="push_notification_server_architecture">
+
+  <info>
+    <title>Notification Server</title>
+    <subtitle>Architecture</subtitle>
+    <authorgroup>
+      <author>
+        <personname>
+          <firstname>Fernando</firstname>
+          <surname>Rodriguez Sela</surname>
+        </personname>
+      </author>
+      <author>
+        <personname>
+          <firstname>Guillermo</firstname>
+          <surname>Lopez Leal</surname>
+        </personname>
+      </author>
+    </authorgroup>
+    <copyright>
+      <year>2012</year>
+      <holder>Telefonica Digital (PDI), All rights reserved.</holder>
+    </copyright>
+    <revhistory>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>November 2012</date>
+        <authorinitials>FRS</authorinitials>
+        <revremark>First Edition</revremark>
+        <revdescription>First draft of the architecture document</revdescription>
+      </revision>
+    </revhistory>
+    <productnumber>1.0</productnumber>
+  </info>
+
+  <xi:include href="introduction.xml" />
+  <xi:include href="network_issues.xml" />
+  <xi:include href="api.xml" />
+  <xi:include href="architecture.xml" />
+  <xi:include href="performance.xml" />
+  <xi:include href="deployment.xml" />
+  <xi:include href="lessons_learned.xml" />
+</book>

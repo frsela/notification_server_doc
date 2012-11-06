@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="api_tokens"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Tokens</title>
+  <para>
+    The tokens are an important part of this API since it identifies each
+    (user) actor (device and applications) in a unique or shared way.
+  </para>
+  <section>
+    <title>WAToken</title>
+    <para>
+      This token identifies the user or group of users and SHALL be a secret.
+    </para>
+    <para>
+      If this token is UNIQUE (and secret, of coures) will identify a unique
+      instance of the application related (normally) to one user. In this case
+      the returned URL will be unique for this WAToken.
+    </para>
+    <para>
+      If this token is shared by different devices of the SAME user (and secret),
+      will identify a unique user with multiple devices. In this case, the returned
+      URL will be unique per user but each URL will identify multiple devices
+      the user is using.
+    </para>
+    <example>
+      <para>
+        This can be used by applications in which the user require the same
+        information across his devices, like the mobile and the desktop app.
+        Can be used, for example, by e-mail clients.
+      </para>
+    </example>
+    <para>
+      Finally, if a developer decides to deliver the same WAToken to all his users
+      (in this cases is obviously not a secret one), then the returned URL will
+      identify all instances of the same application. In this case each notification
+      received in the publicURL will be delivered to ALL the devices which have
+      the application installed (and registered). This will be a BROADCAST message.
+    </para>
+    <example>
+      <para>
+        This can be used by applications in which all users require exactly the
+        same information at the same time, like weather applications, latest news, ...
+      </para>
+    </example>
+  </section>
+  <section>
+    <title>UAToken</title>
+    <para>
+      This token identifies each customer device in a unique way.
+    </para>
+    <para>
+      This token is also used as an identification key since this isn't a random
+      one. This token is an AES encrypted string which will be checked for
+      validaty each time it's used.
+    </para>
+    <para>
+      This token should be delivered after identify the user in a valid way,
+      anyway this identification procedure is out of the scope of this specification.
+    </para>
+  </section>
+  <section>
+    <title>AppToken</title>
+    <para>
+      Automatic generated token by the notification server which identifies the
+      application + user as in a unique fashion.
+    </para>
+    <para>
+      This token is included in the publicURL which identifies the application,
+      and normally is a SHA256 hashed string with the WATokent + the Public Key.
+    </para>
+  </section>
+</section>

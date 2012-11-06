@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="performance"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Notification Server Performance</title>
+  <para>
+    This chapter shows some performance test done to the notification server
+  </para>
+
+</chapter>

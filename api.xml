@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="api"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      version="5.0" xml:lang="en">
+
+  <title>Notification server API</title>
+  <para>
+    The Notification Server API is based on the W3C draft:
+    <link xlink:href="http://dvcs.w3.org/hg/push/raw-file/default/index.html">
+      [http://dvcs.w3.org/hg/push/raw-file/default/index.html]
+    </link>
+  </para>
+  <para>
+    In order to understand this chapter, we'll present the different actors:
+    <itemizedlist>
+      <listitem>
+        WebApp (WA):
+        <para>
+          The user's applications which is normally executed on the
+          user device.
+        </para>  
+      </listitem>
+      <listitem>
+        User Agent (UA):
+        <para>
+          Since this protocol born under the Firefox OS umbrella the
+          "operating system" layer is known as the User Agent layer, in our case
+          is the Gecko engine.
+        </para>
+      </listitem>
+      <listitem>
+        Notification Server (NS):
+        <para>
+          Centralized infrastructure of the notification
+          server platform. This one can be freely deployed by anyone since it's
+          open source:
+          <link xlink:href="https://github.com/telefonicaid/notification_server">
+            [https://github.com/telefonicaid/notification_server]
+          </link>.
+          The protocol also allows to use any server infrastructure the user wants
+        </para>
+      </listitem>
+      <listitem>
+        Application server (AS):
+        <para>
+          The WA server side. Normally the applications that runs on a
+          mobile device use one or more Internet servers.
+        </para>
+        <para>
+          Some of them will be deployed by the same developer as the client application.
+        </para>
+        <para>
+          In our case, this server will be the one which send the notification to
+          his clients/users.
+        </para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para>
+    <imagedata fileref="resources/actors_and_channels.png" align="center" width="5in" />
+  </para>
+
+  <xi:include href="api_wa_ua.xml" />
+  <xi:include href="api_ua_ns.xml" />
+  <xi:include href="api_as_ns.xml" />
+  <section xml:id="api_wa_as">
+    <title>API between the WA and the AS</title>
+    <para>
+      This is a third party API which is independent of the PUSH protocol, so
+      it's out of the scope of this document.
+    </para>
+    <para>
+      Anyway, through this API the publicURL received by the application should
+      be send to his server.
+    </para>
+    <para>
+      Also this channel could be used to receive valid WATokens to be used during
+      the WA registration.
+    </para>
+  </section>  
+  <xi:include href="api_tokens.xml" />
+  <section>
+    <title>WakeUp</title>
+    <para>
+      When the handset is inside a mobile operator network, we can close the
+      websocket to reduce battery comsuption and also network resources.
+    </para>
+    <para>
+      So, when the NS has messages to the WA installed on a concrete UA it will
+      send a UDP Datagram to the handset.
+    </para>
+    <para>
+      When the mobile receives this datagram, it SHALL connect to the websocket
+      interfaces in order to pull all pending messages.
+    </para>
+  </section>
+</chapter>

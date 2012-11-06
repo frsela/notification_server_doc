@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="api_as_ns"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>API between the Application Server and the Notification Server</title>
+  <para>
+    With this API the Application server is able to send asynchronous notifications
+    to his user's without heavy infrastructure requirements or complex technical skills.
+  </para>
+  <para>
+    This is a simple REST API which will be improved in future releases.
+  </para>
+  <para>
+    This version accepts only one HTTP POST method used to send the notification
+    payload. The following payload SHALL be POSTED to the publicURL which defines
+    the application and user, like:
+    <code>https://push.telefonica.es/notify/SOME_RANDOM_TOKEN</code>
+    <programlisting language="javascript">
+    <![CDATA[
+    {
+      messageType: "notification",
+      id: "<ID used by the Application Server>",
+      message: "<Message payload>",
+      signature: "<Signed message>",
+      ttl: "<time to live>",
+      timestamp: "<Since EPOCH Time>",
+      priority: "<prio>",
+    }
+    ]]>
+    </programlisting>
+  </para>
+  <para>
+    The server response can be one of the following:
+  </para>
+  <programlisting language="javascript">
+    STATUS: 200
+    <![CDATA[
+    {
+      status: "ACCEPTED"
+    }
+    ]]>
+  </programlisting>
+  <programlisting language="javascript">
+    STATUS: 40x
+    <![CDATA[
+    {
+      status: "ERROR",
+      reason: "JSON not valid"
+    }
+    ]]>
+  </programlisting>
+  <programlisting language="javascript">
+    STATUS: 40x
+    <![CDATA[
+    {
+      status: "ERROR",
+      reason: "Not messageType=notification"
+    }
+    ]]>
+  </programlisting>
+  <programlisting language="javascript">
+    STATUS: 40x
+    <![CDATA[
+    {
+      status: "ERROR",
+      reason: "Body too big"
+    }
+    ]]>
+  </programlisting>
+  <programlisting language="javascript">
+    STATUS: 40x
+    <![CDATA[
+    {
+      status: "ERROR",
+      reason: "You must sign your message with your Private Key"
+    }
+    ]]>
+  </programlisting>
+  <programlisting language="javascript">
+    STATUS: 40x
+    <![CDATA[
+    {
+      status: "ERROR",
+      reason: "Bad signature, dropping notification"
+    }
+    ]]>
+  </programlisting>
+  <programlisting language="javascript">
+    STATUS: 40x
+    <![CDATA[
+    {
+      status: "ERROR",
+      reason: "Try again later"
+    }
+    ]]>
+  </programlisting>
+  <programlisting language="javascript">
+    STATUS: 40x
+    <![CDATA[
+    {
+      status: "ERROR",
+      reason: "No valid AppToken"
+    }
+    ]]>
+  </programlisting>
+</section>
