@@ -25,6 +25,7 @@
       the user is using.
     </para>
     <example>
+      <title>Multiple device messages</title>
       <para>
         This can be used by applications in which the user require the same
         information across his devices, like the mobile and the desktop app.
@@ -39,6 +40,7 @@
       the application installed (and registered). This will be a BROADCAST message.
     </para>
     <example>
+      <title>Message broadcast</title>
       <para>
         This can be used by applications in which all users require exactly the
         same information at the same time, like weather applications, latest news, ...
