@@ -41,33 +41,129 @@
         The names of each box follows this scheme:
         NS-&lt;type_of_client&gt;
     </para>
+    <para>
+      <imagedata fileref="resources/ns_servers.png" align="center" width="5in" />
+    </para>
     <section>
         <title>NS-UA-WS</title>
-        <para></para>
+        <para>
+          The NS_UA_WS server is the frontend for mobile devices.
+          This server will attend the clients using HTTP protocols
+          (HTTP GET and WebSockets)  
+        </para>
+        <para>
+          This server offers to channels:
+          <itemizedlist>
+            <listitem>
+              Retrieve a valid User Agent token used to identify each handset.
+              This token will be delivered via HTTP GET method to
+              the /token URL.
+            </listitem>
+            <listitem>
+              <para>
+                Maintain a Websocket connection with the clients.
+                This WebSocket will be maintained open in order to deliver push
+                messages through it.
+              </para>
+              <para>
+                This server will store on the MongoDB all registered nodes and
+                applications. Also will receive from the Message Queue all the
+                messages to be delivered to the connected handsets.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </para>
     </section>
     <section>
         <title>NS-UA-UDP</title>
-        <para></para>
+        <para>
+          The NS_UA_UDP server is the responsible to intermediate between the
+          central Notification Server infrastructure and each NS_WakeUp
+          deployed in each OB.
+        </para>
+        <para>
+          As told before, this server will be connected to the message queue
+          and for each received wake-up petition this server will retrieve from
+          the MongoDB the NS_WakeUp server address and send a HTTP message to
+          it querying to wake-up a handset.
+        </para>
     </section>
     <section>
         <title>NS-WakeUp</title>
-        <para></para>
+        <para>
+          The NS_WakeUp server is a proxy between the central NS servers and
+          the client equipment (device). This service will receive petitions
+          through a standard HTTP port and will send UDP datagrams or TCP packets
+          (for pinging purposes) inside the OB private network to the private
+          IP of the client equipment. This server must be placed inside the OB
+          private network or in a zone that must see that private IPs.
+        </para>
+        <para>
+          The Wake-Up Proxy server is responsible to ping to the correct
+          client inside each OB (using UDP datagrams). It must be placed inside
+          the OB or in a zone that can see the devices inside that
+          private network.
+        </para>
+        <para>
+          This server will receive the ping orders through a standard HTTP
+          port which will be connected to InterNodo network to receive the
+          data from the VDC inside Telefónica network.
+        </para>
     </section>
     <section>
         <title>NS-AS</title>
-        <para></para>
+        <para>
+          The NS_AS server is the frontend for application servers. This server
+          will attend the third party servers through HTTPS POST petitions.
+        </para>
+        <para>
+          This server will expose a HTTPS POST in /notify method in order to
+          receive messages from the third party application servers.
+          The received messages will be stored on the MongoDB and will notify
+          other servers through the Message Queue.
+        </para>
     </section>
     <section>
         <title>NS-Monitor</title>
-        <para></para>
+        <para>
+          The NS_Monitor is the responsible to deliver messages to the correct
+          recipient. So this server will be monitoring all inbound messages,
+          deliver them and verify if re-deliver is needed.
+        </para>
+        <para>
+          The monitor reads the /newMessage queue (which frontends from the
+          NS_AS puts all the received messages), and finds in the database
+          which nodes need to be notified, sending the message to the correct
+          queue the node (user agent) is subscribed to.
+        </para>          
     </section>
     <section>
         <title>Message Queue (RabbitMQ)</title>
-        <para></para>
+        <para>
+          A Message Queue cluster is used to act as a message dispatcher
+          between all the other servers. RabbitMQ or ActiveMQ will be used.
+        </para>
+        <para>
+          This is a standard Message Queue which supports STOMP or AMQP protocol.
+        </para>
+        <para>
+          Because huge load, this server will be deployed in cluster mode.
+        </para>
     </section>
     <section>
         <title>NO-SQL Database (MongoDB)</title>
-        <para></para>
+        <para>
+          A MongoDB cluster is needed to use as persistent storage system.
+          It is used to save the registered devices, registered apps and
+          received messages.
+        </para>
+        <para>
+          This is a non relational database.
+        </para>
+        <para>
+          Because huge load, this server will be deployed in cluster mode.
+        </para>
+          
     </section>
   </section>
 </chapter>

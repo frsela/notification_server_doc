@@ -78,4 +78,20 @@
       </para>
     </section>
   </section>
+
+  <section>
+    <title>Service Description</title>
+    <para>
+      The Notification Server platform is aimed to deliver push notifications
+      (small messages like a real-time chat, a JSON data structure defining
+      the goal of a soccer match) to web based terminals inside mobile networks.
+    </para>
+    <para>
+      The main objective of this service is to deliver these messages
+      considering the way of working of the mobile radio so the battery
+      consumption and traffic generated is reduced to the minimal.
+      It is developed for working on stable Internet connections, like on
+      Wi-Fi or Ethernet.
+    </para>
+  </section>
 </chapter>
