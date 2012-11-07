@@ -6,20 +6,68 @@
   <title>Notification Server Architecture</title>
   <para>
     This chapter explains how is the server designed to be able to process
-    millions of messages per second
+    millions of messages per second.
   </para>
 
   <section>
     <title>Technologies used</title>
     <para>
-      [hablar de node.js, mongodb, rabbit]
+      The server infrastructure had been build using high performance languages
+      and also high performance database and message queuing systems.
     </para>
+    <section>
+        <title>MongoDB</title>
+        <para></para>
+    </section>
+    <section>
+        <title>RabbitMQ</title>
+        <para></para>
+    </section>
+    <section>
+        <title>Node.JS</title>
+        <para></para>
+    </section>
   </section>
 
   <section>
     <title>Types of servers</title>
     <para>
-      [hablar de cada uno de los servidores]
+      In order to be able to scale horizontally and vertically with no limits
+      all the server platform infrastructure had been splitted in several boxes
+      one of them dedicated to a particular task and also independent of the
+      rest so it can be scalled independently of the rest ones.
     </para>
+    <para>
+        The names of each box follows this scheme:
+        NS-&lt;type_of_client&gt;
+    </para>
+    <section>
+        <title>NS-UA-WS</title>
+        <para></para>
+    </section>
+    <section>
+        <title>NS-UA-UDP</title>
+        <para></para>
+    </section>
+    <section>
+        <title>NS-WakeUp</title>
+        <para></para>
+    </section>
+    <section>
+        <title>NS-AS</title>
+        <para></para>
+    </section>
+    <section>
+        <title>NS-Monitor</title>
+        <para></para>
+    </section>
+    <section>
+        <title>Message Queue (RabbitMQ)</title>
+        <para></para>
+    </section>
+    <section>
+        <title>NO-SQL Database (MongoDB)</title>
+        <para></para>
+    </section>
   </section>
 </chapter>
