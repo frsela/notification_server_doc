@@ -39,7 +39,7 @@
 
   <xi:include href="introduction.xml" />
   <xi:include href="network_issues.xml" />
-  <xi:include href="api.xml" />
+  <xi:include href="api/api.xml" />
   <xi:include href="architecture.xml" />
   <xi:include href="performance.xml" />
   <xi:include href="deployment.xml" />

@@ -17,27 +17,27 @@ clean:
 
 xhtml5:
 	mkdir -p output/xhtml5
-	xsltproc --xinclude -o output/xhtml5/notification_server.xhtml $(XSL_BASE)xhtml5/docbook.xsl notification_server.xml
-	cp -r resources output/xhtml5/.
+	xsltproc --xinclude -o output/xhtml5/notification_server.xhtml $(XSL_BASE)xhtml5/docbook.xsl books/notification_server.xml
+	cp -r books/resources output/xhtml5/.
 
 xhtml5_chunked:
 	mkdir -p output/xhtml5_chunked
-	xsltproc --xinclude -o output/xhtml5_chunked/ $(XSL_BASE)xhtml5/chunk.xsl notification_server.xml
-	cp -r resources output/xhtml5_chunked/.
+	xsltproc --xinclude -o output/xhtml5_chunked/ $(XSL_BASE)xhtml5/chunk.xsl books/notification_server.xml
+	cp -r books/resources output/xhtml5_chunked/.
 
 xhtml:
 	mkdir -p output/xhtml
-	xsltproc --xinclude -o output/xhtml/notification_server.xhtml $(XSL_BASE)xhtml-1_1/docbook.xsl notification_server.xml
-	cp -r resources output/xhtml/.
+	xsltproc --xinclude -o output/xhtml/notification_server.xhtml $(XSL_BASE)xhtml-1_1/docbook.xsl books/notification_server.xml
+	cp -r books/resources output/xhtml/.
 
 html_chunked:
 	mkdir -p output/html_chunked
-	xsltproc --xinclude -o output/html_chunked/ $(XSL_BASE)html/chunk.xsl notification_server.xml
-	cp -r resources output/html_chunked/.
+	xsltproc --xinclude -o output/html_chunked/ $(XSL_BASE)html/chunk.xsl books/notification_server.xml
+	cp -r books/resources output/html_chunked/.
 
 pdf:
 	mkdir -p output/pdf
-	xsltproc --xinclude -o output/db.fo $(XSL_BASE)fo/docbook.xsl notification_server.xml
+	xsltproc --xinclude -o output/db.fo $(XSL_BASE)fo/docbook.xsl books/notification_server.xml
 	fop output/db.fo -pdf output/pdf/notification_server.pdf
 	rm -f output/db.fo
 
