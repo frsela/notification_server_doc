@@ -94,4 +94,34 @@
       Wi-Fi or Ethernet.
     </para>
   </section>
+
+  <section>
+    <title>Adventages for developers</title>
+    <para>
+      Since we want a service to be used, we think it to be very easy to use
+      and to be great for developers.
+    </para>
+    <para>
+      Now, we point out some adventages with the use of this solution:
+    </para>
+    <para>
+      <itemizedlist>
+        <listitem>
+          Easy to use API: Based on web technologies.
+        </listitem>
+        <listitem>
+          Reduce developer deployment consts
+        </listitem>
+        <listitem>
+          More efficient use of the battery and network resources
+        </listitem>
+        <listitem>
+          No registration process needed and no subscriptions
+        </listitem>
+        <listitem>
+          Bigger payloads and more messages per application
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
 </chapter>

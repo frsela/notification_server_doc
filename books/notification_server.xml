@@ -44,4 +44,5 @@
   <xi:include href="performance.xml" />
   <xi:include href="deployment.xml" />
   <xi:include href="lessons_learned.xml" />
+  <xi:include href="future.xml" />
 </book>
