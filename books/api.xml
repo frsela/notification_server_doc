@@ -61,6 +61,12 @@
   <para>
     <imagedata fileref="resources/actors_and_channels.png" align="center" width="5in" />
   </para>
+  <para>
+    The following sequence diagram shows a tipical message flow between actors:
+  </para>
+  <para>
+    <imagedata fileref="resources/seqdiags/full_interaction_ws.png" align="center" width="5in" />
+  </para>
 
   <xi:include href="api_wa_ua.xml" />
   <xi:include href="api_ua_ns.xml" />

@@ -4,7 +4,7 @@ P2P := pic2plot
 
 OUTPUT = ../output/seqdiags
 
-.PHONY: all
+.PHONY: all install clean allsvg allpng
 
 all: $(DIAGRAMS)
 

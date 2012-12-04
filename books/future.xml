@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="future"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Future ideas for next releases</title>
+  <para>
+    The following sections will point out future ideas to be developed in next
+    server releases.
+  </para>
+  <section xml:id="future_ipv6">
+    <title>IPv6 support</title>
+    <para></para>
+  </section>
+  <section xml:id="future_enque">
+    <title>Enque low priority messages</title>
+    <para>
+      Enque low priority notifications which will be sent in a common
+      connection, this will consider the TTL of the message.
+    </para>
+  </section>
+  <section xml:id="future_backuppings">
+    <title>Backup pings</title>
+    <para>
+      If the client is not notified after some time, it will connect to the
+      server and check if some message is pending to be delivered.
+    </para>
+    <para>
+      If the server had messages for the client, an alarm should be fired,
+      since some issue happened on the wakeup platform.
+    </para>
+    <para>
+      In order to reduce network signalling, this PING should be only be
+      shotted when a network connection had been done by any other application
+      on the handset.
+    </para>
+  </section>
+  <section xml:id="future_wappush">
+    <title>WAP Push</title>
+    <para>
+      Use WAP Push to wake up handsets. The MSISDN will be retrieved by the
+      central server after an integration with the carrier.
+    </para>
+    <para>
+      Because privacy reasons, the MSISND won't be shared with 3rd. party
+      systems.
+    </para>
+  </section>
+  <section xml:id="future_abuse">
+    <title>Abuse control</title>
+    <para>
+      Add abuse control on the external APIs
+    </para>
+  </section>
+  <section xml:id="future_multiplenetworks">
+    <title>Support multiple subnetworks</title>
+    <para>
+      Many carriers have more than one private network since the have more
+      smartphones than the class A segment.
+    </para>
+    <para>
+      Also, M2M solutions normally have their own private subnetwork.
+    </para>
+    <para>
+      The Notification Server shall be well integrated on multiple subnetworks
+      carriers.
+    </para>
+  </section>
+  <section xml:id="future_delivercontrol">
+    <title>Increase delivery controls</title>
+    <para>
+      Add support on AS API to know the delivery status of the messages.
+    </para>
+  </section>
+  <section xml:id="future_presence">
+    <title>Presence</title>
+    <para>
+      Offer a presence API to AS.
+    </para>
+  </section>
+  <section xml:id="future_delegated">
+    <title>Support delegated modes and HUB systems</title>
+    <para>
+      Some carriers consider that multiple notification platforms should be
+      interconnected between them.
+    </para>
+    <para>
+      <imagedata fileref="resources/seqdiags/delegatedmode_simplified.png" align="center" width="5in" />
+    </para>
+  </section>
+
+</chapter>

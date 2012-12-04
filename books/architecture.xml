@@ -109,6 +109,13 @@
           port which will be connected to InterNodo network to receive the
           data from the VDC inside Telefónica network.
         </para>
+        <para>
+          The following scheme shows who the notification is sent with a wakeup
+          server:
+        </para>
+        <para>
+          <imagedata fileref="resources/seqdiags/full_interaction_ws.png" align="center" width="5in" />
+        </para>
     </section>
     <section>
         <title>NS-AS</title>

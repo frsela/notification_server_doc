@@ -48,6 +48,9 @@
           The server will respond with an AES encrypted valid token.
           This token SHALL be used to identify the device in future connections.
         </para>
+        <para>
+          <imagedata fileref="resources/seqdiags/get_token.png" align="center" width="5in" />
+        </para>
       </section>
     </section>
     <section>
@@ -147,6 +150,13 @@
           }
           ]]>
           </programlisting>
+        </para>
+        <para>
+          This method is also used to anounce a new IP address or a network
+          change.
+        </para>
+        <para>
+          <imagedata fileref="resources/seqdiags/change_ip.png" align="center" width="5in" />
         </para>
       </section>
       <section>

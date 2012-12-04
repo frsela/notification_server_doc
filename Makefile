@@ -1,4 +1,4 @@
-SUBDIRS = books sequence_diagrams
+SUBDIRS = sequence_diagrams books
  
 .PHONY: all subdirs $(SUBDIRS) clean
 

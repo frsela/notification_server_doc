@@ -9,10 +9,11 @@ XSL_BASE=/usr/share/xml/docbook/stylesheet/docbook-xsl-ns/
 endif
 
 OUTPUT = ../output
+RES = resources/seqdiags
 
-.PHONY: all
+.PHONY: all installseqdiag xhtml html_chunked pdf
 
-all: clean xhtml html_chunked pdf
+all: clean installseqdiag xhtml html_chunked pdf
 
 $(SUBDIRS):
 	make -C $@
@@ -22,6 +23,10 @@ clean:
 	rm -rf $(OUTPUT)/xhtml5_chunked
 	rm -rf $(OUTPUT)/xhtml
 	rm -rf $(OUTPUT)/html_chunked
+	rm -rf $(RES)/seqdiags
+
+installseqdiag:
+	cp -r $(OUTPUT)/seqdiags $(RES)
 
 xhtml5:
 	mkdir -p $(OUTPUT)/xhtml5
