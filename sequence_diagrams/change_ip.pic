@@ -14,17 +14,17 @@ step
 active(N)
 message(N,N,"event('new IP')")
 
+step
+
 # Registration on Notification Server
-message(N,S,"registerUA('newIP[,ip,port,mcc,mnc]')")
+message(N,S,"WS: registerUA(UAToken,[network data])")
 active(S)
-message(S,S,"check_node(NODE_UUID); check_ip(IP) / delete")
-message(S,S,"store(NODE_UUID,IP)")
-return_message(S,N,"OK(registeredWA,pendingMessages)")
+message(S,S,"check_node; check_ip; check_net")
+message(S,S,"store_node")
+return_message(S,N,"OK (list of pending messages + registered apps)")
 inactive(S)
 step
 inactive(N)
-
-step
 
 # End diagram
 step
