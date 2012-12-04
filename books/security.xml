@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="security"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Security</title>
+  <para>
+    This chapter explains all security topics related with the notification
+    server
+  </para>
+  <para>
+    The security can be splitted into different areas:
+  </para>
+  <section>
+    <title>Identify the nodes</title>
+    <para>
+      [Talk about AES encrypted UAToken]
+    </para>
+  </section>
+  <section>
+    <title>Identify the applications</title>
+    <para>
+      [Talk about WAToken (must be a secret!)]
+    </para>
+  </section>
+  <section>
+    <title>Verify the origin</title>
+    <para>
+      [Talk about notification signature validation]
+    </para>
+  </section>
+  <section>
+    <title>Possible attacks and how to mitigate it</title>
+    <para>
+      <itemizedlist>
+        <listitem>
+          An evil AS wants to send notifications: Needs to known the private key
+        </listitem>
+        <listitem>
+          An evil WA wants to receive notifications from another WA:
+          Need to know the WAToken which SHALL be a secret.
+        </listitem>
+        <listitem>
+          An evil device wants to register as another one: Needs to know the
+          UAToken (managed by the OS)
+        </listitem>
+        <listitem>
+          DDoS attacks: Abuse controls (see future work)
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+</chapter>
