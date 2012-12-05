@@ -1,0 +1,52 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Chapter 1. Introduction</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="index.html" title="Notification Server"><link rel="prev" href="index.html" title="Notification Server"><link rel="next" href="ch01s02.html" title="Service Description"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 1. Introduction</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="index.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch01s02.html">Next</a></td></tr></table><hr></div><div lang="en" class="chapter" title="Chapter 1. Introduction"><div class="titlepage"><div><div><h2 class="title"><a name="intro"></a>Chapter 1. Introduction</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="ch01.html#idp15063216">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="ch01.html#idp15065248">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="ch01s02.html">Service Description</a></span></dt><dt><span class="section"><a href="ch01s03.html">Adventages for developers</a></span></dt></dl></div><p>
+    Today mobile applications retrieve asynchronously information from multiple sites.
+    Developers have two ways to retrieve this information:
+  </p><p>
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+        Polling: Periodically query the information to the server.
+      </li><li class="listitem">
+        Push: The server sends the information to the client when the required
+        information is available.
+      </li></ul></div><p>
+  </p><p>
+    The first method is strongly discouraged due to the large number of connections
+    made to the server needlessly, because information is not available and you lose time and resources.
+  </p><p>
+    That is why the PUSH methods are widely used for information retrieval,
+    anyway how PUSH platforms are currently working are misusing mobile radio
+    resources and also consuming lot of battery.
+  </p><p>
+    This article aims to explain how to manage this kind of messaging, problems
+    with existing solutions and finally how Telefónica Digital, within the framework
+    of the development of Firefox OS operating system, a new solution designed
+    friendlier to the network and low battery consumption on mobile terminals.
+  </p><div class="section" title="State of the art"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp15063216"></a>State of the art</h2></div></div></div><p>
+      Historically mobile operators offered (and offer) real mechanisms PUSH notifications,
+      also known as WAP PUSH. WAP PUSH can "wake up" applications when any action
+      is required of them by the server side (without interaction from the user).
+      Sending WAP PUSH messages is done in the domain of circuits, the same used
+      for voice and SMS, and that is why the user don't need to establish a data connection.
+      These kind messages work properly out of the box.
+    </p><p>
+      WAP PUSH solutions works great when the user is registered in the mobile network,
+      but if you are out of coverage or connected to a WiFi hotspot instead a celular
+      network, you can not receive these messages.
+    </p><p>
+      Also, if we add that this messages implies an economic cost (basically it
+      is a short message SMS) the effect is that major smartphone operating systems
+      (Apple iOS and Google Android) have implemented a parallel solution that would
+      work regardless of the mobile network to which the user belongs and it can
+      run smoothly when they are using WiFi networks.
+    </p><div class="section" title="Current Internet solutions issues"><div class="titlepage"><div><div><h3 class="title"><a name="idp15065248"></a>Current Internet solutions issues</h3></div></div></div><p>
+        Internet PUSH solutions are based on a public accesible server which handles
+        all the notification delivery.
+      </p><p>
+        These solutions were designed without considering the mobile networks
+        way of working and forces the handset to maintain an open socket with
+        the server in order to avoid misnotifications.
+      </p><p>
+        This way of working increases the signalling and the handsets battery
+        consume.
+        For more information about this, please refer to the
+        "<a class="xref" href="ch02.html" title="Chapter 2. Mobile network issues with current PUSH platforms">Mobile network issues with current PUSH platforms</a>" chapter
+      </p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch01s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Notification Server </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Service Description</td></tr></table></div></body></html>

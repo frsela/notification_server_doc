@@ -1,0 +1,75 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Mobile Network. Circuit domain states</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch02.html" title="Chapter 2. Mobile network issues with current PUSH platforms"><link rel="prev" href="ch02.html" title="Chapter 2. Mobile network issues with current PUSH platforms"><link rel="next" href="ch02s03.html" title="Mobile Network. Package domain states"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Mobile Network. Circuit domain states</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02.html">Prev</a> </td><th width="60%" align="center">Chapter 2. Mobile network issues with current PUSH platforms</th><td width="20%" align="right"> <a accesskey="n" href="ch02s03.html">Next</a></td></tr></table><hr></div><div class="section" title="Mobile Network. Circuit domain states"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp15073408"></a>Mobile Network. Circuit domain states</h2></div></div></div><p>
+      In the 3GPP TS 25.331 specification, we can query all the circuit domain
+      statues of the RRC Layer (Radio Resource Control).
+    </p><p>
+      In order to simplify, we only list the third generation (3G) states:
+      </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+          Cell_DCH (Dedicated Channel)
+          <p>
+            When the handset is in this state is because it has a dedicated
+            channel on the mobile network.
+          </p><p>
+            Normally the network sets a handsent into this state when it's
+            transmitting a big amount of data.
+          </p><p>
+            The inactivity time of this state is really short, known as T1 timer
+            it should vary between 5 and 20 seconds. If T1 is fired, the handset
+            will be changed to the Cell_FACH state.
+          </p></li><li class="listitem">
+          Cell_FACH
+          <p>
+            In this state the handset is connected to the mobile network using
+            a shared channel with other handsets.
+          </p><p>
+            Normally, this state is assigned by the network when the handset is
+            transmitting a small amount of data.
+            So it's common to use it when sending keep-alive packages.
+          </p><p>
+            The inactivity time of this state is a little longer (30 seconds) and
+            is konwn as T2 timer. When T2 timer is shotted, the handset will be
+            moved to Cell_PCH or URA_PCH (depending on the type of network)
+          </p></li><li class="listitem">
+          Cell_PCH or URA_PCH (PCH: Paging Channel) (URA: UTRAN Registration Area)
+          <p>
+            In this state the handset is not able to send any data except
+            signalling information in order to be able to localize the handset
+            inside the celullar network.
+          </p><p>
+            In both states, the RRC connection is established and open, but it's
+            rarely used.
+          </p><p>
+            In this state, the handset informs the network every time the device
+            change from one sector to another so the network is able to known
+            exactly the BTS which is offering service to the device.
+          </p><p>
+            The T3 timer defines the maximum time to be in a PCH state. This timer
+            is longer than T1 and T2 and depends on each carrier. When it's fired
+            the handset is moved to IDLE mode so if new data transmission is needed
+            the handset will need near 2 seconds to restablish the channel and a
+            lot of signalling messages.
+          </p></li><li class="listitem">
+          RRC_IDLE
+          <p>
+            This is the most economical state since the handset radio is practically
+            stopped.
+          </p><p>
+            In this state, the radio is only listening to radio messages quering
+            the handset to "Wake Up" (paging messages).
+          </p><p>
+            Also, the handset modem is listening the cell data so each time it
+            detects that the user changed from one LAC (Localization Area Code -
+            Group of multiple BTS) to another, the handset will change to the
+            PCH state in order to inform the network.
+          </p><p>
+            So when a handset is in this state, it can be Waked Up to a more
+            active state and also the network knowns the LAC where the handset
+            is moving, so if the network needs to inform the handset it should
+            send a broadcast paging message through all the LAC BTS in order to
+            locate the handset.
+          </p></li></ul></div><p>
+    </p><p>
+      The following scheme represent the different radio states ordered by
+      power comsuption on the device:
+    </p><p>
+      </p><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr><td align="center"><img src="resources/rcc_states.png" align="middle" width="450"></td></tr></table><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch02s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 2. Mobile network issues with current PUSH platforms </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Mobile Network. Package domain states</td></tr></table></div></body></html>

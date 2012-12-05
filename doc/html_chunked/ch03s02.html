@@ -1,0 +1,228 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>API between the User Agent and the Notification Server</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch03.html" title="Chapter 3. Notification server API"><link rel="prev" href="ch03.html" title="Chapter 3. Notification server API"><link rel="next" href="ch03s03.html" title="API between the Application Server and the Notification Server"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">API between the User Agent and the Notification Server</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a> </td><th width="60%" align="center">Chapter 3. Notification server API</th><td width="20%" align="right"> <a accesskey="n" href="ch03s03.html">Next</a></td></tr></table><hr></div><div lang="en" class="section" title="API between the User Agent and the Notification Server"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="api_ua_ns"></a>API between the User Agent and the Notification Server</h2></div></div></div><p>
+    With this API the client device is able to register his applications and
+    itself into the selected notification server.
+  </p><p>
+    This API isn't yet standarised, anyway the one explained here is an 
+    on working proposal.
+  </p><p>
+    The UA-NS API is divided in two transport protocols:
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+        POST API: Through the HTTP POST transport protocol the NS will deliver
+        valid UATokens to the device.
+      </li><li class="listitem">
+        WebSocket API: This is the most important one since all the
+        communications (except to recover tokens) with the NS SHALL be driven
+        through this API.
+        <p>
+          On future releases will be supported another channels as Long-Polling
+          solutions in order to cover devices which don't support Web Sockets.
+        </p></li></ul></div><p>
+    </p><div class="section" title="HTTP POST API"><div class="titlepage"><div><div><h4 class="title"><a name="idp15208440"></a>HTTP POST API</h4></div></div></div><p>
+        This channel only offers one method to get a valid UAToken.
+      </p><div class="section" title="GET UA TOKEN"><div class="titlepage"><div><div><h5 class="title"><a name="idp15209080"></a>GET UA TOKEN</h5></div></div></div><p>
+          This method SHOULD be protected to avoid DoS attacks getting millions of
+          valid tokens, in any case, this is out of the scope of this protocol.
+        </p><p>
+          The TOKEN method is called with a simple URL:
+          <code class="code">https://&lt;notification_server_base_URL&gt;/token</code>
+        </p><p>
+          The server will respond with an AES encrypted valid token.
+          This token SHALL be used to identify the device in future connections.
+        </p><p>
+          </p><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr><td align="center"><img src="resources/seqdiags/get_token.png" align="middle" width="450"></td></tr></table><p>
+        </p></div></div><p>
+    </p><div class="section" title="WebSocket API"><div class="titlepage"><div><div><h4 class="title"><a name="idp15220008"></a>WebSocket API</h4></div></div></div><p>
+        Through this channel the device will register itself, his applications,
+        and also will be used to deliver PUSH notifications
+      </p><p>
+        All methods sent through this channel will have the same JSON structure:
+      </p><pre class="programlisting">
+      
+      {
+        messageType: "&lt;type of message&gt;",
+        ... other data ...
+      }
+      
+      </pre><p>
+        In which messageType defines one of these commands:
+      </p><div class="section" title="registerUA"><div class="titlepage"><div><div><h5 class="title"><a name="idp15221664"></a>registerUA</h5></div></div></div><p>
+          With this method the device is able to register itself.
+        </p><p>
+          When a device is registering to a notification server, it SHALL send
+          his own valid UAToken and also the device can send additional information
+          that can be used to optimize the way the messages will be delivered
+          to this device.
+        </p><pre class="programlisting">
+        
+        {
+          messageType: "registerUA",
+          data: {
+            uatoken: "&lt;a valid UAToken&gt;",
+            interface: {
+              ip: "&lt;current device IP address&gt;",
+              port: "&lt;TCP or UDP port in which the device is waiting for wake up notifications&gt;"
+            },
+            mobilenetwork: {
+              mcc: "&lt;Mobile Country Code&gt;",
+              mnc: "&lt;Mobile Network Code&gt;"
+            }
+          }
+        }
+        
+        </pre><p>
+          The interface and mobilenetwork optional data will be used by the server
+          to identify if it has the required infrastructure into the user's mobile
+          network in order to send wakeup messages to the IP and port indicated
+          in the interface data so it's able to close the WebSocket channel to reduce
+          signalling and battery consume.
+        </p><p>
+          The server response can be:
+          </p><pre class="programlisting">
+          
+          {
+            status: "REGISTERED",
+            statusCode: 200,
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+          </p><pre class="programlisting">
+          
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "Data received is not a valid JSON package",
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+          </p><pre class="programlisting">
+          
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "Token is not valid for this server",
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+          </p><pre class="programlisting">
+          
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "...",
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+        </p><p>
+          This method is also used to anounce a new IP address or a network
+          change.
+        </p><p>
+          </p><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr><td align="center"><img src="resources/seqdiags/change_ip.png" align="middle" width="450"></td></tr></table><p>
+        </p></div><div class="section" title="registerWA"><div class="titlepage"><div><div><h5 class="title"><a name="idp15227880"></a>registerWA</h5></div></div></div><p>
+          This method is used to register installed applications on the device.
+          This shall be send to the notification server after a valid UA registration.
+        </p><p>
+          Normally, this method will be used each time an application requires a
+          new push notification URL (through the WA-UA API) or also each time the
+          device is powered on and is re-registering previously registered applications.
+        </p><p>
+          The required data for application registration is the WAToken and the
+          public key.
+        </p><pre class="programlisting">
+        
+        {
+          messageType: "registerWA",
+          data: {
+            uatoken: "&lt;a valid UAToken&gt;",
+            watoken: "&lt;the WAToken&gt;",
+            pbkbase64: "&lt;BASE64 coded public key&gt;"
+          }
+        }
+        
+        </pre><p>
+          The server response can be:
+          </p><pre class="programlisting">
+          
+          {
+            status: "REGISTERED",
+            statusCode: 200,
+            url: "&lt;publicURL required to send notifications&gt;",
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+          </p><pre class="programlisting">
+          
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "...",
+            messageType: "registerWA"
+          }
+          
+          </pre><p>
+        </p><p>
+          The device service should redirect the received URL to the correct
+          application.
+        </p></div><div class="section" title="getAllMessages"><div class="titlepage"><div><div><h5 class="title"><a name="idp15231832"></a>getAllMessages</h5></div></div></div><p>
+          This method is used to retrieve all pending messages for one device.
+        </p><p>
+          This will be used each time the device is Waked Up, so it's polling
+          pending messages.
+        </p><pre class="programlisting">
+        
+        {
+          messageType: "getAllMessages",
+          data: {
+            uatoken: "&lt;a valid UAToken&gt;"
+          }
+        }
+        
+        </pre><p>
+          The server response can be:
+          </p><pre class="programlisting">
+          
+          {
+            messageType: "getAllMessages",
+            [
+              &lt;Array of notifications with the same format
+               as defined in the notification method&gt;
+            ]
+          }
+          
+          </pre><p>
+        </p></div><div class="section" title="notification"><div class="titlepage"><div><div><h5 class="title"><a name="idp15234264"></a>notification</h5></div></div></div><p>
+          This message will be used by the server to inform about new notification
+          to the device.
+        </p><p>
+          All recieved notification will have this structure:
+        </p><pre class="programlisting">
+        
+        {
+          messageType: "notification",
+          id: "&lt;ID used by the Application Server&gt;",
+          message: "&lt;Message payload&gt;",
+          timestamp: "&lt;Since EPOCH Time&gt;",
+          priority: "&lt;prio&gt;",
+          messageId: "&lt;ID of the message&gt;",
+          url: "&lt;publicURL which identifies the final application&gt;"
+        }
+        
+        </pre></div><div class="section" title="ack"><div class="titlepage"><div><div><h5 class="title"><a name="idp15236064"></a>ack</h5></div></div></div><p>
+          For each received notification through notification or getAllMessages,
+          the server SHOULD be notified in order to free resources related to
+          this notifications.
+        </p><p>
+          This message is used to acknoledge the message reception.
+        </p><pre class="programlisting">
+          
+          {
+            messageType: "ack",
+            messageId: "&lt;ID of the received message&gt;"
+          }
+          
+          </pre></div></div><p>
+  </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch03s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 3. Notification server API </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> API between the Application Server and the Notification Server</td></tr></table></div></body></html>

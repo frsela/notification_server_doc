@@ -1,0 +1,89 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>API between the Application Server and the Notification Server</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch03.html" title="Chapter 3. Notification server API"><link rel="prev" href="ch03s02.html" title="API between the User Agent and the Notification Server"><link rel="next" href="ch03s04.html" title="API between the WA and the AS"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">API between the Application Server and the Notification Server</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s02.html">Prev</a> </td><th width="60%" align="center">Chapter 3. Notification server API</th><td width="20%" align="right"> <a accesskey="n" href="ch03s04.html">Next</a></td></tr></table><hr></div><div lang="en" class="section" title="API between the Application Server and the Notification Server"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="api_as_ns"></a>API between the Application Server and the Notification Server</h2></div></div></div><p>
+    With this API the Application server is able to send asynchronous notifications
+    to his user's without heavy infrastructure requirements or complex technical skills.
+  </p><p>
+    This is a simple REST API which will be improved in future releases.
+  </p><p>
+    This version accepts only one HTTP POST method used to send the notification
+    payload. The following payload SHALL be POSTED to the publicURL which defines
+    the application and user, like:
+    <code class="code">https://push.telefonica.es/notify/SOME_RANDOM_TOKEN</code>
+    </p><pre class="programlisting">
+    
+    {
+      messageType: "notification",
+      id: "&lt;ID used by the Application Server&gt;",
+      message: "&lt;Message payload&gt;",
+      signature: "&lt;Signed message&gt;",
+      ttl: "&lt;time to live&gt;",
+      timestamp: "&lt;Since EPOCH Time&gt;",
+      priority: "&lt;prio&gt;",
+    }
+    
+    </pre><p>
+  </p><p>
+    The server response can be one of the following:
+  </p><pre class="programlisting">
+    STATUS: 200
+    
+    {
+      status: "ACCEPTED"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "JSON not valid"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "Not messageType=notification"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "Body too big"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "You must sign your message with your Private Key"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "Bad signature, dropping notification"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "Try again later"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "No valid AppToken"
+    }
+    
+  </pre></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch03s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">API between the User Agent and the Notification Server </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> API between the WA and the AS</td></tr></table></div></body></html>

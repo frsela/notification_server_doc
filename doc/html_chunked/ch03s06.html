@@ -1,0 +1,10 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>WakeUp</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch03.html" title="Chapter 3. Notification server API"><link rel="prev" href="ch03s05.html" title="Tokens"><link rel="next" href="ch04.html" title="Chapter 4. Notification Server Architecture"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">WakeUp</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s05.html">Prev</a> </td><th width="60%" align="center">Chapter 3. Notification server API</th><td width="20%" align="right"> <a accesskey="n" href="ch04.html">Next</a></td></tr></table><hr></div><div class="section" title="WakeUp"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp15255256"></a>WakeUp</h2></div></div></div><p>
+      When the handset is inside a mobile operator network, we can close the
+      websocket to reduce battery comsuption and also network resources.
+    </p><p>
+      So, when the NS has messages to the WA installed on a concrete UA it will
+      send a UDP Datagram to the handset.
+    </p><p>
+      When the mobile receives this datagram, it SHALL connect to the websocket
+      interfaces in order to pull all pending messages.
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s05.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Tokens </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 4. Notification Server Architecture</td></tr></table></div></body></html>

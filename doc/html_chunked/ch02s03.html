@@ -1,0 +1,27 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Mobile Network. Package domain states</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch02.html" title="Chapter 2. Mobile network issues with current PUSH platforms"><link rel="prev" href="ch02s02.html" title="Mobile Network. Circuit domain states"><link rel="next" href="ch02s04.html" title="Mobile Network. States relation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Mobile Network. Package domain states</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s02.html">Prev</a> </td><th width="60%" align="center">Chapter 2. Mobile network issues with current PUSH platforms</th><td width="20%" align="right"> <a accesskey="n" href="ch02s04.html">Next</a></td></tr></table><hr></div><div class="section" title="Mobile Network. Package domain states"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp15082336"></a>Mobile Network. Package domain states</h2></div></div></div><p>
+      In the 3GPP TS 23.060 specification, we can analyse all the package domain
+      states of the GMM Layer (GPRS Mobility Management).
+    </p><p>
+      The package domain states are simpler than radio ones (only 3 states):
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+        READY (2G) / PMM_CONNECTED (3G)
+        <p>
+          The handset has a PDP context established and is able to send and
+          receive data.
+        </p></li><li class="listitem">
+        STANDBY (2G) / PMM_IDLE (3G)
+        <p>
+          The handset isn't transmitting anything but the PDP context is not
+          closed, so it maintains a valid IP address.
+        </p><p>
+          In this state the handset don't consume any resource but the network is
+          maintaining his IP address as a valid one, so it's very important to try
+          to maintain the handset in this state in order to be able to Wake Up
+          it and change to a PMM_CONNECTED state in order to transmit/receive
+          information.
+        </p></li><li class="listitem">
+        IDLE (2G) / PMM_DETACHED (3G)
+        <p>
+          In this state, the handset hasn't a PDP context established so it hasn't
+          a valid IP address.
+        </p></li></ul></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch02s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Mobile Network. Circuit domain states </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Mobile Network. States relation</td></tr></table></div></body></html>
