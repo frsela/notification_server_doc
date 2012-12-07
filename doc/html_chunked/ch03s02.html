@@ -17,9 +17,9 @@
           On future releases will be supported another channels as Long-Polling
           solutions in order to cover devices which don't support Web Sockets.
         </p></li></ul></div><p>
-    </p><div class="section" title="HTTP POST API"><div class="titlepage"><div><div><h4 class="title"><a name="idp15208440"></a>HTTP POST API</h4></div></div></div><p>
+    </p><div class="section" title="HTTP POST API"><div class="titlepage"><div><div><h4 class="title"><a name="idp148384"></a>HTTP POST API</h4></div></div></div><p>
         This channel only offers one method to get a valid UAToken.
-      </p><div class="section" title="GET UA TOKEN"><div class="titlepage"><div><div><h5 class="title"><a name="idp15209080"></a>GET UA TOKEN</h5></div></div></div><p>
+      </p><div class="section" title="GET UA TOKEN"><div class="titlepage"><div><div><h5 class="title"><a name="idp149024"></a>GET UA TOKEN</h5></div></div></div><p>
           This method SHOULD be protected to avoid DoS attacks getting millions of
           valid tokens, in any case, this is out of the scope of this protocol.
         </p><p>
@@ -31,7 +31,7 @@
         </p><p>
           </p><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr><td align="center"><img src="resources/seqdiags/get_token.png" align="middle" width="450"></td></tr></table><p>
         </p></div></div><p>
-    </p><div class="section" title="WebSocket API"><div class="titlepage"><div><div><h4 class="title"><a name="idp15220008"></a>WebSocket API</h4></div></div></div><p>
+    </p><div class="section" title="WebSocket API"><div class="titlepage"><div><div><h4 class="title"><a name="idp160312"></a>WebSocket API</h4></div></div></div><p>
         Through this channel the device will register itself, his applications,
         and also will be used to deliver PUSH notifications
       </p><p>
@@ -45,7 +45,7 @@
       
       </pre><p>
         In which messageType defines one of these commands:
-      </p><div class="section" title="registerUA"><div class="titlepage"><div><div><h5 class="title"><a name="idp15221664"></a>registerUA</h5></div></div></div><p>
+      </p><div class="section" title="registerUA"><div class="titlepage"><div><div><h5 class="title"><a name="idp161952"></a>registerUA</h5></div></div></div><p>
           With this method the device is able to register itself.
         </p><p>
           When a device is registering to a notification server, it SHALL send
@@ -121,7 +121,7 @@
           change.
         </p><p>
           </p><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr><td align="center"><img src="resources/seqdiags/change_ip.png" align="middle" width="450"></td></tr></table><p>
-        </p></div><div class="section" title="registerWA"><div class="titlepage"><div><div><h5 class="title"><a name="idp15227880"></a>registerWA</h5></div></div></div><p>
+        </p></div><div class="section" title="registerWA"><div class="titlepage"><div><div><h5 class="title"><a name="idp168072"></a>registerWA</h5></div></div></div><p>
           This method is used to register installed applications on the device.
           This shall be send to the notification server after a valid UA registration.
         </p><p>
@@ -167,7 +167,7 @@
         </p><p>
           The device service should redirect the received URL to the correct
           application.
-        </p></div><div class="section" title="getAllMessages"><div class="titlepage"><div><div><h5 class="title"><a name="idp15231832"></a>getAllMessages</h5></div></div></div><p>
+        </p></div><div class="section" title="getAllMessages"><div class="titlepage"><div><div><h5 class="title"><a name="idp172024"></a>getAllMessages</h5></div></div></div><p>
           This method is used to retrieve all pending messages for one device.
         </p><p>
           This will be used each time the device is Waked Up, so it's polling
@@ -194,7 +194,7 @@
           }
           
           </pre><p>
-        </p></div><div class="section" title="notification"><div class="titlepage"><div><div><h5 class="title"><a name="idp15234264"></a>notification</h5></div></div></div><p>
+        </p></div><div class="section" title="notification"><div class="titlepage"><div><div><h5 class="title"><a name="idp174456"></a>notification</h5></div></div></div><p>
           This message will be used by the server to inform about new notification
           to the device.
         </p><p>
@@ -211,7 +211,7 @@
           url: "&lt;publicURL which identifies the final application&gt;"
         }
         
-        </pre></div><div class="section" title="ack"><div class="titlepage"><div><div><h5 class="title"><a name="idp15236064"></a>ack</h5></div></div></div><p>
+        </pre></div><div class="section" title="ack"><div class="titlepage"><div><div><h5 class="title"><a name="idp176232"></a>ack</h5></div></div></div><p>
           For each received notification through notification or getAllMessages,
           the server SHOULD be notified in order to free resources related to
           this notifications.

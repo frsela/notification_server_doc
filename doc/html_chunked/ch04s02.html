@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Types of servers</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch04.html" title="Chapter 4. Notification Server Architecture"><link rel="prev" href="ch04.html" title="Chapter 4. Notification Server Architecture"><link rel="next" href="ch05.html" title="Chapter 5. Notification Server Performance"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Types of servers</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">Prev</a> </td><th width="60%" align="center">Chapter 4. Notification Server Architecture</th><td width="20%" align="right"> <a accesskey="n" href="ch05.html">Next</a></td></tr></table><hr></div><div class="section" title="Types of servers"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp15060736"></a>Types of servers</h2></div></div></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Types of servers</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch04.html" title="Chapter 4. Notification Server Architecture"><link rel="prev" href="ch04.html" title="Chapter 4. Notification Server Architecture"><link rel="next" href="ch05.html" title="Chapter 5. Notification Server Performance"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Types of servers</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">Prev</a> </td><th width="60%" align="center">Chapter 4. Notification Server Architecture</th><td width="20%" align="right"> <a accesskey="n" href="ch05.html">Next</a></td></tr></table><hr></div><div class="section" title="Types of servers"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp1392"></a>Types of servers</h2></div></div></div><p>
       In order to be able to scale horizontally and vertically with no limits
       all the server platform infrastructure had been splitted in several boxes
       one of them dedicated to a particular task and also independent of the
@@ -8,7 +8,7 @@
         NS-&lt;type_of_client&gt;
     </p><p>
       </p><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr><td align="center"><img src="resources/ns_servers.png" align="middle" width="450"></td></tr></table><p>
-    </p><div class="section" title="NS-UA-WS"><div class="titlepage"><div><div><h3 class="title"><a name="idp15087736"></a>NS-UA-WS</h3></div></div></div><p>
+    </p><div class="section" title="NS-UA-WS"><div class="titlepage"><div><div><h3 class="title"><a name="idp74760"></a>NS-UA-WS</h3></div></div></div><p>
           The NS_UA_WS server is the frontend for mobile devices.
           This server will attend the clients using HTTP protocols
           (HTTP GET and WebSockets)  
@@ -27,7 +27,7 @@
                 applications. Also will receive from the Message Queue all the
                 messages to be delivered to the connected handsets.
               </p></li></ul></div><p>
-        </p></div><div class="section" title="NS-UA-UDP"><div class="titlepage"><div><div><h3 class="title"><a name="idp15090504"></a>NS-UA-UDP</h3></div></div></div><p>
+        </p></div><div class="section" title="NS-UA-UDP"><div class="titlepage"><div><div><h3 class="title"><a name="idp77528"></a>NS-UA-UDP</h3></div></div></div><p>
           The NS_UA_UDP server is the responsible to intermediate between the
           central Notification Server infrastructure and each NS_WakeUp
           deployed in each OB.
@@ -36,7 +36,7 @@
           and for each received wake-up petition this server will retrieve from
           the MongoDB the NS_WakeUp server address and send a HTTP message to
           it querying to wake-up a handset.
-        </p></div><div class="section" title="NS-WakeUp"><div class="titlepage"><div><div><h3 class="title"><a name="idp15091864"></a>NS-WakeUp</h3></div></div></div><p>
+        </p></div><div class="section" title="NS-WakeUp"><div class="titlepage"><div><div><h3 class="title"><a name="idp78888"></a>NS-WakeUp</h3></div></div></div><p>
           The NS_WakeUp server is a proxy between the central NS servers and
           the client equipment (device). This service will receive petitions
           through a standard HTTP port and will send UDP datagrams or TCP packets
@@ -56,8 +56,8 @@
           The following scheme shows who the notification is sent with a wakeup
           server:
         </p><p>
-          </p><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr><td align="center"><img src="resources/seqdiags/full_interaction_ws.png" align="middle" width="450"></td></tr></table><p>
-        </p></div><div class="section" title="NS-AS"><div class="titlepage"><div><div><h3 class="title"><a name="idp15180816"></a>NS-AS</h3></div></div></div><p>
+          </p><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr><td align="center"><img src="resources/seqdiags/full_interaction_wakeup.png" align="middle" width="450"></td></tr></table><p>
+        </p></div><div class="section" title="NS-AS"><div class="titlepage"><div><div><h3 class="title"><a name="idp82008"></a>NS-AS</h3></div></div></div><p>
           The NS_AS server is the frontend for application servers. This server
           will attend the third party servers through HTTPS POST petitions.
         </p><p>
@@ -65,7 +65,7 @@
           receive messages from the third party application servers.
           The received messages will be stored on the MongoDB and will notify
           other servers through the Message Queue.
-        </p></div><div class="section" title="NS-Monitor"><div class="titlepage"><div><div><h3 class="title"><a name="idp15182152"></a>NS-Monitor</h3></div></div></div><p>
+        </p></div><div class="section" title="NS-Monitor"><div class="titlepage"><div><div><h3 class="title"><a name="idp83344"></a>NS-Monitor</h3></div></div></div><p>
           The NS_Monitor is the responsible to deliver messages to the correct
           recipient. So this server will be monitoring all inbound messages,
           deliver them and verify if re-deliver is needed.
@@ -74,14 +74,14 @@
           NS_AS puts all the received messages), and finds in the database
           which nodes need to be notified, sending the message to the correct
           queue the node (user agent) is subscribed to.
-        </p></div><div class="section" title="Message Queue (RabbitMQ)"><div class="titlepage"><div><div><h3 class="title"><a name="idp15183536"></a>Message Queue (RabbitMQ)</h3></div></div></div><p>
+        </p></div><div class="section" title="Message Queue (RabbitMQ)"><div class="titlepage"><div><div><h3 class="title"><a name="idp84728"></a>Message Queue (RabbitMQ)</h3></div></div></div><p>
           A Message Queue cluster is used to act as a message dispatcher
           between all the other servers. RabbitMQ or ActiveMQ will be used.
         </p><p>
           This is a standard Message Queue which supports STOMP or AMQP protocol.
         </p><p>
           Because huge load, this server will be deployed in cluster mode.
-        </p></div><div class="section" title="NO-SQL Database (MongoDB)"><div class="titlepage"><div><div><h3 class="title"><a name="idp15184984"></a>NO-SQL Database (MongoDB)</h3></div></div></div><p>
+        </p></div><div class="section" title="NO-SQL Database (MongoDB)"><div class="titlepage"><div><div><h3 class="title"><a name="idp86144"></a>NO-SQL Database (MongoDB)</h3></div></div></div><p>
           A MongoDB cluster is needed to use as persistent storage system.
           It is used to save the registered devices, registered apps and
           received messages.
