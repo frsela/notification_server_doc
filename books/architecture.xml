@@ -114,7 +114,7 @@
           server:
         </para>
         <para>
-          <imagedata fileref="resources/seqdiags/full_interaction_ws.png" align="center" width="5in" />
+          <imagedata fileref="resources/seqdiags/full_interaction_wakeup.png" align="center" width="5in" />
         </para>
     </section>
     <section>

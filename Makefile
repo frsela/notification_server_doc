@@ -1,6 +1,6 @@
 SUBDIRS = sequence_diagrams books
  
-.PHONY: all subdirs $(SUBDIRS) clean gh_pages
+.PHONY: all subdirs $(SUBDIRS) clean gh-pages
 
 all: clean subdirs
  
@@ -14,6 +14,7 @@ clean:
 
 gh-pages:
 	git checkout gh-pages
+	rm -rf doc
 	mv output doc
 	rm -rf books
 	git add doc
