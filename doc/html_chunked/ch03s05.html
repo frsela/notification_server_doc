@@ -1,18 +1,21 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Tokens</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch03.html" title="Chapter 3. Notification server API"><link rel="prev" href="ch03s04.html" title="API between the WA and the AS"><link rel="next" href="ch03s06.html" title="WakeUp"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Tokens</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s04.html">Prev</a> </td><th width="60%" align="center">Chapter 3. Notification server API</th><td width="20%" align="right"> <a accesskey="n" href="ch03s06.html">Next</a></td></tr></table><hr></div><div lang="en" class="section" title="Tokens"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="api_tokens"></a>Tokens</h2></div></div></div><p>
     The tokens are an important part of this API since it identifies each
     (user) actor (device and applications) in a unique or shared way.
-  </p><div class="section" title="WAToken"><div class="titlepage"><div><div><h3 class="title"><a name="idp188472"></a>WAToken</h3></div></div></div><p>
-      This token identifies the user or group of users and SHALL be a secret.
+  </p><div class="section" title="channelID"><div class="titlepage"><div><div><h3 class="title"><a name="idp249312"></a>channelID</h3></div></div></div><p>
+      This token identifies the user or group of users and on extended API
+      SHALL be a secret but in simple push API (thialfi like) it's not needed
+      to be a secret.
     </p><p>
-      If this token is UNIQUE (and secret, of coures) will identify a unique
+      If this token is UNIQUE (and secret, of course) will identify a unique
       instance of the application related (normally) to one user. In this case
-      the returned URL will be unique for this WAToken.
+      the returned URL will be unique for this channelID. On simple push, each
+      device with same channelID will receive a unique endpointURL.
     </p><p>
       If this token is shared by different devices of the SAME user (and secret),
       will identify a unique user with multiple devices. In this case, the returned
       URL will be unique per user but each URL will identify multiple devices
       the user is using.
-    </p><div class="example"><a name="idp190056"></a><p class="title"><b>Example 3.1. Multiple device messages</b></p><div class="example-contents"><p>
+    </p><div class="example"><a name="idp251096"></a><p class="title"><b>Example 3.1. Multiple device messages</b></p><div class="example-contents"><p>
         This can be used by applications in which the user require the same
         information across his devices, like the mobile and the desktop app.
         Can be used, for example, by e-mail clients.
@@ -22,21 +25,18 @@
       identify all instances of the same application. In this case each notification
       received in the publicURL will be delivered to ALL the devices which have
       the application installed (and registered). This will be a BROADCAST message.
-    </p><div class="example"><a name="idp191584"></a><p class="title"><b>Example 3.2. Message broadcast</b></p><div class="example-contents"><p>
+    </p><div class="example"><a name="idp252624"></a><p class="title"><b>Example 3.2. Message broadcast</b></p><div class="example-contents"><p>
         This can be used by applications in which all users require exactly the
         same information at the same time, like weather applications, latest news, ...
-      </p></div></div><br class="example-break"></div><div class="section" title="UAToken"><div class="titlepage"><div><div><h3 class="title"><a name="idp192512"></a>UAToken</h3></div></div></div><p>
+      </p></div></div><br class="example-break"></div><div class="section" title="UAID"><div class="titlepage"><div><div><h3 class="title"><a name="idp253552"></a>UAID</h3></div></div></div><p>
       This token identifies each customer device in a unique way.
     </p><p>
       This token is also used as an identification key since this isn't a random
       one. This token is an AES encrypted string which will be checked for
       validaty each time it's used.
-    </p><p>
-      This token should be delivered after identify the user in a valid way,
-      anyway this identification procedure is out of the scope of this specification.
-    </p></div><div class="section" title="AppToken"><div class="titlepage"><div><div><h3 class="title"><a name="idp194048"></a>AppToken</h3></div></div></div><p>
+    </p></div><div class="section" title="endpointURL"><div class="titlepage"><div><div><h3 class="title"><a name="idp254704"></a>endpointURL</h3></div></div></div><p>
       Automatic generated token by the notification server which identifies the
-      application + user as in a unique fashion.
+      application + user/device as in a unique fashion.
     </p><p>
       This token is included in the publicURL which identifies the application,
       and normally is a SHA256 hashed string with the WATokent + the Public Key.
