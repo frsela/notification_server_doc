@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="api_as_ns_simplepush"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Simple PUSH API</title>
+  <para>
+    With this API the Application server is able to update version number to
+    specified channel.
+  </para>
+  <para>
+    This is a simple HTTP API (PUT method).
+  </para>
+  <para>
+    This version accepts only one HTTP PUT method used to update version number
+    of a channel. The following payload SHALL be POSTED to the endpointURL:
+    <code>https://server:port/v1/notify/SOME_RANDOM_TOKEN</code>
+    <programlisting language="javascript">
+    <![CDATA[
+    version=<version_number>
+    ]]>
+    </programlisting>
+    and for desktop notifications:
+    <programlisting language="javascript">
+    <![CDATA[
+    body=<any text>[&ttl=<ttl>]
+    ]]>
+    </programlisting>
+  </para>
+  <para>
+    The server response can be one of the following:
+    <itemizedlist>
+      <listitem>STATUS: 200</listitem>
+      <listitem>STATUS: 404 = Channel not found</listitem>
+      <listitem>STATUS: 404 = Bad body received</listitem>
+      <listitem>STATUS: 404 = Bad version received</listitem>
+    </itemizedlist>
+  </para>
+</section>

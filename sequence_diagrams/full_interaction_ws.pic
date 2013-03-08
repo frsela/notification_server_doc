@@ -11,32 +11,25 @@ object(N,"NS")
 object(S,"AS")
 step
 
-active(U)
-message(U,N,"GET token")
-active(N)
-return_message(N,U,"UAToken")
-inactive(N)
-
-step
-
 # Open channel
+active(U)
 message(U,N,"Open WebSocket")
 active(N)
   # Register Node
-  message(U,N,"registerUA")
+  message(U,N,"hello")
   message(N,N,"Check & add UA into DB")
-  return_message(N,U,"OK + msg + wa")
+  return_message(N,U,"hello + uaid")
 
   step
 
   # Register Application
   active(W)
-  message(W,U,"requestURL")
-  message(U,N,"registerWA")
+  message(W,U,"register")
+  message(U,N,"register")
   message(N,N,"Verify & Store into DB")
-  return_message(N,U,"URL")
-  return_message(U,W,"URL")
-  message(W,S,"URL")
+  return_message(N,U,"endpointURL")
+  return_message(U,W,"endpointURL")
+  message(W,S,"endpointURL")
   active(S)
   message(S,S,"Store")
   inactive(S)
@@ -46,7 +39,7 @@ active(N)
 
   # Notification
   active(S)
-  message(S,N,"POST notification")
+  message(S,N,"PUT version")
   inactive(S)
   message(N,U,"Notification")
   message(U,W,"Notification")

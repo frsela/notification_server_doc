@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="api_ua_ns_websocket_pushnotification_binary"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>WebSocket: push-notification-binary</title>
+  <para>
+    In order to use this subprotocol, the "push-notification-binary"
+    string shall be sent into the websocket handsake headers.
+  </para>
+  <note>
+    An automatic algorithm will be used to convert from JSON to binary:
+    <link xlink:href="https://github.com/telefonicaid/notification_server/issues/171">
+      on this Github Issue
+    </link>.
+  </note>
+</section>

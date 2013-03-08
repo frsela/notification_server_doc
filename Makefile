@@ -11,6 +11,7 @@ $(SUBDIRS):
 
 clean:
 	rm -rf output
+	rm -rf books/resources/seqdiags
 
 gh-pages:
 	git checkout gh-pages

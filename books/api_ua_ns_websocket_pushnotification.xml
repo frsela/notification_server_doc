@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="api_ua_ns_websocket_pushnotification"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>WebSocket: push-notification</title>
+  <para>
+    Also know as "Simple push protocol" and defined by Mozilla and Telefonica.
+  </para>
+  <para>
+    This protocol is based in the
+    <link xlink:href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/pubs/archive/37474.pdf">
+      Thialfi protocol
+    </link>.
+    described by Google.
+  </para>
+  <para>
+    Also you can read more about this protocol in the Mozilla Wiki:
+    <link xlink:href="https://wiki.mozilla.org/WebAPI/SimplePush/Protocol">
+      [https://wiki.mozilla.org/WebAPI/SimplePush/Protocol]
+    </link>.
+  </para>
+  <para>
+    In order to use this subprotocol, the "push-notification"
+    string shall be sent into the websocket handsake headers.
+  </para>
+  <para>
+    All methods sent through this channel will have the same JSON structure:
+  </para>
+  <programlisting language="javascript">
+  <![CDATA[
+  {
+    messageType: "<type of message>",
+    ... other data ...
+  }
+  ]]>
+  </programlisting>
+  <para>
+    In which messageType defines one of these commands:
+  </para>
+  <section>
+    <title>hello</title>
+    <para>
+      With this method the device is able to register itself.
+    </para>
+    <para>
+      The device is responsible to give the server a valid UAID. If the
+      provided UAID is not valid or is "null", the server will respond
+      with a valid one.
+    </para>
+    <para>
+      In next connections the UAID given by the server SHALL be used.
+    </para>
+    <para>
+      When a device is registering to a notification server, it SHALL send
+      his own valid UAID and also the device can send additional information
+      that can be used to optimize the way the messages will be delivered
+      to this device.
+    </para>
+    <para>
+      If it's not the first connection, the device can send a list of
+      registered channels in order to syncronize client and server data.
+      This mechanism allows a way to recover channels after a server crash.
+    </para>
+    <programlisting language="javascript">
+    <![CDATA[
+    {
+      messageType: "hello",
+      uaid: "<a valid UAToken>",
+      channelIDs: [<a list of channels to sync [OPTIONAL]>],
+      interface: {
+        ip: "<current device IP address>",
+        port: "<TCP or UDP port in which the device is waiting for wake up notifications>"
+      },
+      mobilenetwork: {
+        mcc: "<Mobile Country Code>",
+        mnc: "<Mobile Network Code>"
+      }
+    }
+    ]]>
+    </programlisting>
+    <para>
+      The interface and mobilenetwork optional data will be used by the server
+      to identify if it has the required infrastructure into the user's mobile
+      network in order to send wakeup messages to the IP and port indicated
+      in the interface data so it's able to close the WebSocket channel to reduce
+      signalling and battery consume.
+    </para>
+    <para>
+      The channelIDs array is sent by the client in order to synchronize server
+      and client.
+    </para>
+    <para>
+      When the server receives a new hello message and the UAID provided by the
+      client is a valid one (in other words, is the same returned to the client)
+      the channelIDs list will be used to syncronize the server information with
+      the client one.
+    </para>
+    <para>
+      For example, after a server crash, all client channels
+      will be recovered with this simple method.
+    </para>
+    <para>
+      Another example, if the client uninstalled an app when the handset was
+      offline, next time it connects will send tne channel list with one less,
+      so the server will unregister this channel.
+    </para>
+    <para>
+      The server response can be one of these:
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "hello",
+        uaid: "<a valid UAID>",
+        status: 200,
+      }
+      ]]>
+      </programlisting>
+      if it's connected through a permanent websocket, or:
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "hello",
+        uaid: "<a valid UAID>",
+        status: 201,
+      }
+      ]]>
+      </programlisting>
+      if it's connected to a wakeup channel (UDP).
+      <note>
+        This hello response differenciation is pending to change
+        in order to use Websocket close status:
+        <link xlink:href="https://github.com/telefonicaid/notification_server/issues/178">
+          on this Github Pull Request
+        </link>.
+      </note>
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "hello",
+        status: 4xx,
+        reason: "<any reason>"
+      }
+      ]]>
+      </programlisting>
+      on any error case, like:
+      <itemizedlist>
+        <listitem>460: Error registering UAID</listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      This method is also used to anounce a new IP address or a network change.
+    </para>
+    <para>
+      <imagedata fileref="resources/seqdiags/change_ip.png" align="center" width="5in" />
+    </para>
+  </section>
+  <section>
+    <title>register</title>
+    <para>
+      This method is used to register push channels. Each application can
+      register as many channels as it wants. Each channel maintains an
+      independent counter about the last version of the channel.
+    </para>
+    <para>
+      This shall be send to the notification server after a valid UA
+      registration.
+    </para>
+    <para>
+      Normally, this method will be used each time an application requires a
+      new channel to receive Thialfi like notifications. A new endpoint URL
+      will be delivered (through the WA-UA API).
+    </para>
+    <para>
+      No data is required at application level, only the UA client is
+      responsible to generate a unique channelID for the handset. The channelID
+      can be the same in different devices since the UAID will be used in the
+      endpoint URL hash.
+    </para>
+    <programlisting language="javascript">
+    <![CDATA[
+    {
+      messageType: "register",
+      channelID: "<a new channelID>"
+    }
+    ]]>
+    </programlisting>
+    <para>
+      The server response can be:
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "register",
+        status: 200,
+        pushEndpoint: "<publicURL required to send notifications>",
+      }
+      ]]>
+      </programlisting>
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "register",
+        status: 4xx,
+        reason: "<any reason>"
+      }
+      ]]>
+      </programlisting>
+      on any error case, like:
+      <itemizedlist>
+        <listitem>457: Not valid channelID</listitem>
+        <listitem>408: Server is not ready yet</listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      The device service should redirect the received URL to the correct
+      application.
+    </para>
+  </section>
+  <section>
+    <title>unregister</title>
+    <para>
+      This method is used to unregister a push channel.
+    </para>
+    <para>
+      This shall be send to the notification server after a valid UA
+      registration.
+    </para>
+    <programlisting language="javascript">
+    <![CDATA[
+    {
+      messageType: "unregister",
+      channelID: "<a new channelID>"
+    }
+    ]]>
+    </programlisting>
+    <para>
+      The server response can be:
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "register",
+        channelID: "<a new channelID>"
+        status: 202
+      }
+      ]]>
+      </programlisting>
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "register",
+        status: 4xx,
+        reason: "<any reason>"
+      }
+      ]]>
+      </programlisting>
+      on any error case, like:
+      <itemizedlist>
+        <listitem>408: Server is not ready yet</listitem>
+      </itemizedlist>
+    </para>
+  </section>
+  <section>
+    <title>notification</title>
+    <para>
+      This message will be used by the server to inform about new notification
+      to the device.
+    </para>
+    <para>
+      All recieved notification(s) will have this structure:
+    </para>
+    <programlisting language="javascript">
+    <![CDATA[
+    {
+      messageType: "notification",
+      updates: [
+        {
+          channelID: "<channelID>",
+          version: "<versionNumber>"
+        },
+        {
+          channelID: "<channelID>",
+          version: "<versionNumber>"
+        },
+        ...
+      ]
+    }
+    ]]>
+    </programlisting>
+    <para>
+      On updates list, is returned all the list of pending notifications (last
+      version of each channel)
+    </para>
+  </section>
+  <section>
+    <title>desktop-notification</title>
+    <para>
+      This message will be used by the server to inform about new desktop
+      notification to the device.
+    </para>
+    <para>
+      These notifications SHOULD be showed into the device notification area.
+    </para>
+    <para>
+      All recieved notification(s) will have this structure:
+    </para>
+    <programlisting language="javascript">
+    <![CDATA[
+    {
+      messageType: "desktopNotification",
+      updates: [
+        {
+          channelID: "<channelID>",
+          _internal_id: "<id>",
+          body: "<some text>"
+        },
+        {
+          channelID: "<channelID>",
+          _internal_id: "<id>",
+          body: "<some text>"
+        },
+        ...
+      ]
+    }
+    ]]>
+    </programlisting>
+    <para>
+      On updates list, is returned all the list of pending notifications (last
+      version of each channel)
+    </para>
+  </section>
+  <section>
+    <title>ack</title>
+    <para>
+      For each received notification through notification, the server SHOULD be
+      notified in order to free resources related to this notifications.
+    </para>
+    <para>
+      This message is used to acknoledge the message reception.
+    </para>
+      <programlisting language="javascript">
+      <![CDATA[
+      {
+        messageType: "ack",
+        updates: [
+          {
+            channelID: "<channelID>",
+            version: "<versionNumber>"
+          },
+          {
+            channelID: "<channelID>",
+            version: "<versionNumber>"
+          },
+          ...
+        ]
+      }
+      ]]>
+      </programlisting>
+  </section>
+  <section>
+    <title>Keep-alive algorithm</title>
+    <para>
+      If it's needed a way to maintaint the socket open along time, a PING-PONG
+      mechanism is also implemented.
+    </para>
+    <para>
+      The client sents the text "PING" and the server will respond "PONG".
+    </para>
+    <para>
+      A more refined version is on working
+      <link xlink:href="https://github.com/telefonicaid/notification_server/pull/137">
+        on this Github Pull Request
+      </link>.
+    </para>
+  </section>
+</section>

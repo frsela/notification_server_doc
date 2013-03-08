@@ -9,14 +9,17 @@
     (user) actor (device and applications) in a unique or shared way.
   </para>
   <section>
-    <title>WAToken</title>
+    <title>channelID</title>
     <para>
-      This token identifies the user or group of users and SHALL be a secret.
+      This token identifies the user or group of users and on extended API
+      SHALL be a secret but in simple push API (thialfi like) it's not needed
+      to be a secret.
     </para>
     <para>
-      If this token is UNIQUE (and secret, of coures) will identify a unique
+      If this token is UNIQUE (and secret, of course) will identify a unique
       instance of the application related (normally) to one user. In this case
-      the returned URL will be unique for this WAToken.
+      the returned URL will be unique for this channelID. On simple push, each
+      device with same channelID will receive a unique endpointURL.
     </para>
     <para>
       If this token is shared by different devices of the SAME user (and secret),
@@ -48,7 +51,7 @@
     </example>
   </section>
   <section>
-    <title>UAToken</title>
+    <title>UAID</title>
     <para>
       This token identifies each customer device in a unique way.
     </para>
@@ -57,16 +60,12 @@
       one. This token is an AES encrypted string which will be checked for
       validaty each time it's used.
     </para>
-    <para>
-      This token should be delivered after identify the user in a valid way,
-      anyway this identification procedure is out of the scope of this specification.
-    </para>
   </section>
   <section>
-    <title>AppToken</title>
+    <title>endpointURL</title>
     <para>
       Automatic generated token by the notification server which identifies the
-      application + user as in a unique fashion.
+      application + user/device as in a unique fashion.
     </para>
     <para>
       This token is included in the publicURL which identifies the application,

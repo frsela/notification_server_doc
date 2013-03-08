@@ -1,4 +1,4 @@
-DIAGRAMS = change_ip.png full_interaction_wakeup.png full_interaction_ws.png delegatedmode_simplified.png get_token.png
+DIAGRAMS = change_ip.png full_interaction_wakeup.png full_interaction_ws.png delegatedmode_simplified.png
 
 P2P := pic2plot
 

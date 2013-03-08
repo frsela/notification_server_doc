@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="api_as_ns_wakeup"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Simple PUSH API</title>
+  <para>
+    With this API a TRUSTED third party server is able to wake up any handset
+    inside an operator network.
+  </para>
+  <para>
+    This is a simple HTTP CRUD API.
+  </para>
+  <para>
+    ON WORKING: https://github.com/telefonicaid/notification_server/pull/167
+  </para>
+  <para>
+  <![CDATA[
+
+    WAKEUP API [WIP]
+This (WIP) API will be offered by the carriers in order to be able to wakeup handsets inside their own mobile networks.
+
+Connection to this API will be protected with client certificates signed by the carrier so only trusted 3rd. party notification servers will be able to send datagrams to the handsets.
+
+https://server:port/wakeup
+
+
+GET
+    mcc=<mcc>&mnc=<mnc>
+RETURNS
+    200 OK (We’ve a wake up server in that network !)
+    404 Error (We don’t have a wake up server)
+
+
+PUT
+    ip=<ip>&port=<port>&mcc=<mcc>&mnc=<mnc>
+RETURNS
+    200 OK
+  ]]>
+  </para>
+</section>

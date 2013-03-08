@@ -17,11 +17,11 @@ message(N,N,"event('new IP')")
 step
 
 # Registration on Notification Server
-message(N,S,"WS: registerUA(UAToken,[network data])")
+message(N,S,"WS: hello(UAID,[network data])")
 active(S)
 message(S,S,"check_node; check_ip; check_net")
 message(S,S,"store_node")
-return_message(S,N,"OK (list of pending messages + registered apps)")
+return_message(S,N,"hello UAID")
 inactive(S)
 step
 inactive(N)

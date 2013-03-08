@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="api_as_ns_simplepush_groupsmanagement"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Simple PUSH API - GROUPS Management</title>
+  <para>
+    With this API the Application server is able to define groups of channels.
+  </para>
+  <para>
+    This is a simple HTTP CRUD API.
+  </para>
+  <para>
+    ON WORKING: https://github.com/telefonicaid/notification_server/issues/179
+  </para>
+  <para>
+  <![CDATA[
+    https://server:port/groups
+
+CRUD API:
+C: POST
+    https://server:port/groups
+    Returns URL (pushEndpoint)
+
+R: GET
+    https://pushEndpoint
+    Returns:
+    [endPointURL1, endPointURL2, …]
+
+U: PUT
+    https://pushEndpoint
+    url=endPointURLN&op=[ADD|DELETE]
+    Returns:
+    200 OK or 404 No group found
+
+D: DELETE
+    https://pushEndpoint
+    Removes the group
+    Returns:
+    200 OK or 404 No group found
+  ]]>
+  </para>
+</section>
