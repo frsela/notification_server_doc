@@ -113,7 +113,7 @@
       {
         messageType: "hello",
         uaid: "<a valid UAID>",
-        status: 200,
+        status: 200
       }
       ]]>
       </programlisting>
@@ -123,7 +123,7 @@
       {
         messageType: "hello",
         uaid: "<a valid UAID>",
-        status: 201,
+        status: 201
       }
       ]]>
       </programlisting>
@@ -194,6 +194,7 @@
         messageType: "register",
         status: 200,
         pushEndpoint: "<publicURL required to send notifications>",
+        channelID: "<the channelID>"
       }
       ]]>
       </programlisting>

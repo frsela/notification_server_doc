@@ -9,7 +9,9 @@
     This chapter explains the different APIs available to third party servers
   </para>
   <xi:include href="api_as_ns_simplepush.xml" />
+<!--
   <xi:include href="api_as_ns_simplepush_groupsmanagement.xml" />
   <xi:include href="api_as_ns_extendedpush.xml" />
   <xi:include href="api_as_ns_wakeup.xml" />
+-->
 </section>

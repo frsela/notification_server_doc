@@ -78,8 +78,10 @@
         </itemizedlist>
       </para>
       <xi:include href="api_ua_ns_websocket_pushnotification.xml" />
+<!--
       <xi:include href="api_ua_ns_websocket_pushnotification_binary.xml" />
       <xi:include href="api_ua_ns_websocket_extendedpushnotification.xml" />
+-->
     </section>
   </para>
 </section>

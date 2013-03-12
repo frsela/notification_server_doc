@@ -135,34 +135,17 @@
 
         // Once we've registered, the AppServer can send version pings to the EndPoint.
         // This will trigger a 'push' message to be sent to this handler.
-        navigator.mozSetMessageHandler('push', {
-          handleMessage: function(message) {
-            if (message.pushEndpoint == emailEndpoint)   // Yay! New Email! Steve and blue can dance!
-              getNewEmailMessagesFromAppServer(message.version);
-            else if (message.pushEndpoint == imEndpoint) // Yay! An IM awaits. I wonder if it's Sam's IM?
-              getNewChatMessagesFromAppServer();
-          }
+        navigator.mozSetMessageHandler('push', function handlePushMessage(message) {
+          if (message.pushEndpoint == emailEndpoint)   // Yay! New Email! Steve and blue can dance!
+            getNewEmailMessagesFromAppServer(message.version);
+          else if (message.pushEndpoint == imEndpoint) // Yay! An IM awaits. I wonder if it's Sam's IM?
+            getNewChatMessagesFromAppServer();
         });
 
         // to unregister, you simply call..
         AppFramework.addEventListener('user-logout', function() {
           navigator.pushNotification.unregister(emailEndpoint);
           navigator.pushNotification.unregister(imEndpoint);
-        });
-
-        // error recovery mechanism
-        // will be called very rarely, but application
-        // should register again when it is called
-        navigator.mozSetMessageHandler('push-register', {
-          handleMessage: function(e) {
-            if (AppFramework.isUserLoggedIn) {
-              setupAppRegistrations();
-            }
-            else {
-              // since user isn't logged in, when he logs in
-              // registrations will be setup due to event handler
-            }
-          }
         });
       ]]>
     </programlisting>
