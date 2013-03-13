@@ -33,6 +33,13 @@
         <revremark>First Edition</revremark>
         <revdescription>First draft of the architecture document</revdescription>
       </revision>
+      <revision>
+        <revnumber>1.1</revnumber>
+        <date>March 2013</date>
+        <authorinitials>FRS</authorinitials>
+        <revremark>Simple API</revremark>
+        <revdescription>Updated API to describe Simple API</revdescription>
+      </revision>
     </revhistory>
     <productnumber>1.0</productnumber>
   </info>
