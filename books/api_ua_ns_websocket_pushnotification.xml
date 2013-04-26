@@ -69,7 +69,7 @@
       messageType: "hello",
       uaid: "<a valid UAToken>",
       channelIDs: [<a list of channels to sync [OPTIONAL]>],
-      interface: {
+      wakeup_hostport: {
         ip: "<current device IP address>",
         port: "<TCP or UDP port in which the device is waiting for wake up notifications>"
       },
@@ -81,10 +81,10 @@
     ]]>
     </programlisting>
     <para>
-      The interface and mobilenetwork optional data will be used by the server
+      The wakeup_hostport and mobilenetwork optional data will be used by the server
       to identify if it has the required infrastructure into the user's mobile
       network in order to send wakeup messages to the IP and port indicated
-      in the interface data so it's able to close the WebSocket channel to reduce
+      in the wakeup_hostport data so it's able to close the WebSocket channel to reduce
       signalling and battery consume.
     </para>
     <para>
