@@ -1,11 +1,14 @@
 SUBDIRS = sequence_diagrams books
  
-.PHONY: all subdirs $(SUBDIRS) clean gh-pages
+.PHONY: all gendoc subdirs $(SUBDIRS) clean gh-pages
 
-all: clean subdirs
- 
+all: clean gendoc subdirs
+
+gendoc:
+	node generate_logtracesdoc.js > books/logtraces.xml
+
 subdirs: $(SUBDIRS)
- 
+
 $(SUBDIRS):
 	$(MAKE) -C $@
 
