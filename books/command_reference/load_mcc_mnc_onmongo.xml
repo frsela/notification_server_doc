@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry xml:id="cmd_load_mcc_mnc_onmongo"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <refmeta>
+    <refentrytitle>load_mcc_mnc_onmongo.awk</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>load_mcc_mnc_onmongo</refname>
+    <refpurpose>loads a mobile operator list into the central MongoDB</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>awk -f scripts/load_mcc_mnc_onmongo.awk</command>
+      <arg>mcc_mnc_list.txt</arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+    <para>
+      Reads the mcc_mnc_list.txt file and loads all the mobile operators list
+      into the central MongoDB database.
+    </para>
+    <para>
+      This command should only be used for the first system provision.
+    </para>
+  </refsect1>
+</refentry>

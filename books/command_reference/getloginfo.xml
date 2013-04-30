@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry xml:id="cmd_getloginfo"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <refmeta>
+    <refentrytitle>getloginfo</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>getloginfo</refname>
+    <refpurpose>shows the detailed log trace description</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>scripts/getloginfo</command>
+      <arg>log ID (in hexadecimal 0xABCD)</arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+    <para>
+      When the server emits a NOTIFICATION, ERROR or CRITICAL trace,
+      you can see a unique ID in it.
+    </para>
+    <para>
+      This command allows you to recover more information about the
+      error without need to refer the main document.
+    </para>
+  </refsect1>
+  <refsect1>
+    <title>Example</title>
+    <para>
+      scripts/getloginfo 0x1234
+    </para>
+  </refsect1>
+</refentry>

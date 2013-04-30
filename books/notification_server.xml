@@ -56,4 +56,5 @@
   <xi:include href="future.xml" />
 -->
   <xi:include href="logtraces.xml" />
+  <xi:include href="command_reference.xml" />
 </book>

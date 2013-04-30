@@ -11,9 +11,9 @@ endif
 OUTPUT = ../output
 RES = resources/seqdiags
 
-.PHONY: all installseqdiag xhtml html_chunked pdf
+.PHONY: all installseqdiag xhtml html_chunked manpages pdf
 
-all: clean installseqdiag xhtml html_chunked pdf
+all: clean installseqdiag xhtml html_chunked manpages pdf
 
 $(SUBDIRS):
 	make -C $@
@@ -47,6 +47,10 @@ html_chunked:
 	mkdir -p $(OUTPUT)/html_chunked
 	xsltproc --xinclude -o $(OUTPUT)/html_chunked/ $(XSL_BASE)html/chunk.xsl notification_server.xml
 	cp -r resources $(OUTPUT)/html_chunked/.
+
+manpages:
+	mkdir -p $(OUTPUT)/manpages
+	xsltproc --xinclude -o $(OUTPUT)/manpages/ $(XSL_BASE)manpages/docbook.xsl notification_server.xml
 
 pdf:
 	mkdir -p $(OUTPUT)/pdf

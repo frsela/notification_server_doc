@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<reference xml:id="cmd_reference"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      version="5.0" xml:lang="en">
+  <title>Command reference</title>
+
+  <xi:include href="command_reference/load_mcc_mnc_onmongo.xml" />
+  <xi:include href="command_reference/add_wakeupserver_ip.xml" />
+  <xi:include href="command_reference/empty_mongo.xml" />
+  <xi:include href="command_reference/getloginfo.xml" />
+
+</reference>

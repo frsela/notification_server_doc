@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry xml:id="cmd_add_wakeupserver_ip"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <refmeta>
+    <refentrytitle>add_wakeupserver_ip</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>add_wakeupserver_ip.sh</refname>
+    <refpurpose>links a wakeup server IP and Port to a MCC-MNC pair</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>scripts/add_wakeupserver_ip.sh</command>
+      <arg>mcc</arg>
+      <arg>mnc</arg>
+      <arg choice="opt">wakeup server URL</arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+    <para>
+      Updates the operators collection linking a WakeUp server to the
+      mcc-mnc pair.
+    </para>
+    <para>
+      This command should only be used each time the WakeUp server address is changed.
+    </para>
+    <para>
+      It's important to note that the MNC SHALL be 2 digits and MCC 3 digits.
+      Fill with 0s if necessary
+    </para>
+    <para>
+      With an empty URL into the third parameter, the WakeUp server will be disabled
+      into next runnings
+    </para>
+  </refsect1>
+  <refsect1>
+    <title>Example</title>
+    <para>Enabling:</para>
+    <para>
+      scripts/add_wakeupserver_ip.sh 214 07 http://1.2.3.4:4567
+    </para>
+    <para>Disabling:</para>
+    <para>
+      scripts/add_wakeupserver_ip.sh 214 07
+    </para>
+  </refsect1>
+</refentry>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry xml:id="cmd_empty_mongo"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <refmeta>
+    <refentrytitle>empty_mongo</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>empty_mongo.sh</refname>
+    <refpurpose>simple script to clean all MongoDB collections</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>scripts/empty_mongo.sh</command>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+    <para>
+      Drops all notification server collections from the MongoDB.
+    </para>
+    <para>
+      Use it if you really know what're you doing.
+    </para>
+  </refsect1>
+  <refsect1>
+    <title>Example</title>
+    <para>
+      scripts/empty_mongo.sh
+    </para>
+  </refsect1>
+</refentry>
