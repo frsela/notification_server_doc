@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="logtraces"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      version="5.0" xml:lang="en">
+  <title>Log traces</title>
+  <para>
+    This chapter describes each log message, his ID and how to interpret it.
+  </para>
+  <para>
+    It covers NOTIFY, ERROR and CRITICAL traces. DEBUG and INFO traces are not documented.
+  </para>
+  <para>
+    Next sections describes each log level:
+  </para>
+  <xi:include href="logtraces_NOTIFY_generated.xml" />
+  <xi:include href="logtraces_ERROR_generated.xml" />
+  <xi:include href="logtraces_CRITICAL_generated.xml" />
+</chapter>

@@ -5,7 +5,9 @@ SUBDIRS = sequence_diagrams books
 all: clean gendoc subdirs
 
 gendoc:
-	node generate_logtracesdoc.js > books/logtraces.xml
+	node generate_logtracesdoc.js 1 > books/logtraces_NOTIFY_generated.xml
+	node generate_logtracesdoc.js 2 > books/logtraces_ERROR_generated.xml
+	node generate_logtracesdoc.js 3 > books/logtraces_CRITICAL_generated.xml
 
 subdirs: $(SUBDIRS)
 
