@@ -1,5 +1,10 @@
 
-var lt = require("../src/common/logtraces.js").logtraces;
+var lt = null;
+try {
+  lt = require("../src/common/logtraces.js").logtraces;
+} catch(e) {
+  lt = {}
+}
 
 function document_logtrace(l) {
   console.log('  <section>');
