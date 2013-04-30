@@ -16,13 +16,13 @@
           On future releases will be supported another channels as Long-Polling
           solutions in order to cover devices which don't support Web Sockets.
         </p></li></ul></div><p>
-    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp233424"></a>HTTP API</h4></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp234128"></a>HTTP API</h4></div></div></div><p>
         This channel only offers one method to get server information.
-      </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp234528"></a>about</h5></div></div></div><p>
+      </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp235232"></a>about</h5></div></div></div><p>
           This method responds an HTML page with general information about the
           running server like number of connections, number of process running...
         </p></div></div><p>
-    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp235984"></a>WebSocket API</h4></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp236688"></a>WebSocket API</h4></div></div></div><p>
         Through this channel the device will register itself, his applications,
         and also will be used to deliver PUSH notifications
       </p><p>
@@ -72,7 +72,7 @@
   
   </pre><p>
     In which messageType defines one of these commands:
-  </p><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp258352"></a>hello</h6></div></div></div><p>
+  </p><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp259088"></a>hello</h6></div></div></div><p>
       With this method the device is able to register itself.
     </p><p>
       The device is responsible to give the server a valid UAID. If the
@@ -170,7 +170,7 @@
       This method is also used to anounce a new IP address or a network change.
     </p><p>
       </p><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="450"><tr><td align="center"><img src="resources/seqdiags/change_ip.png" align="middle" width="450"></td></tr></table><p>
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp272640"></a>register</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp273376"></a>register</h6></div></div></div><p>
       This method is used to register push channels. Each application can
       register as many channels as it wants. Each channel maintains an
       independent counter about the last version of the channel.
@@ -219,7 +219,7 @@
     </p><p>
       The device service should redirect the received URL to the correct
       application.
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp280128"></a>unregister</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp280864"></a>unregister</h6></div></div></div><p>
       This method is used to unregister a push channel.
     </p><p>
       This shall be send to the notification server after a valid UA
@@ -253,7 +253,7 @@
       </pre><p>
       on any error case, like:
       </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">408: Server is not ready yet</li></ul></div><p>
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp285280"></a>notification</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp286016"></a>notification</h6></div></div></div><p>
       This message will be used by the server to inform about new notification
       to the device.
     </p><p>
@@ -278,7 +278,7 @@
     </pre><p>
       On updates list, is returned all the list of pending notifications (last
       version of each channel)
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp288416"></a>desktop-notification</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp289152"></a>desktop-notification</h6></div></div></div><p>
       This message will be used by the server to inform about new desktop
       notification to the device.
     </p><p>
@@ -307,7 +307,7 @@
     </pre><p>
       On updates list, is returned all the list of pending notifications (last
       version of each channel)
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp292112"></a>ack</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp292848"></a>ack</h6></div></div></div><p>
       For each received notification through notification, the server SHOULD be
       notified in order to free resources related to this notifications.
     </p><p>
@@ -329,7 +329,7 @@
         ]
       }
       
-      </pre></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp294816"></a>Keep-alive algorithm</h6></div></div></div><p>
+      </pre></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp295552"></a>Keep-alive algorithm</h6></div></div></div><p>
       If it's needed a way to maintaint the socket open along time, a PING-PONG
       mechanism is also implemented.
     </p><p>
@@ -339,7 +339,7 @@
       <a class="link" href="https://github.com/telefonicaid/notification_server/pull/137" target="_top">
         on this Github Pull Request
       </a>.
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp297744"></a>Wakeup websocket close</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp298480"></a>Wakeup websocket close</h6></div></div></div><p>
       As explained before, when the client informs about the mobile network is in and
       the server has the required infrastructure in that mobile network, the websocket
       will be closed after a predefined inactivity time (10 seconds).
