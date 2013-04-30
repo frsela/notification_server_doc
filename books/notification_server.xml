@@ -55,4 +55,5 @@
   <xi:include href="lessons_learned.xml" />
   <xi:include href="future.xml" />
 -->
+  <xi:include href="logtraces.xml" />
 </book>
