@@ -23,7 +23,7 @@
     to be used as the notification endpointURL by his Application Server (AS).
   </para>
   <para>
-    This API (under the navigator.pushNotification object) defines these methods:
+    This API (under the navigator.push object) defines these methods:
     <itemizedlist>
       <listitem>
         register
@@ -36,12 +36,12 @@
       </listitem>
     </itemizedlist>
     <section>
-      <title>navigator.pushNotification.register</title>
+      <title>navigator.push.register</title>
       <para>
         This method allows the application to register a new channel.
         <programlisting language="javascript">
         <![CDATA[
-        navigator.pushNotification.register()
+        navigator.push.register()
         ]]>
         </programlisting>
       </para>
@@ -51,7 +51,7 @@
       </para>
       <programlisting languange="javascript">
         <![CDATA[
-        var req = navigator.pushNotification.register();
+        var req = navigator.push.register();
         req.onsuccess = function(e) {
           alert("Received URL: " + req.result.pushEndpoint);
         };
@@ -63,14 +63,14 @@
     </section>
 
     <section>
-      <title>navigator.pushNotification.unregister</title>
+      <title>navigator.push.unregister</title>
       <para>
         This method allows the application to unregister a previously registered
         channel.
       </para>
       <programlisting languange="javascript">
         <![CDATA[
-        navigator.pushNotification.unregister(endPointURL);
+        navigator.push.unregister(endPointURL);
         ]]>
       </programlisting>
     </section>
@@ -118,7 +118,7 @@
          // you simply call push.register
          // Here, we'll register a channel for "email" updates.
          // Channels can be for anything the app would like to get notifications for.
-         var reqEmail = navigator.pushNotification.register();
+         var reqEmail = navigator.push.register();
          reqEmail.onsuccess = function(e) {
            emailEndpoint = e.target.result.pushEndpoint;
            storeOnAppServer("email", emailEndpoint); // This is the "Hand wavey" way that the App 
@@ -126,7 +126,7 @@
          }
 
          // We'll also register a second channel for "im", because we're social and all about the socialists. Or something.
-         var reqIm = navigator.pushNotification.register();
+         var reqIm = navigator.push.register();
          reqIm.onsuccess = function(e) {
            imEndpoint = e.target.result.pushEndpoint;
            storeOnAppServer("im", imEndpoint);
@@ -144,8 +144,8 @@
 
         // to unregister, you simply call..
         AppFramework.addEventListener('user-logout', function() {
-          navigator.pushNotification.unregister(emailEndpoint);
-          navigator.pushNotification.unregister(imEndpoint);
+          navigator.push.unregister(emailEndpoint);
+          navigator.push.unregister(imEndpoint);
         });
       ]]>
     </programlisting>
