@@ -365,7 +365,8 @@
       mechanism is also implemented.
     </para>
     <para>
-      The client sents the text "PING" and the server will respond "PONG".
+      The client sents an empty JSON object "{}" and the server will respond another
+      empty object "{}" and/or a notification response (if pending notifications).
     </para>
     <para>
       A more refined version is on working
