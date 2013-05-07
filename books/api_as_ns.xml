@@ -8,6 +8,11 @@
   <para>
     This chapter explains the different APIs available to third party servers
   </para>
+  <section>
+    <title>Generic API</title>
+    <xi:include href="api_common_about_method.xml" />
+    <xi:include href="api_common_maintance_status_method.xml" />
+  </section>
   <xi:include href="api_as_ns_simplepush.xml" />
 <!--
   <xi:include href="api_as_ns_simplepush_groupsmanagement.xml" />

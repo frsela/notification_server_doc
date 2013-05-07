@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>about</title>
+  <para>
+    This method responds an HTML page with general information about the
+    running server like number of connections, number of process running...
+  </para>
+</section>

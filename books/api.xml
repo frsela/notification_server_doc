@@ -101,5 +101,34 @@
       When the mobile receives this datagram, it SHALL connect to the websocket
       interfaces in order to pull all pending messages.
     </para>
+    <para>
+      The WakeUp server offers a simple HTTP API:
+    </para>
+    <xi:include href="api_common_maintance_status_method.xml" />
+    <section>
+      <title>Wake up method</title>
+      <para>
+        To wakeup a device, sent a HTTP GET method to the WakeUp server with the
+        ip and port parameters. The protocol is optional:
+      </para>
+      <para>
+      <![CDATA[
+         http(s)://server:port/?ip=1.2.3.4&port=5678&protocol=[PROTOCOL_TCPv4 | PROTOCOL_UDPv4]
+      ]]>
+      </para>
+      <para>
+        ip and port are mandatory and refers to the device ip and port where
+        the Wakeup agent is listening.
+      </para>
+      <para>
+        protocol is optional (by default UDPv4 is used) the numeric values:
+      </para>
+      <para>
+        PROTOCOL_UDPv4 = 1
+      </para>
+      <para>
+        PROTOCOL_TCPv4 = 2
+      </para>
+    </section>
   </section>
 </chapter>

@@ -35,13 +35,8 @@
       <para>
         This channel only offers one method to get server information.
       </para>
-      <section>
-        <title>about</title>
-        <para>
-          This method responds an HTML page with general information about the
-          running server like number of connections, number of process running...
-        </para>
-      </section>
+      <xi:include href="api_common_about_method.xml" />
+      <xi:include href="api_common_maintance_status_method.xml" />
     </section>
     <section>
       <title>WebSocket API</title>

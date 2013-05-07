@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>status</title>
+  <para>
+    This method is used to check if the server is available or not.
+    Is designed to be used by load balancers when the server is under
+    maintance.
+  </para>
+  <para>
+    The server will responde 200 (OK) if the server is enabled or
+    503 (Under Maintance).
+  </para>
+  <para>
+    To set the server into maintance mode (tell the load balancer that the
+    server is not available) is needed to send a SIGUSR1 signal to the proccess:
+    <programlisting language="sh">
+      <![CDATA[
+      kill -SIGUSR1 <pid>
+      ]]>
+    </programlisting>
+  </para>
+  <para>
+    To set the server into normal mode (tell the load balancer that the
+    server is available) is needed to send a SIGUSR2 signal to the proccess:
+    <programlisting language="sh">
+      <![CDATA[
+      kill -SIGUSR2 <pid>
+      ]]>
+    </programlisting>
+  </para>
+</section>
