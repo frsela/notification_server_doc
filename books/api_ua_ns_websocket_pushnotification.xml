@@ -380,7 +380,7 @@
     <para>
       As explained before, when the client informs about the mobile network is in and
       the server has the required infrastructure in that mobile network, the websocket
-      will be closed after a predefined inactivity time (10 seconds).
+      will be closed by the server after a predefined inactivity time (10 seconds).
     </para>
     <para>
       When this timer fires, the websocket will be closed with the 4774 status code.
