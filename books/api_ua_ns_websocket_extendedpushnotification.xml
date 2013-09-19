@@ -234,7 +234,8 @@
       this notifications.
     </para>
     <para>
-      This message is used to acknoledge the message reception.
+      This message is used to acknoledge the message reception. No error or success
+      status is given.
     </para>
       <programlisting language="javascript">
       <![CDATA[
