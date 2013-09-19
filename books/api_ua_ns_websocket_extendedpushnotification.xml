@@ -61,7 +61,8 @@
       to identify if it has the required infrastructure into the user's mobile
       network in order to send wakeup messages to the IP and port indicated
       in the interface data so it's able to close the WebSocket channel to reduce
-      signalling and battery consume.
+      signalling and battery consume. If the server does not understand that extra
+      data, it just gives a WebSocket connection, with no WakeUp.
     </para>
     <para>
       The server response can be:
