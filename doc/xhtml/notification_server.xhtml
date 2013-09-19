@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Notification Server</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"/></head><body><div xml:lang="en" class="book" title="Notification Server"><div class="titlepage"><div><div><h1 class="title"><a id="push_notification_server_architecture"/>Notification Server</h1></div><div><h2 class="subtitle">Architecture</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Fernando</span> <span class="surname">Rodriguez Sela</span></h3></div><div class="author"><h3 class="author"><span class="firstname">Guillermo</span> <span class="surname">Lopez Leal</span></h3></div></div></div><div><p class="copyright">Copyright © 2012 Telefonica Digital (PDI), All rights reserved.</p></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="3"><b>Revision History</b></th></tr><tr><td align="left">Revision 1.0</td><td align="left">November 2012</td><td align="left">FRS</td></tr><tr><td align="left" colspan="3">First Edition</td></tr><tr><td align="left">Revision 1.1</td><td align="left">March 2013</td><td align="left">FRS</td></tr><tr><td align="left" colspan="3">Simple API</td></tr></table></div></div></div><hr/></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#intro">1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#idp9272">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="#idp11304">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="#idp13248">Service Description</a></span></dt><dt><span class="section"><a href="#idp14584">Adventages for developers</a></span></dt></dl></dd><dt><span class="chapter"><a href="#network_issues">2. Mobile network issues with current PUSH platforms</a></span></dt><dd><dl><dt><span class="section"><a href="#idp33680">Mobile networks in a Private or Public LAN</a></span></dt><dt><span class="section"><a href="#idp35592">Mobile Network. Circuit domain states</a></span></dt><dt><span class="section"><a href="#idp21864">Mobile Network. Package domain states</a></span></dt><dt><span class="section"><a href="#idp64680">Mobile Network. States relation</a></span></dt><dt><span class="section"><a href="#idp80800">Mobile Network. Signalling storms</a></span></dt><dt><span class="section"><a href="#idp108208">Mobile Network. Battery comsuption</a></span></dt></dl></dd><dt><span class="chapter"><a href="#api">3. Notification server API</a></span></dt><dd><dl><dt><span class="section"><a href="#api_wa_ua">API between WebApp and the User Agent</a></span></dt><dt><span class="section"><a href="#api_ua_ns">API between the User Agent and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_as_ns">API between the Application Server and the Notification Server</a></span></dt><dd><dl><dt><span class="section"><a href="#api_as_ns_simplepush">Simple PUSH API</a></span></dt></dl></dd><dt><span class="section"><a href="#api_wa_as">API between the WA and the AS</a></span></dt><dt><span class="section"><a href="#api_tokens">Tokens</a></span></dt><dd><dl><dt><span class="section"><a href="#idp227208">channelID</a></span></dt><dt><span class="section"><a href="#idp231448">UAID</a></span></dt><dt><span class="section"><a href="#idp232600">endpointURL</a></span></dt></dl></dd><dt><span class="section"><a href="#idp233936">WakeUp</a></span></dt></dl></dd><dt><span class="chapter"><a href="#logtraces">4. Log traces</a></span></dt><dd><dl><dt><span class="section"><a href="#logtraces_NOTIFY_generated">NOTIFY level</a></span></dt><dd><dl><dt><span class="section"><a href="#idp61208"> ID 0x1001 - datastore::removeMessage --&gt; Message removed from MongoDB ::messageId</a></span></dt><dt><span class="section"><a href="#idp126520"> ID 0x1002 - datastore::ackMessage --&gt; Message ACKed</a></span></dt><dt><span class="section"><a href="#idp116856"> ID 0x1101 - appToken=::appToken -- version=::version</a></span></dt><dt><span class="section"><a href="#idp149696"> ID 0x1102 - Storing message for the '::apptoken' apptoken. Internal Id: ::id</a></span></dt><dt><span class="section"><a href="#idp146512"> ID 0x1203 - MSG_mon::onNodeData --&gt; Notify into the messages queue of node ::serverId # ::messageId</a></span></dt><dt><span class="section"><a href="#idp147264"> ID 0x1301 - Message with id ::messageId sent to ::uaid</a></span></dt><dt><span class="section"><a href="#idp148000"> ID 0x1401 - Notifying node: ::uaid to ::wakeupip:::wakeupport on network ::mcc-::mnc and using protocol ::protocol</a></span></dt><dt><span class="section"><a href="#idp184816"> ID 0x1501 - NS_WakeUp::onHTTPMessage --&gt; Received request for ::url</a></span></dt><dt><span class="section"><a href="#idp185536"> ID 0x1502 - WakeUp TCP packet to ::ip:::port - FAILED</a></span></dt><dt><span class="section"><a href="#idp186272"> ID 0x1503 - WakeUp TCP packet succesfully sent to ::ip:::port</a></span></dt><dt><span class="section"><a href="#idp187016"> ID 0x1504 - WakeUp Datagram sent to ::ip:::port</a></span></dt></dl></dd><dt><span class="section"><a href="#logtraces_ERROR_generated">ERROR level</a></span></dt><dd><dl><dt><span class="section"><a href="#idp110944"> ID 0x2000 - ::class::::method --&gt; ::extra, FIX YOUR BACKEND</a></span></dt><dt><span class="section"><a href="#idp111656"> ID 0x2001 - datastore::::method --&gt; There was a problem opening the nodes collection --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp112432"> ID 0x2002 - datastore::::method --&gt; there was a problem opening the apps collection --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp113208"> ID 0x2003 - datastore::::method --&gt; There was a problem opening the operators collection --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp113992"> ID 0x2004 - datastore::::method --&gt; There was a problem opening the messages collection --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp114776"> ID 0x2005 - datastore::registerNode --&gt; Error inserting/updating node into MongoDB -- ::error</a></span></dt><dt><span class="section"><a href="#idp115552"> ID 0x2006 - datastore::registerApplication --&gt; Error inserting application into MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp116328"> ID 0x2007 - dataStore::::method --&gt; Error inserting message to node: ::error</a></span></dt><dt><span class="section"><a href="#idp153792"> ID 0x2008 - dataStore::unregisterNode --&gt; There was a problem removing the node: ::error</a></span></dt><dt><span class="section"><a href="#idp154560"> ID 0x2009 - datastore::flushDb --&gt; There was a problem removing the ::collection collection: ::error</a></span></dt><dt><span class="section"><a href="#idp155344"> ID 0x200a - dataStore::removeMessage --&gt; Error removing message: ::error</a></span></dt><dt><span class="section"><a href="#idp156096"> ID 0x200b - datastore::::method --&gt; There was a problem finding the certificate - ::error</a></span></dt><dt><span class="section"><a href="#idp156864"> ID 0x200c - datastore::getNodeData --&gt; Error finding node into MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp157624"> ID 0x200d - datastore::getApplicationsForUA --&gt; Error finding applications from MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp158400"> ID 0x200e - datastore::getApplication --&gt; Error finding application from MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp159168"> ID 0x200f - datastore::getAllMessagesForUA --&gt; There was a problem finding the message: ::error</a></span></dt><dt><span class="section"><a href="#idp118936"> ID 0x2010 - dataStore::::method --&gt; Error locating channel for appToken: ::apptoken</a></span></dt><dt><span class="section"><a href="#idp119704"> ID 0x2011 - dataStore::unregisterApplication --&gt; Not enough nodes info to pull from nodes collection :(</a></span></dt><dt><span class="section"><a href="#idp120488"> ID 0x2012 - dataStore::newVersion --&gt; Error removing old version for appToken: ::apptoken</a></span></dt><dt><span class="section"><a href="#idp121256"> ID 0x2013 - dataStore::newVersion --&gt; Error setting new version for appToken: ::apptoken</a></span></dt><dt><span class="section"><a href="#idp122024"> ID 0x2014 - dataStore::ackMessage --&gt; Error ACK'ing message into MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp122784"> ID 0x2016 - dataStore::::method --&gt; Some error occured --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp123528"> ID 0x2017 - msgbroker::queue --&gt; one message broker disconnected!!!</a></span></dt><dt><span class="section"><a href="#idp124280"> ID 0x2018 - msgbroker::queue.onerror --&gt; There was an error in one of the connections: ::error</a></span></dt><dt><span class="section"><a href="#idp125056"> ID 0x2019 - No server provided</a></span></dt><dt><span class="section"><a href="#idp125728"> ID 0x201a - Received kill (9 or 15) signal</a></span></dt><dt><span class="section"><a href="#idp240752"> ID 0x201b - worker ::pid closed unexpectedly with code ::code</a></span></dt><dt><span class="section"><a href="#idp241416"> ID 0x201c - ulimit error: ::error</a></span></dt><dt><span class="section"><a href="#idp242088"> ID 0x201d - [MobileNetwork] --&gt; error!! ::error</a></span></dt><dt><span class="section"><a href="#idp242816"> ID 0x2201 - MSG_mon::onNewMessage --&gt; newMessages queue recieved a bad JSON. Check</a></span></dt><dt><span class="section"><a href="#idp243576"> ID 0x2202 - MSG_mon::onNewMessage --&gt; Bad msgType: ::json</a></span></dt><dt><span class="section"><a href="#idp244312"> ID 0x2203 - MSG_mon::onApplicationData --&gt; There was an error</a></span></dt><dt><span class="section"><a href="#idp245056"> ID 0x2301 - getConnector --&gt; Error getting the operator from the DB: ::error</a></span></dt><dt><span class="section"><a href="#idp245816"> ID 0x2302 - dataManager::registerNode --&gt; Error getting connection object</a></span></dt><dt><span class="section"><a href="#idp246568"> ID 0x2303 - dataManager::unregisterNode --&gt; There was a problem unregistering the uaid ::uaid</a></span></dt><dt><span class="section"><a href="#idp247344"> ID 0x2305 - WS::queue::onNewMessage --&gt; Not enough data!</a></span></dt><dt><span class="section"><a href="#idp248080"> ID 0x2307 - WS::onWSMessage::getPendingMessages --&gt; There was an error getting the node</a></span></dt><dt><span class="section"><a href="#idp248848"> ID 0x2308 - WS::onWSMessage::getPendingMessages --&gt; No channels for this node.</a></span></dt><dt><span class="section"><a href="#idp249608"> ID 0x2401 - Connector UDP: Notify to ::wakeupip not valid with this connector</a></span></dt><dt><span class="section"><a href="#idp250368"> ID 0x2402 - UDP::queue::onNewMessage --&gt; Not enough data to find server</a></span></dt><dt><span class="section"><a href="#idp251120"> ID 0x2403 - UDP::queue::onNewMessage --&gt; Error getting the operator from the DB: ::error</a></span></dt><dt><span class="section"><a href="#idp251888"> ID 0x2404 - UDP:queue:onNewMessage --&gt; Bad address to notify ::address</a></span></dt><dt><span class="section"><a href="#idp252640"> ID 0x2501 - Protocol not supported !</a></span></dt></dl></dd><dt><span class="section"><a href="#logtraces_CRITICAL_generated">CRITICAL level</a></span></dt><dd><dl><dt><span class="section"><a href="#idp254648"> ID 0x3001 - ::class::::method --&gt; Error connecting to MongoDB ! - ::error</a></span></dt><dt><span class="section"><a href="#idp255400"> ID 0x3002 - ::class::::method --&gt; MsgBroker DISCONNECTED!!'</a></span></dt><dt><span class="section"><a href="#idp256144"> ID 0x3003 - ::class::::method --&gt; DataStore DISCONNECTED!!'</a></span></dt><dt><span class="section"><a href="#idp256888"> ID 0x3004 - 30 seconds has passed and we are not ready, closing'</a></span></dt><dt><span class="section"><a href="#idp257632"> ID 0x3301 - NS_UA_WS interfaces not configured'</a></span></dt></dl></dd></dl></dd><dt><span class="reference"><a href="#cmd_reference">I. Command reference</a></span></dt><dd><dl><dt><span class="refentrytitle"><a href="#cmd_load_mcc_mnc_onmongo">load_mcc_mnc_onmongo.awk</a></span><span class="refpurpose"> — loads a mobile operator list into the central MongoDB</span></dt><dt><span class="refentrytitle"><a href="#cmd_add_wakeupserver_ip">add_wakeupserver_ip</a></span><span class="refpurpose"> — links a wakeup server IP and Port to a MCC-MNC pair</span></dt><dt><span class="refentrytitle"><a href="#cmd_empty_mongo">empty_mongo</a></span><span class="refpurpose"> — simple script to clean all MongoDB collections</span></dt><dt><span class="refentrytitle"><a href="#cmd_getloginfo">getloginfo</a></span><span class="refpurpose"> — shows the detailed log trace description</span></dt></dl></dd></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>2.1. <a href="#idp65704">RCC - GMM relation</a></dt></dl></div><div class="list-of-examples"><p><b>List of Examples</b></p><dl><dt>3.1. <a href="#idp228992">Multiple device messages</a></dt><dt>3.2. <a href="#idp230520">Message broadcast</a></dt></dl></div><div xml:lang="en" class="chapter" title="Chapter 1. Introduction"><div class="titlepage"><div><div><h2 class="title"><a id="intro"/>Chapter 1. Introduction</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#idp9272">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="#idp11304">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="#idp13248">Service Description</a></span></dt><dt><span class="section"><a href="#idp14584">Adventages for developers</a></span></dt></dl></div><p>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Notification Server</title><meta name="generator" content="DocBook XSL Stylesheets V1.77.1"/></head><body><div xml:lang="en" class="book"><div class="titlepage"><div><div><h1 class="title"><a id="push_notification_server_architecture"/>Notification Server</h1></div><div><h2 class="subtitle">Architecture</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Fernando</span> <span class="surname">Rodríguez Sela</span></h3></div><div class="author"><h3 class="author"><span class="firstname">Guillermo</span> <span class="surname">López Leal</span></h3></div></div></div><div><p class="copyright">Copyright © 2012 Telefónica Digital (PDI), All rights reserved.</p></div><div><div class="revhistory"><table summary="Revision History"><tr><th align="left" valign="top" colspan="3"><strong>Revision History</strong></th></tr><tr><td align="left">Revision 1.0</td><td align="left">November 2012</td><td align="left">FRS</td></tr><tr><td align="left" colspan="3">First Edition</td></tr></table></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="chapter"><a href="#intro">1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#idp33120">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="#idp36064">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="#idp39408">Service Description</a></span></dt></dl></dd><dt><span class="chapter"><a href="#network_issues">2. Mobile network issues with current PUSH platforms</a></span></dt><dd><dl><dt><span class="section"><a href="#idp88016">Mobile networks in a Private or Public LAN</a></span></dt><dt><span class="section"><a href="#idp90800">Mobile Network. Circuit domain states</a></span></dt><dt><span class="section"><a href="#idp104976">Mobile Network. Package domain states</a></span></dt><dt><span class="section"><a href="#idp110800">Mobile Network. States relation</a></span></dt><dt><span class="section"><a href="#idp136464">Mobile Network. Signalling storms</a></span></dt><dt><span class="section"><a href="#idp139104">Mobile Network. Battery comsuption</a></span></dt></dl></dd><dt><span class="chapter"><a href="#api">3. Notification server API</a></span></dt><dd><dl><dt><span class="section"><a href="#api_wa_ua">API between WebApp and the User Agent</a></span></dt><dt><span class="section"><a href="#api_ua_ns">API between the User Agent and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_as_ns">API between the Application Server and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_wa_as">API between the WA and the AS</a></span></dt><dt><span class="section"><a href="#api_tokens">Tokens</a></span></dt><dd><dl><dt><span class="section"><a href="#idp265680">WAToken</a></span></dt><dt><span class="section"><a href="#idp271728">UAToken</a></span></dt><dt><span class="section"><a href="#idp274112">AppToken</a></span></dt></dl></dd><dt><span class="section"><a href="#idp276336">WakeUp</a></span></dt></dl></dd><dt><span class="chapter"><a href="#architecture">4. Notification Server Architecture</a></span></dt><dd><dl><dt><span class="section"><a href="#idp162368">Technologies used</a></span></dt><dd><dl><dt><span class="section"><a href="#idp150880">MongoDB</a></span></dt><dt><span class="section"><a href="#idp73792">RabbitMQ</a></span></dt><dt><span class="section"><a href="#idp74816">Node.JS</a></span></dt></dl></dd><dt><span class="section"><a href="#idp75968">Types of servers</a></span></dt><dd><dl><dt><span class="section"><a href="#idp79008">NS-UA-WS</a></span></dt><dt><span class="section"><a href="#idp65776">NS-UA-UDP</a></span></dt><dt><span class="section"><a href="#idp67808">NS-WakeUp</a></span></dt><dt><span class="section"><a href="#idp70704">NS-AS</a></span></dt><dt><span class="section"><a href="#idp165616">NS-Monitor</a></span></dt><dt><span class="section"><a href="#idp167696">Message Queue (RabbitMQ)</a></span></dt><dt><span class="section"><a href="#idp169872">NO-SQL Database (MongoDB)</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#performance">5. Notification Server Performance</a></span></dt><dt><span class="chapter"><a href="#deployment">6. Notification Server Deployment</a></span></dt><dt><span class="chapter"><a href="#lessons_learned">7. Lessons learned</a></span></dt></dl></div><div class="list-of-tables"><p><strong>List of Tables</strong></p><dl><dt>2.1. <a href="#idp112464">RCC - GMM relation</a></dt></dl></div><div class="list-of-examples"><p><strong>List of Examples</strong></p><dl><dt>3.1. <a href="#idp268080">Multiple device messages</a></dt><dt>3.2. <a href="#idp270272">Message broadcast</a></dt></dl></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="intro"/>Chapter 1. Introduction</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="section"><a href="#idp33120">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="#idp36064">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="#idp39408">Service Description</a></span></dt></dl></div><p>
     Today mobile applications retrieve asynchronously information from multiple sites.
-    Developers have two ways to retrieve this information:
+    Developers have two ways to get this information:
   </p><p>
     </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">
-        Polling: Periodically query the information to the server.
+        Poll: Periodically query for information from the server.
       </li><li class="listitem">
         Push: The server sends the information to the client when the required
         information is available.
@@ -16,17 +16,17 @@
   </p><p>
     That is why the PUSH methods are widely used for information retrieval,
     anyway how PUSH platforms are currently working are misusing mobile radio
-    resources and also consuming lot of battery.
+    resources and also consuming too much battery.
   </p><p>
     This article aims to explain how to manage this kind of messaging, problems
     with existing solutions and finally how Telefónica Digital, within the framework
-    of the development of Firefox OS operating system, a new solution designed
-    friendlier to the network and low battery consumption on mobile terminals.
-  </p><div class="section" title="State of the art"><div class="titlepage"><div><div><h2 class="title"><a id="idp9272"/>State of the art</h2></div></div></div><p>
-      Historically mobile operators offered (and offer) real mechanisms PUSH notifications,
+    of the development of Firefox OS operating system, defined a new solution which is
+    friendlier to the network and uses lower battery consumption on mobile devices.
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp33120"/>State of the art</h2></div></div></div><p>
+      Historically, mobile operators offered (and offer) real mechanisms for PUSH notifications,
       also known as WAP PUSH. WAP PUSH can "wake up" applications when any action
-      is required of them by the server side (without interaction from the user).
-      Sending WAP PUSH messages is done in the domain of circuits, the same used
+      is required from them by the server side (without interaction from the user).
+      Sending WAP PUSH messages is done in the circuit-switching domain, the same used
       for voice and SMS, and that is why the user don't need to establish a data connection.
       These kind messages work properly out of the box.
     </p><p>
@@ -39,7 +39,7 @@
       (Apple iOS and Google Android) have implemented a parallel solution that would
       work regardless of the mobile network to which the user belongs and it can
       run smoothly when they are using WiFi networks.
-    </p><div class="section" title="Current Internet solutions issues"><div class="titlepage"><div><div><h3 class="title"><a id="idp11304"/>Current Internet solutions issues</h3></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp36064"/>Current Internet solutions issues</h3></div></div></div><p>
         Internet PUSH solutions are based on a public accesible server which handles
         all the notification delivery.
       </p><p>
@@ -51,7 +51,7 @@
         consume.
         For more information about this, please refer to the
         "<a class="xref" href="#network_issues" title="Chapter 2. Mobile network issues with current PUSH platforms">Mobile network issues with current PUSH platforms</a>" chapter
-      </p></div></div><div class="section" title="Service Description"><div class="titlepage"><div><div><h2 class="title"><a id="idp13248"/>Service Description</h2></div></div></div><p>
+      </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp39408"/>Service Description</h2></div></div></div><p>
       The Notification Server platform is aimed to deliver push notifications
       (small messages like a real-time chat, a JSON data structure defining
       the goal of a soccer match) to web based terminals inside mobile networks.
@@ -61,31 +61,14 @@
       consumption and traffic generated is reduced to the minimal.
       It is developed for working on stable Internet connections, like on
       Wi-Fi or Ethernet.
-    </p></div><div class="section" title="Adventages for developers"><div class="titlepage"><div><div><h2 class="title"><a id="idp14584"/>Adventages for developers</h2></div></div></div><p>
-      Since we want a service to be used, we think it to be very easy to use
-      and to be great for developers.
-    </p><p>
-      Now, we point out some adventages with the use of this solution:
-    </p><p>
-      </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">
-          Easy to use API: Based on web technologies.
-        </li><li class="listitem">
-          Reduce developer deployment consts
-        </li><li class="listitem">
-          More efficient use of the battery and network resources
-        </li><li class="listitem">
-          No registration process needed and no subscriptions
-        </li><li class="listitem">
-          Bigger payloads and more messages per application
-        </li></ul></div><p>
-    </p></div></div><div xml:lang="en" class="chapter" title="Chapter 2. Mobile network issues with current PUSH platforms"><div class="titlepage"><div><div><h2 class="title"><a id="network_issues"/>Chapter 2. Mobile network issues with current PUSH platforms</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#idp33680">Mobile networks in a Private or Public LAN</a></span></dt><dt><span class="section"><a href="#idp35592">Mobile Network. Circuit domain states</a></span></dt><dt><span class="section"><a href="#idp21864">Mobile Network. Package domain states</a></span></dt><dt><span class="section"><a href="#idp64680">Mobile Network. States relation</a></span></dt><dt><span class="section"><a href="#idp80800">Mobile Network. Signalling storms</a></span></dt><dt><span class="section"><a href="#idp108208">Mobile Network. Battery comsuption</a></span></dt></dl></div><p>
+    </p></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="network_issues"/>Chapter 2. Mobile network issues with current PUSH platforms</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="section"><a href="#idp88016">Mobile networks in a Private or Public LAN</a></span></dt><dt><span class="section"><a href="#idp90800">Mobile Network. Circuit domain states</a></span></dt><dt><span class="section"><a href="#idp104976">Mobile Network. Package domain states</a></span></dt><dt><span class="section"><a href="#idp110800">Mobile Network. States relation</a></span></dt><dt><span class="section"><a href="#idp136464">Mobile Network. Signalling storms</a></span></dt><dt><span class="section"><a href="#idp139104">Mobile Network. Battery comsuption</a></span></dt></dl></div><p>
     This chapter explains why current solutions are bad for the mobile networks
     and how we designed this server to solve this issues.
   </p><p>
     In order to understand the complete problem, we need to introduce you on how
     the mobile nerworks work at radio level and also how the carriers have their
     network infrastructure. So, go ahead !
-  </p><div class="section" title="Mobile networks in a Private or Public LAN"><div class="titlepage"><div><div><h2 class="title"><a id="idp33680"/>Mobile networks in a Private or Public LAN</h2></div></div></div><p>
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp88016"/>Mobile networks in a Private or Public LAN</h2></div></div></div><p>
       Since on IPv4 the amount of free adresses is really low, celular networks
       were divided into the ones with real IPv4 adresses (normally for 3G modems)
       and private adressing model for handsets.
@@ -99,7 +82,7 @@
       it's teorically possible to send the message directly making third party
       solutions unuseful, however in order to protect users, carriers can deploy
       firewalls to avoid direct access from Internet to the handset.
-    </p></div><div class="section" title="Mobile Network. Circuit domain states"><div class="titlepage"><div><div><h2 class="title"><a id="idp35592"/>Mobile Network. Circuit domain states</h2></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp90800"/>Mobile Network. Circuit domain states</h2></div></div></div><p>
       In the 3GPP TS 25.331 specification, we can query all the circuit domain
       statues of the RRC Layer (Radio Resource Control).
     </p><p>
@@ -173,7 +156,7 @@
       power comsuption on the device:
     </p><p>
       <img src="resources/rcc_states.png" style="text-align: middle" width="450"/>
-    </p></div><div class="section" title="Mobile Network. Package domain states"><div class="titlepage"><div><div><h2 class="title"><a id="idp21864"/>Mobile Network. Package domain states</h2></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp104976"/>Mobile Network. Package domain states</h2></div></div></div><p>
       In the 3GPP TS 23.060 specification, we can analyse all the package domain
       states of the GMM Layer (GPRS Mobility Management).
     </p><p>
@@ -199,12 +182,12 @@
         <p>
           In this state, the handset hasn't a PDP context established so it hasn't
           a valid IP address.
-        </p></li></ul></div></div><div class="section" title="Mobile Network. States relation"><div class="titlepage"><div><div><h2 class="title"><a id="idp64680"/>Mobile Network. States relation</h2></div></div></div><p>
+        </p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp110800"/>Mobile Network. States relation</h2></div></div></div><p>
       In this section we show the relation between RRC and GMM states.
     </p><p>
       In order to simplify this table, we only consider the handset is only using
       data channels, so no voice nor SMS (circuit domain) is being used.
-    </p><div class="table"><a id="idp65704"/><p class="title"><b>Table 2.1. RCC - GMM relation</b></p><div class="table-contents"><table summary="RCC - GMM relation" border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left">RCC State</th><th style="text-align: left">GMM State (2G/3G)</th><th style="text-align: left">Description</th></tr></thead><tfoot><tr><th style="text-align: left">RCC State</th><th style="text-align: left">GMM State (2G/3G)</th><th style="text-align: left">Description</th></tr></tfoot><tbody><tr><td style="text-align: left">Cell_DCH</td><td style="text-align: left">READY/PMM_CONNECTED</td><td style="text-align: left">
+    </p><div class="table"><a id="idp112464"/><p class="title"><strong>Table 2.1. RCC - GMM relation</strong></p><div class="table-contents"><table summary="RCC - GMM relation" border="1"><colgroup><col style="text-align: left" class="RCC"/><col style="text-align: left" class="GMM"/><col style="text-align: left" class="Desc"/></colgroup><thead><tr><th style="text-align: left">RCC State</th><th style="text-align: left">GMM State (2G/3G)</th><th style="text-align: left">Description</th></tr></thead><tfoot><tr><th style="text-align: left">RCC State</th><th style="text-align: left">GMM State (2G/3G)</th><th style="text-align: left">Description</th></tr></tfoot><tbody><tr><td style="text-align: left">Cell_DCH</td><td style="text-align: left">READY/PMM_CONNECTED</td><td style="text-align: left">
               <p>
                 The handset is transmiting or receiving data information using a
                 dedicated channel or a HSPA shared channel.
@@ -261,7 +244,7 @@
                 Normally this state is after 24h of innactivity in the package
                 domain.
               </p>
-            </td></tr></tbody></table></div></div><br class="table-break"/></div><div class="section" title="Mobile Network. Signalling storms"><div class="titlepage"><div><div><h2 class="title"><a id="idp80800"/>Mobile Network. Signalling storms</h2></div></div></div><p>
+            </td></tr></tbody></table></div></div><br class="table-break"/></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp136464"/>Mobile Network. Signalling storms</h2></div></div></div><p>
       This is a carrier well-know effect after the big adoption of smartphones
       around the word.
     </p><p>
@@ -274,13 +257,13 @@
       opened, the efect is that the handsets is continously changing from one
       state to another producing a lot of signalling in the network and also
       consumes a lot of battery resources.
-    </p></div><div class="section" title="Mobile Network. Battery comsuption"><div class="titlepage"><div><div><h2 class="title"><a id="idp108208"/>Mobile Network. Battery comsuption</h2></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp139104"/>Mobile Network. Battery comsuption</h2></div></div></div><p>
       The battery comsuption depends on the Radio state. The following list
       represent the amount of battery needed on each state represented in
       relative units:
-    </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">RRC IDLE: 1 relative unit</li><li class="listitem">Cell_PCH: &lt; 2 relative unit</li><li class="listitem">URA_PCH: &lt; or equal than Cell_PCH</li><li class="listitem">Cell_FACH: 40 relative units</li><li class="listitem">Cell_DCH: 100 relative units</li></ul></div></div></div><div xml:lang="en" class="chapter" title="Chapter 3. Notification server API"><div class="titlepage"><div><div><h2 class="title"><a id="api"/>Chapter 3. Notification server API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#api_wa_ua">API between WebApp and the User Agent</a></span></dt><dt><span class="section"><a href="#api_ua_ns">API between the User Agent and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_as_ns">API between the Application Server and the Notification Server</a></span></dt><dd><dl><dt><span class="section"><a href="#api_as_ns_simplepush">Simple PUSH API</a></span></dt></dl></dd><dt><span class="section"><a href="#api_wa_as">API between the WA and the AS</a></span></dt><dt><span class="section"><a href="#api_tokens">Tokens</a></span></dt><dd><dl><dt><span class="section"><a href="#idp227208">channelID</a></span></dt><dt><span class="section"><a href="#idp231448">UAID</a></span></dt><dt><span class="section"><a href="#idp232600">endpointURL</a></span></dt></dl></dd><dt><span class="section"><a href="#idp233936">WakeUp</a></span></dt></dl></div><p>
+    </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">RRC IDLE: 1 relative unit</li><li class="listitem">Cell_PCH: &lt; 2 relative unit</li><li class="listitem">URA_PCH: &lt; or equal than Cell_PCH</li><li class="listitem">Cell_FACH: 40 relative units</li><li class="listitem">Cell_DCH: 100 relative units</li></ul></div></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="api"/>Chapter 3. Notification server API</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="section"><a href="#api_wa_ua">API between WebApp and the User Agent</a></span></dt><dt><span class="section"><a href="#api_ua_ns">API between the User Agent and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_as_ns">API between the Application Server and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_wa_as">API between the WA and the AS</a></span></dt><dt><span class="section"><a href="#api_tokens">Tokens</a></span></dt><dd><dl><dt><span class="section"><a href="#idp265680">WAToken</a></span></dt><dt><span class="section"><a href="#idp271728">UAToken</a></span></dt><dt><span class="section"><a href="#idp274112">AppToken</a></span></dt></dl></dd><dt><span class="section"><a href="#idp276336">WakeUp</a></span></dt></dl></div><p>
     The Notification Server API is based on the W3C draft:
-    <a class="link" href="http://dvcs.w3.org/hg/push/raw-file/default/index.html" target="">
+    <a class="link" href="http://dvcs.w3.org/hg/push/raw-file/default/index.html">
       [http://dvcs.w3.org/hg/push/raw-file/default/index.html]
     </a>
   </p><p>
@@ -302,7 +285,7 @@
           Centralized infrastructure of the notification
           server platform. This one can be freely deployed by anyone since it's
           open source:
-          <a class="link" href="https://github.com/telefonicaid/notification_server" target="">
+          <a class="link" href="https://github.com/telefonicaid/notification_server">
             [https://github.com/telefonicaid/notification_server]
           </a>.
           The protocol also allows to use any server infrastructure the user wants
@@ -319,38 +302,62 @@
         </p></li></ul></div><p>
   </p><p>
     <img src="resources/actors_and_channels.png" style="text-align: middle" width="450"/>
-  </p><p>
-    The following sequence diagram shows a tipical message flow between actors:
-  </p><p>
-    <img src="resources/ns-arch-en.png" style="text-align: middle" width="496"/>
-  </p><div xml:lang="en" class="section" title="API between WebApp and the User Agent"><div class="titlepage"><div><div><h2 class="title"><a id="api_wa_ua"/>API between WebApp and the User Agent</h2></div></div></div><p>
+  </p><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="api_wa_ua"/>API between WebApp and the User Agent</h2></div></div></div><p>
     This API is mainly based on the W3C draft as specified in
-    <a class="link" href="http://dvcs.w3.org/hg/push/raw-file/default/index.html" target="">
+    <a class="link" href="http://dvcs.w3.org/hg/push/raw-file/default/index.html">
       [http://dvcs.w3.org/hg/push/raw-file/default/index.html]
     </a>
   </p><p>
-    Also there is more information about Simple PUSH API here:
-    <a class="link" href="https://wiki.mozilla.org/WebAPI/SimplePush" target="">
-      [https://wiki.mozilla.org/WebAPI/SimplePush]
-    </a>
+    With this API the application is able to register itself into the
+    Notification Server and recover the public URL to be used as notification
+    URL by his Application Server (AS).
   </p><p>
-    With this API the application is able to register notification
-    channels itself into the Notification Server and recover the public URL
-    to be used as the notification endpointURL by his Application Server (AS).
-  </p><p>
-    This API (under the navigator.push object) defines these methods:
+    This API (under the navigator.mozPush object) defines these methods:
     </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">
-        register
+        requestURL
       </li><li class="listitem">
-        unregister
-      </li><li class="listitem">
-        registrations
+        getCurrentURL
       </li></ul></div><p>
-    </p><div class="section" title="navigator.push.register"><div class="titlepage"><div><div><h4 class="title"><a id="idp139160"/>navigator.push.register</h4></div></div></div><p>
-        This method allows the application to register a new channel.
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp197856"/>navigator.mozPush.requestURL</h4></div></div></div><p>
+        This method allows the application to register it self into the
+        notification server.
         </p><pre class="programlisting">
         
-        navigator.push.register()
+        navigator.mozPush.requestURL(watoken, pbk)
+        
+        </pre><p>
+      </p><p>
+        This method should receive this two parameters:
+        </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">
+            watoken: The WA Token used to identify the user of the application.
+            <p>
+              The application developer can decide to use the same WAToken for
+              all his users or a group of them so the notification will act
+              as a broadcast message
+            </p><p>
+              It's very important to note that this token (mainly if used to
+              identify one particular user) SHALL be a secret. It's recommended
+              that this token will be generated by the server using a SHA hash
+              based on the login details (as an identification cookie).
+            </p><p>
+              If this parameter is not provided, a randomized one will be
+              generated by the UA engine.
+            </p></li><li class="listitem">
+            pbk: This parameter will contain a RSA Public key coded in BASE64.
+            <p>
+              This public key will be used by the notification server to
+              validate the received messages signature, so the private key
+              will be used by the AS to sign the messages.
+            </p></li></ul></div><p>
+      </p><p>
+        It's under definition to send two parameters or only one which will be
+        a JSON object:
+        </p><pre class="programlisting">
+        
+        navigator.mozPush.requestURL({
+          watoken: &lt;watoken&gt;,
+          pbk: &lt;Base64 codified public key&gt;
+        })
         
         </pre><p>
       </p><p>
@@ -358,9 +365,9 @@
         sent to the AS in order to be able to send notifications.
       </p><pre class="programlisting">
         
-        var req = navigator.push.register();
+        var req = navigator.mozPush.requestURL(this.watoken, this.pbk);
         req.onsuccess = function(e) {
-          alert("Received URL: " + req.result.pushEndpoint);
+          alert("Received URL: " + req.result.url);
         };
         req.onerror = function(e) {
           alert("Error registering app");
@@ -368,85 +375,64 @@
         
       </pre></div><p>
 
-    </p><div class="section" title="navigator.push.unregister"><div class="titlepage"><div><div><h4 class="title"><a id="idp141328"/>navigator.push.unregister</h4></div></div></div><p>
-        This method allows the application to unregister a previously registered
-        channel.
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp206768"/>navigator.mozPush.getCurrentURL</h4></div></div></div><p>
+        This method allows the application to recover a previously requested
+        URL to the UA API, so it's not needed to ask for it to the
+        notification server.
+        </p><pre class="programlisting">
+        
+        navigator.mozPush.getCurrentURL()
+        
+        </pre><p>
+      </p><p>
+        This methods will response asynchronously with the URL to be
+        sent to the AS in order to be able to send notifications.
       </p><pre class="programlisting">
         
-        navigator.push.unregister(endPointURL);
+        var req = navigator.mozPush.getCurrentURL();
+        req.onsuccess = function(e) {
+          alert("URL = " + req.result.url);
+        };
+        req.onerror = function(e) {
+          alert("Error getting URL");
+        }
         
       </pre></div><p>
   </p><p>
     After register the application into the Notification Server, all received
-    notification through the given URL will be delivered to the WA registered
-    channel.
+    notification through the given URL will be delivered to all user agents
+    which registered the pair (WAToken + PBK).
   </p><p>
     Since the notifications will be received by the UA it's needed a way to
     notify each application. The current specification is using the new
     System Messages infrastructure defined in FirefoxOS.
   </p><p>
     In this case, the application shall register to the "push-notification"
-    event handler:
+    event handlser:
     </p><pre class="programlisting">
     
-    navigator.mozSetMessageHandler("push", function(msg) {
+    navigator.mozSetMessageHandler("push-notification", function(msg) {
       alert("New Message with body: " + JSON.stringify(msg));
     });
     
     </pre><p>
   </p><p>
-    Inside the msg you'll receive the pushEndpoint URL so an app can register
-    as many channels as it wants and with this attribute has a chance to
-    differenciate one from another.
-  </p><p>
     The complete example:
     </p><pre class="programlisting">
       
-        var emailEndpoint, imEndpoint;
-
-        // The user has logged in, now's a good time to register the channels
-        MyAppFramework.addEventListener('user-login', function() {
-          setupAppRegistrations();
+      var req = navigator.mozPush.requestURL(this.watoken, this.pbk);
+      req.onsuccess = function(e) {
+        alert("Received URL: " + req.result.url);
+        navigator.mozSetMessageHandler("push-notification", function(msg) {
+          alert("New Message with body: " + JSON.stringify(msg));
         });
-
-        function setupAppRegistrations() {
-         // Issue a register() call
-         // to register to listen for a notification,
-         // you simply call push.register
-         // Here, we'll register a channel for "email" updates.
-         // Channels can be for anything the app would like to get notifications for.
-         var reqEmail = navigator.push.register();
-         reqEmail.onsuccess = function(e) {
-           emailEndpoint = e.target.result.pushEndpoint;
-           storeOnAppServer("email", emailEndpoint); // This is the "Hand wavey" way that the App 
-                                                     // sends the endPoint back to the AppServer
-         }
-
-         // We'll also register a second channel for "im", because we're social and all about the socialists. Or something.
-         var reqIm = navigator.push.register();
-         reqIm.onsuccess = function(e) {
-           imEndpoint = e.target.result.pushEndpoint;
-           storeOnAppServer("im", imEndpoint);
-         }
-        }
-
-        // Once we've registered, the AppServer can send version pings to the EndPoint.
-        // This will trigger a 'push' message to be sent to this handler.
-        navigator.mozSetMessageHandler('push', function handlePushMessage(message) {
-          if (message.pushEndpoint == emailEndpoint)   // Yay! New Email! Steve and blue can dance!
-            getNewEmailMessagesFromAppServer(message.version);
-          else if (message.pushEndpoint == imEndpoint) // Yay! An IM awaits. I wonder if it's Sam's IM?
-            getNewChatMessagesFromAppServer();
-        });
-
-        // to unregister, you simply call..
-        AppFramework.addEventListener('user-logout', function() {
-          navigator.push.unregister(emailEndpoint);
-          navigator.push.unregister(imEndpoint);
-        });
+      };
+      req.onerror = function(e) {
+        alert("Error registering app");
+      }
       
     </pre><p>
-  </p></div><div xml:lang="en" class="section" title="API between the User Agent and the Notification Server"><div class="titlepage"><div><div><h2 class="title"><a id="api_ua_ns"/>API between the User Agent and the Notification Server</h2></div></div></div><p>
+  </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="api_ua_ns"/>API between the User Agent and the Notification Server</h2></div></div></div><p>
     With this API the client device is able to register his applications and
     itself into the selected notification server.
   </p><p>
@@ -455,376 +441,306 @@
   </p><p>
     The UA-NS API is divided in two transport protocols:
     </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">
-        HTTP API: Through the HTTP transport protocol the NS will deliver
-        some information about server status.
+        POST API: Through the HTTP POST transport protocol the NS will deliver
+        valid UATokens to the device.
       </li><li class="listitem">
         WebSocket API: This is the most important one since all the
-        communications with the NS SHALL be driven through this API.
+        communications (except to recover tokens) with the NS SHALL be driven
+        through this API.
         <p>
           On future releases will be supported another channels as Long-Polling
           solutions in order to cover devices which don't support Web Sockets.
         </p></li></ul></div><p>
-    </p><div class="section" title="HTTP API"><div class="titlepage"><div><div><h4 class="title"><a id="idp91576"/>HTTP API</h4></div></div></div><p>
-        This channel only offers one method to get server information.
-      </p><div class="section" title="about"><div class="titlepage"><div><div><h5 class="title"><a id="idp92240"/>about</h5></div></div></div><p>
-          This method responds an HTML page with general information about the
-          running server like number of connections, number of process running...
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp219664"/>HTTP POST API</h4></div></div></div><p>
+        This channel only offers one method to get a valid UAToken.
+      </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp220768"/>GET UA TOKEN</h5></div></div></div><p>
+          This method SHOULD be protected to avoid DoS attacks getting millions of
+          valid tokens, in any case, this is out of the scope of this protocol.
+        </p><p>
+          The TOKEN method is called with a simple URL:
+          <code class="code">https://&lt;notification_server_base_URL&gt;/token</code>
+        </p><p>
+          The server will respond with an AES encrypted valid token.
+          This token SHALL be used to identify the device in future connections.
         </p></div></div><p>
-    </p><div class="section" title="WebSocket API"><div class="titlepage"><div><div><h4 class="title"><a id="idp93152"/>WebSocket API</h4></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp223664"/>WebSocket API</h4></div></div></div><p>
         Through this channel the device will register itself, his applications,
         and also will be used to deliver PUSH notifications
       </p><p>
-        The websocket API supports multiple subprotocols identified each one
-        with it's name:
-        </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">
-            push-notification
-            <p>
-              Simple protocol defined by Mozilla and Telefonica and described
-              here:
-              <a class="link" href="https://wiki.mozilla.org/WebAPI/SimplePush/Protocol" target="">
-                [https://wiki.mozilla.org/WebAPI/SimplePush/Protocol]
-              </a>.
-            </p></li><li class="listitem">
-            push-notification-binary
-            <p>
-              Binary version of the push-notification protocol
-            </p></li><li class="listitem">
-            push-extended-notification
-            <p>
-              Telefonica extended solution which provides more functionalities
-            </p></li></ul></div><p>
-      </p><div xml:lang="en" class="section" title="WebSocket: push-notification"><div class="titlepage"><div><div><h5 class="title"><a id="api_ua_ns_websocket_pushnotification"/>WebSocket: push-notification</h5></div></div></div><p>
-    Also know as "Simple push protocol" and defined by Mozilla and Telefonica.
+        All methods sent through this channel will have the same JSON structure:
+      </p><pre class="programlisting">
+      
+      {
+        messageType: "&lt;type of message&gt;",
+        ... other data ...
+      }
+      
+      </pre><p>
+        In which messageType defines one of these commands:
+      </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp226512"/>registerUA</h5></div></div></div><p>
+          With this method the device is able to register itself.
+        </p><p>
+          When a device is registering to a notification server, it SHALL send
+          his own valid UAToken and also the device can send additional information
+          that can be used to optimize the way the messages will be delivered
+          to this device.
+        </p><pre class="programlisting">
+        
+        {
+          messageType: "registerUA",
+          data: {
+            uatoken: "&lt;a valid UAToken&gt;",
+            interface: {
+              ip: "&lt;current device IP address&gt;",
+              port: "&lt;TCP or UDP port in which the device is waiting for wake up notifications&gt;"
+            },
+            mobilenetwork: {
+              mcc: "&lt;Mobile Country Code&gt;",
+              mnc: "&lt;Mobile Network Code&gt;"
+            }
+          }
+        }
+        
+        </pre><p>
+          The interface and mobilenetwork optional data will be used by the server
+          to identify if it has the required infrastructure into the user's mobile
+          network in order to send wakeup messages to the IP and port indicated
+          in the interface data so it's able to close the WebSocket channel to reduce
+          signalling and battery consume.
+        </p><p>
+          The server response can be:
+          </p><pre class="programlisting">
+          
+          {
+            status: "REGISTERED",
+            statusCode: 200,
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+          </p><pre class="programlisting">
+          
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "Data received is not a valid JSON package",
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+          </p><pre class="programlisting">
+          
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "Token is not valid for this server",
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+          </p><pre class="programlisting">
+          
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "...",
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+        </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp233952"/>registerWA</h5></div></div></div><p>
+          This method is used to register installed applications on the device.
+          This shall be send to the notification server after a valid UA registration.
+        </p><p>
+          Normally, this method will be used each time an application requires a
+          new push notification URL (through the WA-UA API) or also each time the
+          device is powered on and is re-registering previously registered applications.
+        </p><p>
+          The required data for application registration is the WAToken and the
+          public key.
+        </p><pre class="programlisting">
+        
+        {
+          messageType: "registerWA",
+          data: {
+            uatoken: "&lt;a valid UAToken&gt;",
+            watoken: "&lt;the WAToken&gt;",
+            pbkbase64: "&lt;BASE64 coded public key&gt;"
+          }
+        }
+        
+        </pre><p>
+          The server response can be:
+          </p><pre class="programlisting">
+          
+          {
+            status: "REGISTERED",
+            statusCode: 200,
+            url: "&lt;publicURL required to send notifications&gt;",
+            messageType: "registerUA"
+          }
+          
+          </pre><p>
+          </p><pre class="programlisting">
+          
+          {
+            status: "ERROR",
+            statusCode: 40x,
+            reason: "...",
+            messageType: "registerWA"
+          }
+          
+          </pre><p>
+        </p><p>
+          The device service should redirect the received URL to the correct
+          application.
+        </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp239888"/>getAllMessages</h5></div></div></div><p>
+          This method is used to retrieve all pending messages for one device.
+        </p><p>
+          This will be used each time the device is Waked Up, so it's polling
+          pending messages.
+        </p><pre class="programlisting">
+        
+        {
+          messageType: "getAllMessages",
+          data: {
+            uatoken: "&lt;a valid UAToken&gt;"
+          }
+        }
+        
+        </pre><p>
+          The server response can be:
+          </p><pre class="programlisting">
+          
+          {
+            messageType: "getAllMessages",
+            [
+              &lt;Array of notifications with the same format
+               as defined in the notification method&gt;
+            ]
+          }
+          
+          </pre><p>
+        </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp243728"/>notification</h5></div></div></div><p>
+          This message will be used by the server to inform about new notification
+          to the device.
+        </p><p>
+          All recieved notification will have this structure:
+        </p><pre class="programlisting">
+        
+        {
+          messageType: "notification",
+          id: "&lt;ID used by the Application Server&gt;",
+          message: "&lt;Message payload&gt;",
+          timestamp: "&lt;Since EPOCH Time&gt;",
+          priority: "&lt;prio&gt;",
+          messageId: "&lt;ID of the message&gt;",
+          url: "&lt;publicURL which identifies the final application&gt;"
+        }
+        
+        </pre></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp246448"/>ack</h5></div></div></div><p>
+          For each received notification through notification or getAllMessages,
+          the server SHOULD be notified in order to free resources related to
+          this notifications.
+        </p><p>
+          This message is used to acknoledge the message reception.
+        </p><pre class="programlisting">
+          
+          {
+            messageType: "ack",
+            messageId: "&lt;ID of the received message&gt;"
+          }
+          
+          </pre></div></div><p>
+  </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="api_as_ns"/>API between the Application Server and the Notification Server</h2></div></div></div><p>
+    With this API the Application server is able to send asynchronous notifications
+    to his user's without heavy infrastructure requirements or complex technical skills.
   </p><p>
-    This protocol is based in the
-    <a class="link" href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/pubs/archive/37474.pdf" target="">
-      Thialfi protocol
-    </a>.
-    described by Google.
+    This is a simple REST API which will be improved in future releases.
   </p><p>
-    Also you can read more about this protocol in the Mozilla Wiki:
-    <a class="link" href="https://wiki.mozilla.org/WebAPI/SimplePush/Protocol" target="">
-      [https://wiki.mozilla.org/WebAPI/SimplePush/Protocol]
-    </a>.
-  </p><p>
-    In order to use this subprotocol, the "push-notification"
-    string shall be sent into the websocket handsake headers.
-  </p><p>
-    All methods sent through this channel will have the same JSON structure:
-  </p><pre class="programlisting">
-  
-  {
-    messageType: "&lt;type of message&gt;",
-    ... other data ...
-  }
-  
-  </pre><p>
-    In which messageType defines one of these commands:
-  </p><div class="section" title="hello"><div class="titlepage"><div><div><h6 class="title"><a id="idp189208"/>hello</h6></div></div></div><p>
-      With this method the device is able to register itself.
-    </p><p>
-      The device is responsible to give the server a valid UAID. If the
-      provided UAID is not valid or is "null", the server will respond
-      with a valid one.
-    </p><p>
-      In next connections the UAID given by the server SHALL be used.
-    </p><p>
-      When a device is registering to a notification server, it SHALL send
-      his own valid UAID and also the device can send additional information
-      that can be used to optimize the way the messages will be delivered
-      to this device.
-    </p><p>
-      If it's not the first connection, the device can send a list of
-      registered channels in order to syncronize client and server data.
-      This mechanism allows a way to recover channels after a server crash.
-    </p><pre class="programlisting">
-    
-    {
-      messageType: "hello",
-      uaid: "&lt;a valid UAToken&gt;",
-      channelIDs: [&lt;a list of channels to sync [OPTIONAL]&gt;],
-      wakeup_hostport: {
-        ip: "&lt;current device IP address&gt;",
-        port: "&lt;TCP or UDP port in which the device is waiting for wake up notifications&gt;"
-      },
-      mobilenetwork: {
-        mcc: "&lt;Mobile Country Code&gt;",
-        mnc: "&lt;Mobile Network Code&gt;"
-      }
-    }
-    
-    </pre><p>
-      The wakeup_hostport and mobilenetwork optional data will be used by the server
-      to identify if it has the required infrastructure into the user's mobile
-      network in order to send wakeup messages to the IP and port indicated
-      in the wakeup_hostport data so it's able to close the WebSocket channel to reduce
-      signalling and battery consume.
-    </p><p>
-      The channelIDs array is sent by the client in order to synchronize server
-      and client.
-    </p><p>
-      When the server receives a new hello message and the UAID provided by the
-      client is a valid one (in other words, is the same returned to the client)
-      the channelIDs list will be used to syncronize the server information with
-      the client one.
-    </p><p>
-      For example, after a server crash, all client channels
-      will be recovered with this simple method.
-    </p><p>
-      Another example, if the client uninstalled an app when the handset was
-      offline, next time it connects will send tne channel list with one less,
-      so the server will unregister this channel.
-    </p><p>
-      The server response can be one of these:
-      </p><pre class="programlisting">
-      
-      {
-        messageType: "hello",
-        uaid: "&lt;a valid UAID&gt;",
-        status: 200
-      }
-      
-      </pre><p>
-      if it's connected through a permanent websocket, or:
-      </p><pre class="programlisting">
-      
-      {
-        messageType: "hello",
-        uaid: "&lt;a valid UAID&gt;",
-        status: 201
-      }
-      
-      </pre><p>
-      if it's connected to a wakeup channel (UDP).
-      </p><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
-        This hello response differenciation is pending to change
-        in order to use Websocket close status:
-        <a class="link" href="https://github.com/telefonicaid/notification_server/issues/178" target="">
-          on this Github Pull Request
-        </a>.
-      </div><p>
-      </p><pre class="programlisting">
-      
-      {
-        messageType: "hello",
-        status: 4xx,
-        reason: "&lt;any reason&gt;"
-      }
-      
-      </pre><p>
-      on any error case, like:
-      </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">460: Error registering UAID</li></ul></div><p>
-    </p><p>
-      This method is also used to anounce a new IP address or a network change.
-    </p><p>
-      <img src="resources/seqdiags/change_ip.png" style="text-align: middle" width="450"/>
-    </p></div><div class="section" title="register"><div class="titlepage"><div><div><h6 class="title"><a id="idp198472"/>register</h6></div></div></div><p>
-      This method is used to register push channels. Each application can
-      register as many channels as it wants. Each channel maintains an
-      independent counter about the last version of the channel.
-    </p><p>
-      This shall be send to the notification server after a valid UA
-      registration.
-    </p><p>
-      Normally, this method will be used each time an application requires a
-      new channel to receive Thialfi like notifications. A new endpoint URL
-      will be delivered (through the WA-UA API).
-    </p><p>
-      No data is required at application level, only the UA client is
-      responsible to generate a unique channelID for the handset. The channelID
-      can be the same in different devices since the UAID will be used in the
-      endpoint URL hash.
-    </p><pre class="programlisting">
-    
-    {
-      messageType: "register",
-      channelID: "&lt;a new channelID&gt;"
-    }
-    
-    </pre><p>
-      The server response can be:
-      </p><pre class="programlisting">
-      
-      {
-        messageType: "register",
-        status: 200,
-        pushEndpoint: "&lt;publicURL required to send notifications&gt;",
-        channelID: "&lt;the channelID&gt;"
-      }
-      
-      </pre><p>
-      </p><pre class="programlisting">
-      
-      {
-        messageType: "register",
-        status: 4xx,
-        reason: "&lt;any reason&gt;"
-      }
-      
-      </pre><p>
-      on any error case, like:
-      </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">457: Not valid channelID</li><li class="listitem">408: Server is not ready yet</li></ul></div><p>
-    </p><p>
-      The device service should redirect the received URL to the correct
-      application.
-    </p></div><div class="section" title="unregister"><div class="titlepage"><div><div><h6 class="title"><a id="idp203344"/>unregister</h6></div></div></div><p>
-      This method is used to unregister a push channel.
-    </p><p>
-      This shall be send to the notification server after a valid UA
-      registration.
-    </p><pre class="programlisting">
-    
-    {
-      messageType: "unregister",
-      channelID: "&lt;a new channelID&gt;"
-    }
-    
-    </pre><p>
-      The server response can be:
-      </p><pre class="programlisting">
-      
-      {
-        messageType: "register",
-        channelID: "&lt;a new channelID&gt;"
-        status: 202
-      }
-      
-      </pre><p>
-      </p><pre class="programlisting">
-      
-      {
-        messageType: "register",
-        status: 4xx,
-        reason: "&lt;any reason&gt;"
-      }
-      
-      </pre><p>
-      on any error case, like:
-      </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">408: Server is not ready yet</li></ul></div><p>
-    </p></div><div class="section" title="notification"><div class="titlepage"><div><div><h6 class="title"><a id="idp206544"/>notification</h6></div></div></div><p>
-      This message will be used by the server to inform about new notification
-      to the device.
-    </p><p>
-      All recieved notification(s) will have this structure:
+    This version accepts only one HTTP POST method used to send the notification
+    payload. The following payload SHALL be POSTED to the publicURL which defines
+    the application and user, like:
+    <code class="code">https://push.telefonica.es/notify/SOME_RANDOM_TOKEN</code>
     </p><pre class="programlisting">
     
     {
       messageType: "notification",
-      updates: [
-        {
-          channelID: "&lt;channelID&gt;",
-          version: "&lt;versionNumber&gt;"
-        },
-        {
-          channelID: "&lt;channelID&gt;",
-          version: "&lt;versionNumber&gt;"
-        },
-        ...
-      ]
+      id: "&lt;ID used by the Application Server&gt;",
+      message: "&lt;Message payload&gt;",
+      signature: "&lt;Signed message&gt;",
+      ttl: "&lt;time to live&gt;",
+      timestamp: "&lt;Since EPOCH Time&gt;",
+      priority: "&lt;prio&gt;",
     }
-    
-    </pre><p>
-      On updates list, is returned all the list of pending notifications (last
-      version of each channel)
-    </p></div><div class="section" title="desktop-notification"><div class="titlepage"><div><div><h6 class="title"><a id="idp208568"/>desktop-notification</h6></div></div></div><p>
-      This message will be used by the server to inform about new desktop
-      notification to the device.
-    </p><p>
-      These notifications SHOULD be showed into the device notification area.
-    </p><p>
-      All recieved notification(s) will have this structure:
-    </p><pre class="programlisting">
-    
-    {
-      messageType: "desktopNotification",
-      updates: [
-        {
-          channelID: "&lt;channelID&gt;",
-          _internal_id: "&lt;id&gt;",
-          body: "&lt;some text&gt;"
-        },
-        {
-          channelID: "&lt;channelID&gt;",
-          _internal_id: "&lt;id&gt;",
-          body: "&lt;some text&gt;"
-        },
-        ...
-      ]
-    }
-    
-    </pre><p>
-      On updates list, is returned all the list of pending notifications (last
-      version of each channel)
-    </p></div><div class="section" title="ack"><div class="titlepage"><div><div><h6 class="title"><a id="idp210960"/>ack</h6></div></div></div><p>
-      For each received notification through notification, the server SHOULD be
-      notified in order to free resources related to this notifications.
-    </p><p>
-      This message is used to acknoledge the message reception.
-    </p><pre class="programlisting">
-      
-      {
-        messageType: "ack",
-        updates: [
-          {
-            channelID: "&lt;channelID&gt;",
-            version: "&lt;versionNumber&gt;"
-          },
-          {
-            channelID: "&lt;channelID&gt;",
-            version: "&lt;versionNumber&gt;"
-          },
-          ...
-        ]
-      }
-      
-      </pre></div><div class="section" title="Keep-alive algorithm"><div class="titlepage"><div><div><h6 class="title"><a id="idp212736"/>Keep-alive algorithm</h6></div></div></div><p>
-      If it's needed a way to maintaint the socket open along time, a PING-PONG
-      mechanism is also implemented.
-    </p><p>
-      The client sents an empty JSON object "{}" and the server will respond another
-      empty object "{}" and/or a notification response (if pending notifications).
-    </p><p>
-      A more refined version is on working
-      <a class="link" href="https://github.com/telefonicaid/notification_server/pull/137" target="">
-        on this Github Pull Request
-      </a>.
-    </p></div><div class="section" title="Wakeup websocket close"><div class="titlepage"><div><div><h6 class="title"><a id="idp214640"/>Wakeup websocket close</h6></div></div></div><p>
-      As explained before, when the client informs about the mobile network is in and
-      the server has the required infrastructure in that mobile network, the websocket
-      will be closed after a predefined inactivity time (10 seconds).
-    </p><p>
-      When this timer fires, the websocket will be closed with the 4774 status code.
-    </p><p>
-      <a class="link" href="http://tools.ietf.org/html/rfc6455#page-45" target="">
-        [WebSocket protocol]
-      </a>.
-    </p></div></div></div><p>
-  </p></div><div xml:lang="en" class="section" title="API between the Application Server and the Notification Server"><div class="titlepage"><div><div><h2 class="title"><a id="api_as_ns"/>API between the Application Server and the Notification Server</h2></div></div></div><p>
-    This chapter explains the different APIs available to third party servers
-  </p><div xml:lang="en" class="section" title="Simple PUSH API"><div class="titlepage"><div><div><h3 class="title"><a id="api_as_ns_simplepush"/>Simple PUSH API</h3></div></div></div><p>
-    With this API the Application server is able to update version number to
-    specified channel.
-  </p><p>
-    This is a simple HTTP API (PUT method).
-  </p><p>
-    This version accepts only one HTTP PUT method used to update version number
-    of a channel. The following payload SHALL be POSTED to the endpointURL:
-    <code class="code">https://server:port/v1/notify/SOME_RANDOM_TOKEN</code>
-    </p><pre class="programlisting">
-    
-    version=&lt;version_number&gt;
-    
-    </pre><p>
-    and for desktop notifications:
-    </p><pre class="programlisting">
-    
-    body=&lt;any text&gt;[&amp;ttl=&lt;ttl&gt;]
     
     </pre><p>
   </p><p>
     The server response can be one of the following:
-    </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">STATUS: 200</li><li class="listitem">STATUS: 404 = Channel not found</li><li class="listitem">STATUS: 404 = Bad body received</li><li class="listitem">STATUS: 404 = Bad version received</li></ul></div><p>
-  </p></div></div><div class="section" title="API between the WA and the AS"><div class="titlepage"><div><div><h2 class="title"><a id="api_wa_as"/>API between the WA and the AS</h2></div></div></div><p>
+  </p><pre class="programlisting">
+    STATUS: 200
+    
+    {
+      status: "ACCEPTED"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "JSON not valid"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "Not messageType=notification"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "Body too big"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "You must sign your message with your Private Key"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "Bad signature, dropping notification"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "Try again later"
+    }
+    
+  </pre><pre class="programlisting">
+    STATUS: 40x
+    
+    {
+      status: "ERROR",
+      reason: "No valid AppToken"
+    }
+    
+  </pre></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="api_wa_as"/>API between the WA and the AS</h2></div></div></div><p>
       This is a third party API which is independent of the PUSH protocol, so
       it's out of the scope of this document.
     </p><p>
@@ -833,24 +749,21 @@
     </p><p>
       Also this channel could be used to receive valid WATokens to be used during
       the WA registration.
-    </p></div><div xml:lang="en" class="section" title="Tokens"><div class="titlepage"><div><div><h2 class="title"><a id="api_tokens"/>Tokens</h2></div></div></div><p>
+    </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="api_tokens"/>Tokens</h2></div></div></div><p>
     The tokens are an important part of this API since it identifies each
     (user) actor (device and applications) in a unique or shared way.
-  </p><div class="section" title="channelID"><div class="titlepage"><div><div><h3 class="title"><a id="idp227208"/>channelID</h3></div></div></div><p>
-      This token identifies the user or group of users and on extended API
-      SHALL be a secret but in simple push API (thialfi like) it's not needed
-      to be a secret.
+  </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp265680"/>WAToken</h3></div></div></div><p>
+      This token identifies the user or group of users and SHALL be a secret.
     </p><p>
-      If this token is UNIQUE (and secret, of course) will identify a unique
+      If this token is UNIQUE (and secret, of coures) will identify a unique
       instance of the application related (normally) to one user. In this case
-      the returned URL will be unique for this channelID. On simple push, each
-      device with same channelID will receive a unique endpointURL.
+      the returned URL will be unique for this WAToken.
     </p><p>
       If this token is shared by different devices of the SAME user (and secret),
       will identify a unique user with multiple devices. In this case, the returned
       URL will be unique per user but each URL will identify multiple devices
       the user is using.
-    </p><div class="example"><a id="idp228992"/><p class="title"><b>Example 3.1. Multiple device messages</b></p><div class="example-contents"><p>
+    </p><div class="example"><a id="idp268080"/><p class="title"><strong>Example 3.1. Multiple device messages</strong></p><div class="example-contents"><p>
         This can be used by applications in which the user require the same
         information across his devices, like the mobile and the desktop app.
         Can be used, for example, by e-mail clients.
@@ -860,22 +773,25 @@
       identify all instances of the same application. In this case each notification
       received in the publicURL will be delivered to ALL the devices which have
       the application installed (and registered). This will be a BROADCAST message.
-    </p><div class="example"><a id="idp230520"/><p class="title"><b>Example 3.2. Message broadcast</b></p><div class="example-contents"><p>
+    </p><div class="example"><a id="idp270272"/><p class="title"><strong>Example 3.2. Message broadcast</strong></p><div class="example-contents"><p>
         This can be used by applications in which all users require exactly the
         same information at the same time, like weather applications, latest news, ...
-      </p></div></div><br class="example-break"/></div><div class="section" title="UAID"><div class="titlepage"><div><div><h3 class="title"><a id="idp231448"/>UAID</h3></div></div></div><p>
+      </p></div></div><br class="example-break"/></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp271728"/>UAToken</h3></div></div></div><p>
       This token identifies each customer device in a unique way.
     </p><p>
       This token is also used as an identification key since this isn't a random
       one. This token is an AES encrypted string which will be checked for
       validaty each time it's used.
-    </p></div><div class="section" title="endpointURL"><div class="titlepage"><div><div><h3 class="title"><a id="idp232600"/>endpointURL</h3></div></div></div><p>
+    </p><p>
+      This token should be delivered after identify the user in a valid way,
+      anyway this identification procedure is out of the scope of this specification.
+    </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp274112"/>AppToken</h3></div></div></div><p>
       Automatic generated token by the notification server which identifies the
-      application + user/device as in a unique fashion.
+      application + user as in a unique fashion.
     </p><p>
       This token is included in the publicURL which identifies the application,
       and normally is a SHA256 hashed string with the WATokent + the Public Key.
-    </p></div></div><div class="section" title="WakeUp"><div class="titlepage"><div><div><h2 class="title"><a id="idp233936"/>WakeUp</h2></div></div></div><p>
+    </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp276336"/>WakeUp</h2></div></div></div><p>
       When the handset is inside a mobile operator network, we can close the
       websocket to reduce battery comsuption and also network resources.
     </p><p>
@@ -884,44 +800,103 @@
     </p><p>
       When the mobile receives this datagram, it SHALL connect to the websocket
       interfaces in order to pull all pending messages.
-    </p></div></div><div xml:lang="en" class="chapter" title="Chapter 4. Log traces"><div class="titlepage"><div><div><h2 class="title"><a id="logtraces"/>Chapter 4. Log traces</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#logtraces_NOTIFY_generated">NOTIFY level</a></span></dt><dd><dl><dt><span class="section"><a href="#idp61208"> ID 0x1001 - datastore::removeMessage --&gt; Message removed from MongoDB ::messageId</a></span></dt><dt><span class="section"><a href="#idp126520"> ID 0x1002 - datastore::ackMessage --&gt; Message ACKed</a></span></dt><dt><span class="section"><a href="#idp116856"> ID 0x1101 - appToken=::appToken -- version=::version</a></span></dt><dt><span class="section"><a href="#idp149696"> ID 0x1102 - Storing message for the '::apptoken' apptoken. Internal Id: ::id</a></span></dt><dt><span class="section"><a href="#idp146512"> ID 0x1203 - MSG_mon::onNodeData --&gt; Notify into the messages queue of node ::serverId # ::messageId</a></span></dt><dt><span class="section"><a href="#idp147264"> ID 0x1301 - Message with id ::messageId sent to ::uaid</a></span></dt><dt><span class="section"><a href="#idp148000"> ID 0x1401 - Notifying node: ::uaid to ::wakeupip:::wakeupport on network ::mcc-::mnc and using protocol ::protocol</a></span></dt><dt><span class="section"><a href="#idp184816"> ID 0x1501 - NS_WakeUp::onHTTPMessage --&gt; Received request for ::url</a></span></dt><dt><span class="section"><a href="#idp185536"> ID 0x1502 - WakeUp TCP packet to ::ip:::port - FAILED</a></span></dt><dt><span class="section"><a href="#idp186272"> ID 0x1503 - WakeUp TCP packet succesfully sent to ::ip:::port</a></span></dt><dt><span class="section"><a href="#idp187016"> ID 0x1504 - WakeUp Datagram sent to ::ip:::port</a></span></dt></dl></dd><dt><span class="section"><a href="#logtraces_ERROR_generated">ERROR level</a></span></dt><dd><dl><dt><span class="section"><a href="#idp110944"> ID 0x2000 - ::class::::method --&gt; ::extra, FIX YOUR BACKEND</a></span></dt><dt><span class="section"><a href="#idp111656"> ID 0x2001 - datastore::::method --&gt; There was a problem opening the nodes collection --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp112432"> ID 0x2002 - datastore::::method --&gt; there was a problem opening the apps collection --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp113208"> ID 0x2003 - datastore::::method --&gt; There was a problem opening the operators collection --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp113992"> ID 0x2004 - datastore::::method --&gt; There was a problem opening the messages collection --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp114776"> ID 0x2005 - datastore::registerNode --&gt; Error inserting/updating node into MongoDB -- ::error</a></span></dt><dt><span class="section"><a href="#idp115552"> ID 0x2006 - datastore::registerApplication --&gt; Error inserting application into MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp116328"> ID 0x2007 - dataStore::::method --&gt; Error inserting message to node: ::error</a></span></dt><dt><span class="section"><a href="#idp153792"> ID 0x2008 - dataStore::unregisterNode --&gt; There was a problem removing the node: ::error</a></span></dt><dt><span class="section"><a href="#idp154560"> ID 0x2009 - datastore::flushDb --&gt; There was a problem removing the ::collection collection: ::error</a></span></dt><dt><span class="section"><a href="#idp155344"> ID 0x200a - dataStore::removeMessage --&gt; Error removing message: ::error</a></span></dt><dt><span class="section"><a href="#idp156096"> ID 0x200b - datastore::::method --&gt; There was a problem finding the certificate - ::error</a></span></dt><dt><span class="section"><a href="#idp156864"> ID 0x200c - datastore::getNodeData --&gt; Error finding node into MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp157624"> ID 0x200d - datastore::getApplicationsForUA --&gt; Error finding applications from MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp158400"> ID 0x200e - datastore::getApplication --&gt; Error finding application from MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp159168"> ID 0x200f - datastore::getAllMessagesForUA --&gt; There was a problem finding the message: ::error</a></span></dt><dt><span class="section"><a href="#idp118936"> ID 0x2010 - dataStore::::method --&gt; Error locating channel for appToken: ::apptoken</a></span></dt><dt><span class="section"><a href="#idp119704"> ID 0x2011 - dataStore::unregisterApplication --&gt; Not enough nodes info to pull from nodes collection :(</a></span></dt><dt><span class="section"><a href="#idp120488"> ID 0x2012 - dataStore::newVersion --&gt; Error removing old version for appToken: ::apptoken</a></span></dt><dt><span class="section"><a href="#idp121256"> ID 0x2013 - dataStore::newVersion --&gt; Error setting new version for appToken: ::apptoken</a></span></dt><dt><span class="section"><a href="#idp122024"> ID 0x2014 - dataStore::ackMessage --&gt; Error ACK'ing message into MongoDB: ::error</a></span></dt><dt><span class="section"><a href="#idp122784"> ID 0x2016 - dataStore::::method --&gt; Some error occured --&gt; ::error</a></span></dt><dt><span class="section"><a href="#idp123528"> ID 0x2017 - msgbroker::queue --&gt; one message broker disconnected!!!</a></span></dt><dt><span class="section"><a href="#idp124280"> ID 0x2018 - msgbroker::queue.onerror --&gt; There was an error in one of the connections: ::error</a></span></dt><dt><span class="section"><a href="#idp125056"> ID 0x2019 - No server provided</a></span></dt><dt><span class="section"><a href="#idp125728"> ID 0x201a - Received kill (9 or 15) signal</a></span></dt><dt><span class="section"><a href="#idp240752"> ID 0x201b - worker ::pid closed unexpectedly with code ::code</a></span></dt><dt><span class="section"><a href="#idp241416"> ID 0x201c - ulimit error: ::error</a></span></dt><dt><span class="section"><a href="#idp242088"> ID 0x201d - [MobileNetwork] --&gt; error!! ::error</a></span></dt><dt><span class="section"><a href="#idp242816"> ID 0x2201 - MSG_mon::onNewMessage --&gt; newMessages queue recieved a bad JSON. Check</a></span></dt><dt><span class="section"><a href="#idp243576"> ID 0x2202 - MSG_mon::onNewMessage --&gt; Bad msgType: ::json</a></span></dt><dt><span class="section"><a href="#idp244312"> ID 0x2203 - MSG_mon::onApplicationData --&gt; There was an error</a></span></dt><dt><span class="section"><a href="#idp245056"> ID 0x2301 - getConnector --&gt; Error getting the operator from the DB: ::error</a></span></dt><dt><span class="section"><a href="#idp245816"> ID 0x2302 - dataManager::registerNode --&gt; Error getting connection object</a></span></dt><dt><span class="section"><a href="#idp246568"> ID 0x2303 - dataManager::unregisterNode --&gt; There was a problem unregistering the uaid ::uaid</a></span></dt><dt><span class="section"><a href="#idp247344"> ID 0x2305 - WS::queue::onNewMessage --&gt; Not enough data!</a></span></dt><dt><span class="section"><a href="#idp248080"> ID 0x2307 - WS::onWSMessage::getPendingMessages --&gt; There was an error getting the node</a></span></dt><dt><span class="section"><a href="#idp248848"> ID 0x2308 - WS::onWSMessage::getPendingMessages --&gt; No channels for this node.</a></span></dt><dt><span class="section"><a href="#idp249608"> ID 0x2401 - Connector UDP: Notify to ::wakeupip not valid with this connector</a></span></dt><dt><span class="section"><a href="#idp250368"> ID 0x2402 - UDP::queue::onNewMessage --&gt; Not enough data to find server</a></span></dt><dt><span class="section"><a href="#idp251120"> ID 0x2403 - UDP::queue::onNewMessage --&gt; Error getting the operator from the DB: ::error</a></span></dt><dt><span class="section"><a href="#idp251888"> ID 0x2404 - UDP:queue:onNewMessage --&gt; Bad address to notify ::address</a></span></dt><dt><span class="section"><a href="#idp252640"> ID 0x2501 - Protocol not supported !</a></span></dt></dl></dd><dt><span class="section"><a href="#logtraces_CRITICAL_generated">CRITICAL level</a></span></dt><dd><dl><dt><span class="section"><a href="#idp254648"> ID 0x3001 - ::class::::method --&gt; Error connecting to MongoDB ! - ::error</a></span></dt><dt><span class="section"><a href="#idp255400"> ID 0x3002 - ::class::::method --&gt; MsgBroker DISCONNECTED!!'</a></span></dt><dt><span class="section"><a href="#idp256144"> ID 0x3003 - ::class::::method --&gt; DataStore DISCONNECTED!!'</a></span></dt><dt><span class="section"><a href="#idp256888"> ID 0x3004 - 30 seconds has passed and we are not ready, closing'</a></span></dt><dt><span class="section"><a href="#idp257632"> ID 0x3301 - NS_UA_WS interfaces not configured'</a></span></dt></dl></dd></dl></div><p>
-    This chapter describes each log message, his ID and how to interpret it.
-  </p><p>
-    It covers NOTIFY, ERROR and CRITICAL traces. DEBUG and INFO traces are not documented.
-  </p><p>
-    Next sections describes each log level:
-  </p><div xml:lang="en" class="section" title="NOTIFY level"><div class="titlepage"><div><div><h2 class="title"><a id="logtraces_NOTIFY_generated"/>NOTIFY level</h2></div></div></div><div class="section" title="ID 0x1001 - datastore::removeMessage --&gt; Message removed from MongoDB ::messageId"><div class="titlepage"><div><div><h3 class="title"><a id="idp61208"/> ID 0x1001 - datastore::removeMessage --&gt; Message removed from MongoDB ::messageId</h3></div></div></div><p>Message correctly removed from the database</p></div><div class="section" title="ID 0x1002 - datastore::ackMessage --&gt; Message ACKed"><div class="titlepage"><div><div><h3 class="title"><a id="idp126520"/> ID 0x1002 - datastore::ackMessage --&gt; Message ACKed</h3></div></div></div><p>Message correctly delivered and removed from Database</p></div><div class="section" title="ID 0x1101 - appToken=::appToken -- version=::version"><div class="titlepage"><div><div><h3 class="title"><a id="idp116856"/> ID 0x1101 - appToken=::appToken -- version=::version</h3></div></div></div><p>Information about the application token and version</p></div><div class="section" title="ID 0x1102 - Storing message for the '::apptoken' apptoken. Internal Id: ::id"><div class="titlepage"><div><div><h3 class="title"><a id="idp149696"/> ID 0x1102 - Storing message for the '::apptoken' apptoken. Internal Id: ::id</h3></div></div></div><p>Storing message on database</p></div><div class="section" title="ID 0x1203 - MSG_mon::onNodeData --&gt; Notify into the messages queue of node ::serverId # ::messageId"><div class="titlepage"><div><div><h3 class="title"><a id="idp146512"/> ID 0x1203 - MSG_mon::onNodeData --&gt; Notify into the messages queue of node ::serverId # ::messageId</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x1301 - Message with id ::messageId sent to ::uaid"><div class="titlepage"><div><div><h3 class="title"><a id="idp147264"/> ID 0x1301 - Message with id ::messageId sent to ::uaid</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x1401 - Notifying node: ::uaid to ::wakeupip:::wakeupport on network ::mcc-::mnc and using protocol ::protocol"><div class="titlepage"><div><div><h3 class="title"><a id="idp148000"/> ID 0x1401 - Notifying node: ::uaid to ::wakeupip:::wakeupport on network ::mcc-::mnc and using protocol ::protocol</h3></div></div></div><p>Sending a wakeup package to the wakeup specified host</p></div><div class="section" title="ID 0x1501 - NS_WakeUp::onHTTPMessage --&gt; Received request for ::url"><div class="titlepage"><div><div><h3 class="title"><a id="idp184816"/> ID 0x1501 - NS_WakeUp::onHTTPMessage --&gt; Received request for ::url</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x1502 - WakeUp TCP packet to ::ip:::port - FAILED"><div class="titlepage"><div><div><h3 class="title"><a id="idp185536"/> ID 0x1502 - WakeUp TCP packet to ::ip:::port - FAILED</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x1503 - WakeUp TCP packet succesfully sent to ::ip:::port"><div class="titlepage"><div><div><h3 class="title"><a id="idp186272"/> ID 0x1503 - WakeUp TCP packet succesfully sent to ::ip:::port</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x1504 - WakeUp Datagram sent to ::ip:::port"><div class="titlepage"><div><div><h3 class="title"><a id="idp187016"/> ID 0x1504 - WakeUp Datagram sent to ::ip:::port</h3></div></div></div><p>No detailed description yet</p></div></div><div xml:lang="en" class="section" title="ERROR level"><div class="titlepage"><div><div><h2 class="title"><a id="logtraces_ERROR_generated"/>ERROR level</h2></div></div></div><div class="section" title="ID 0x2000 - ::class::::method --&gt; ::extra, FIX YOUR BACKEND"><div class="titlepage"><div><div><h3 class="title"><a id="idp110944"/> ID 0x2000 - ::class::::method --&gt; ::extra, FIX YOUR BACKEND</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2001 - datastore::::method --&gt; There was a problem opening the nodes collection --&gt; ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp111656"/> ID 0x2001 - datastore::::method --&gt; There was a problem opening the nodes collection --&gt; ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2002 - datastore::::method --&gt; there was a problem opening the apps collection --&gt; ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp112432"/> ID 0x2002 - datastore::::method --&gt; there was a problem opening the apps collection --&gt; ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2003 - datastore::::method --&gt; There was a problem opening the operators collection --&gt; ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp113208"/> ID 0x2003 - datastore::::method --&gt; There was a problem opening the operators collection --&gt; ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2004 - datastore::::method --&gt; There was a problem opening the messages collection --&gt; ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp113992"/> ID 0x2004 - datastore::::method --&gt; There was a problem opening the messages collection --&gt; ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2005 - datastore::registerNode --&gt; Error inserting/updating node into MongoDB -- ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp114776"/> ID 0x2005 - datastore::registerNode --&gt; Error inserting/updating node into MongoDB -- ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2006 - datastore::registerApplication --&gt; Error inserting application into MongoDB: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp115552"/> ID 0x2006 - datastore::registerApplication --&gt; Error inserting application into MongoDB: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2007 - dataStore::::method --&gt; Error inserting message to node: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp116328"/> ID 0x2007 - dataStore::::method --&gt; Error inserting message to node: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2008 - dataStore::unregisterNode --&gt; There was a problem removing the node: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp153792"/> ID 0x2008 - dataStore::unregisterNode --&gt; There was a problem removing the node: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2009 - datastore::flushDb --&gt; There was a problem removing the ::collection collection: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp154560"/> ID 0x2009 - datastore::flushDb --&gt; There was a problem removing the ::collection collection: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x200a - dataStore::removeMessage --&gt; Error removing message: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp155344"/> ID 0x200a - dataStore::removeMessage --&gt; Error removing message: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x200b - datastore::::method --&gt; There was a problem finding the certificate - ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp156096"/> ID 0x200b - datastore::::method --&gt; There was a problem finding the certificate - ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x200c - datastore::getNodeData --&gt; Error finding node into MongoDB: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp156864"/> ID 0x200c - datastore::getNodeData --&gt; Error finding node into MongoDB: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x200d - datastore::getApplicationsForUA --&gt; Error finding applications from MongoDB: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp157624"/> ID 0x200d - datastore::getApplicationsForUA --&gt; Error finding applications from MongoDB: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x200e - datastore::getApplication --&gt; Error finding application from MongoDB: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp158400"/> ID 0x200e - datastore::getApplication --&gt; Error finding application from MongoDB: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x200f - datastore::getAllMessagesForUA --&gt; There was a problem finding the message: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp159168"/> ID 0x200f - datastore::getAllMessagesForUA --&gt; There was a problem finding the message: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2010 - dataStore::::method --&gt; Error locating channel for appToken: ::apptoken"><div class="titlepage"><div><div><h3 class="title"><a id="idp118936"/> ID 0x2010 - dataStore::::method --&gt; Error locating channel for appToken: ::apptoken</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2011 - dataStore::unregisterApplication --&gt; Not enough nodes info to pull from nodes collection :("><div class="titlepage"><div><div><h3 class="title"><a id="idp119704"/> ID 0x2011 - dataStore::unregisterApplication --&gt; Not enough nodes info to pull from nodes collection :(</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2012 - dataStore::newVersion --&gt; Error removing old version for appToken: ::apptoken"><div class="titlepage"><div><div><h3 class="title"><a id="idp120488"/> ID 0x2012 - dataStore::newVersion --&gt; Error removing old version for appToken: ::apptoken</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2013 - dataStore::newVersion --&gt; Error setting new version for appToken: ::apptoken"><div class="titlepage"><div><div><h3 class="title"><a id="idp121256"/> ID 0x2013 - dataStore::newVersion --&gt; Error setting new version for appToken: ::apptoken</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2014 - dataStore::ackMessage --&gt; Error ACK'ing message into MongoDB: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp122024"/> ID 0x2014 - dataStore::ackMessage --&gt; Error ACK'ing message into MongoDB: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2016 - dataStore::::method --&gt; Some error occured --&gt; ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp122784"/> ID 0x2016 - dataStore::::method --&gt; Some error occured --&gt; ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2017 - msgbroker::queue --&gt; one message broker disconnected!!!"><div class="titlepage"><div><div><h3 class="title"><a id="idp123528"/> ID 0x2017 - msgbroker::queue --&gt; one message broker disconnected!!!</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2018 - msgbroker::queue.onerror --&gt; There was an error in one of the connections: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp124280"/> ID 0x2018 - msgbroker::queue.onerror --&gt; There was an error in one of the connections: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2019 - No server provided"><div class="titlepage"><div><div><h3 class="title"><a id="idp125056"/> ID 0x2019 - No server provided</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x201a - Received kill (9 or 15) signal"><div class="titlepage"><div><div><h3 class="title"><a id="idp125728"/> ID 0x201a - Received kill (9 or 15) signal</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x201b - worker ::pid closed unexpectedly with code ::code"><div class="titlepage"><div><div><h3 class="title"><a id="idp240752"/> ID 0x201b - worker ::pid closed unexpectedly with code ::code</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x201c - ulimit error: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp241416"/> ID 0x201c - ulimit error: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x201d - [MobileNetwork] --&gt; error!! ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp242088"/> ID 0x201d - [MobileNetwork] --&gt; error!! ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2201 - MSG_mon::onNewMessage --&gt; newMessages queue recieved a bad JSON. Check"><div class="titlepage"><div><div><h3 class="title"><a id="idp242816"/> ID 0x2201 - MSG_mon::onNewMessage --&gt; newMessages queue recieved a bad JSON. Check</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2202 - MSG_mon::onNewMessage --&gt; Bad msgType: ::json"><div class="titlepage"><div><div><h3 class="title"><a id="idp243576"/> ID 0x2202 - MSG_mon::onNewMessage --&gt; Bad msgType: ::json</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2203 - MSG_mon::onApplicationData --&gt; There was an error"><div class="titlepage"><div><div><h3 class="title"><a id="idp244312"/> ID 0x2203 - MSG_mon::onApplicationData --&gt; There was an error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2301 - getConnector --&gt; Error getting the operator from the DB: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp245056"/> ID 0x2301 - getConnector --&gt; Error getting the operator from the DB: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2302 - dataManager::registerNode --&gt; Error getting connection object"><div class="titlepage"><div><div><h3 class="title"><a id="idp245816"/> ID 0x2302 - dataManager::registerNode --&gt; Error getting connection object</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2303 - dataManager::unregisterNode --&gt; There was a problem unregistering the uaid ::uaid"><div class="titlepage"><div><div><h3 class="title"><a id="idp246568"/> ID 0x2303 - dataManager::unregisterNode --&gt; There was a problem unregistering the uaid ::uaid</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2305 - WS::queue::onNewMessage --&gt; Not enough data!"><div class="titlepage"><div><div><h3 class="title"><a id="idp247344"/> ID 0x2305 - WS::queue::onNewMessage --&gt; Not enough data!</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2307 - WS::onWSMessage::getPendingMessages --&gt; There was an error getting the node"><div class="titlepage"><div><div><h3 class="title"><a id="idp248080"/> ID 0x2307 - WS::onWSMessage::getPendingMessages --&gt; There was an error getting the node</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2308 - WS::onWSMessage::getPendingMessages --&gt; No channels for this node."><div class="titlepage"><div><div><h3 class="title"><a id="idp248848"/> ID 0x2308 - WS::onWSMessage::getPendingMessages --&gt; No channels for this node.</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2401 - Connector UDP: Notify to ::wakeupip not valid with this connector"><div class="titlepage"><div><div><h3 class="title"><a id="idp249608"/> ID 0x2401 - Connector UDP: Notify to ::wakeupip not valid with this connector</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2402 - UDP::queue::onNewMessage --&gt; Not enough data to find server"><div class="titlepage"><div><div><h3 class="title"><a id="idp250368"/> ID 0x2402 - UDP::queue::onNewMessage --&gt; Not enough data to find server</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2403 - UDP::queue::onNewMessage --&gt; Error getting the operator from the DB: ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp251120"/> ID 0x2403 - UDP::queue::onNewMessage --&gt; Error getting the operator from the DB: ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2404 - UDP:queue:onNewMessage --&gt; Bad address to notify ::address"><div class="titlepage"><div><div><h3 class="title"><a id="idp251888"/> ID 0x2404 - UDP:queue:onNewMessage --&gt; Bad address to notify ::address</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x2501 - Protocol not supported !"><div class="titlepage"><div><div><h3 class="title"><a id="idp252640"/> ID 0x2501 - Protocol not supported !</h3></div></div></div><p>No detailed description yet</p></div></div><div xml:lang="en" class="section" title="CRITICAL level"><div class="titlepage"><div><div><h2 class="title"><a id="logtraces_CRITICAL_generated"/>CRITICAL level</h2></div></div></div><div class="section" title="ID 0x3001 - ::class::::method --&gt; Error connecting to MongoDB ! - ::error"><div class="titlepage"><div><div><h3 class="title"><a id="idp254648"/> ID 0x3001 - ::class::::method --&gt; Error connecting to MongoDB ! - ::error</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x3002 - ::class::::method --&gt; MsgBroker DISCONNECTED!!'"><div class="titlepage"><div><div><h3 class="title"><a id="idp255400"/> ID 0x3002 - ::class::::method --&gt; MsgBroker DISCONNECTED!!'</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x3003 - ::class::::method --&gt; DataStore DISCONNECTED!!'"><div class="titlepage"><div><div><h3 class="title"><a id="idp256144"/> ID 0x3003 - ::class::::method --&gt; DataStore DISCONNECTED!!'</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x3004 - 30 seconds has passed and we are not ready, closing'"><div class="titlepage"><div><div><h3 class="title"><a id="idp256888"/> ID 0x3004 - 30 seconds has passed and we are not ready, closing'</h3></div></div></div><p>No detailed description yet</p></div><div class="section" title="ID 0x3301 - NS_UA_WS interfaces not configured'"><div class="titlepage"><div><div><h3 class="title"><a id="idp257632"/> ID 0x3301 - NS_UA_WS interfaces not configured'</h3></div></div></div><p>No detailed description yet</p></div></div></div><div xml:lang="en" class="reference" title="Command reference"><div class="titlepage"><div><div><h1 class="title"><a id="cmd_reference"/>Command reference</h1></div></div><hr/></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="refentrytitle"><a href="#cmd_load_mcc_mnc_onmongo">load_mcc_mnc_onmongo.awk</a></span><span class="refpurpose"> — loads a mobile operator list into the central MongoDB</span></dt><dt><span class="refentrytitle"><a href="#cmd_add_wakeupserver_ip">add_wakeupserver_ip</a></span><span class="refpurpose"> — links a wakeup server IP and Port to a MCC-MNC pair</span></dt><dt><span class="refentrytitle"><a href="#cmd_empty_mongo">empty_mongo</a></span><span class="refpurpose"> — simple script to clean all MongoDB collections</span></dt><dt><span class="refentrytitle"><a href="#cmd_getloginfo">getloginfo</a></span><span class="refpurpose"> — shows the detailed log trace description</span></dt></dl></div><div xml:lang="en" class="refentry" title="load_mcc_mnc_onmongo.awk"><a id="cmd_load_mcc_mnc_onmongo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>load_mcc_mnc_onmongo — loads a mobile operator list into the central MongoDB</p></div><div class="refsynopsisdiv" title="Synopsis"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">awk -f scripts/load_mcc_mnc_onmongo.awk</code>  [mcc_mnc_list.txt]</p></div></div><div class="refsect1" title="Description"><a id="idp85328"/><h2>Description</h2><p>
-      Reads the mcc_mnc_list.txt file and loads all the mobile operators list
-      into the central MongoDB database.
+    </p></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="architecture"/>Chapter 4. Notification Server Architecture</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="section"><a href="#idp162368">Technologies used</a></span></dt><dd><dl><dt><span class="section"><a href="#idp150880">MongoDB</a></span></dt><dt><span class="section"><a href="#idp73792">RabbitMQ</a></span></dt><dt><span class="section"><a href="#idp74816">Node.JS</a></span></dt></dl></dd><dt><span class="section"><a href="#idp75968">Types of servers</a></span></dt><dd><dl><dt><span class="section"><a href="#idp79008">NS-UA-WS</a></span></dt><dt><span class="section"><a href="#idp65776">NS-UA-UDP</a></span></dt><dt><span class="section"><a href="#idp67808">NS-WakeUp</a></span></dt><dt><span class="section"><a href="#idp70704">NS-AS</a></span></dt><dt><span class="section"><a href="#idp165616">NS-Monitor</a></span></dt><dt><span class="section"><a href="#idp167696">Message Queue (RabbitMQ)</a></span></dt><dt><span class="section"><a href="#idp169872">NO-SQL Database (MongoDB)</a></span></dt></dl></dd></dl></div><p>
+    This chapter explains how is the server designed to be able to process
+    millions of messages per second.
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp162368"/>Technologies used</h2></div></div></div><p>
+      The server infrastructure had been build using high performance languages
+      and also high performance database and message queuing systems.
+    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp150880"/>MongoDB</h3></div></div></div><p/></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp73792"/>RabbitMQ</h3></div></div></div><p/></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp74816"/>Node.JS</h3></div></div></div><p/></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp75968"/>Types of servers</h2></div></div></div><p>
+      In order to be able to scale horizontally and vertically with no limits
+      all the server platform infrastructure had been splitted in several boxes
+      one of them dedicated to a particular task and also independent of the
+      rest so it can be scalled independently of the rest ones.
     </p><p>
-      This command should only be used for the first system provision.
-    </p></div></div><div xml:lang="en" class="refentry" title="add_wakeupserver_ip"><div class="refentry.separator"><hr/></div><a id="cmd_add_wakeupserver_ip"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>add_wakeupserver_ip.sh — links a wakeup server IP and Port to a MCC-MNC pair</p></div><div class="refsynopsisdiv" title="Synopsis"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/add_wakeupserver_ip.sh</code>  [mcc] [mnc] [wakeup server URL]</p></div></div><div class="refsect1" title="Description"><a id="idp101184"/><h2>Description</h2><p>
-      Updates the operators collection linking a WakeUp server to the
-      mcc-mnc pair.
+        The names of each box follows this scheme:
+        NS-&lt;type_of_client&gt;
     </p><p>
-      This command should only be used each time the WakeUp server address is changed.
-    </p><p>
-      It's important to note that the MNC SHALL be 2 digits and MCC 3 digits.
-      Fill with 0s if necessary
-    </p><p>
-      With an empty URL into the third parameter, the WakeUp server will be disabled
-      into next runnings
-    </p></div><div class="refsect1" title="Example"><a id="idp102912"/><h2>Example</h2><p>Enabling:</p><p>
-      scripts/add_wakeupserver_ip.sh 214 07 http://1.2.3.4:4567
-    </p><p>Disabling:</p><p>
-      scripts/add_wakeupserver_ip.sh 214 07
-    </p></div></div><div xml:lang="en" class="refentry" title="empty_mongo"><div class="refentry.separator"><hr/></div><a id="cmd_empty_mongo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>empty_mongo.sh — simple script to clean all MongoDB collections</p></div><div class="refsynopsisdiv" title="Synopsis"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/empty_mongo.sh</code> </p></div></div><div class="refsect1" title="Description"><a id="idp177440"/><h2>Description</h2><p>
-      Drops all notification server collections from the MongoDB.
-    </p><p>
-      Use it if you really know what're you doing.
-    </p></div><div class="refsect1" title="Example"><a id="idp178448"/><h2>Example</h2><p>
-      scripts/empty_mongo.sh
-    </p></div></div><div xml:lang="en" class="refentry" title="getloginfo"><div class="refentry.separator"><hr/></div><a id="cmd_getloginfo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>getloginfo — shows the detailed log trace description</p></div><div class="refsynopsisdiv" title="Synopsis"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/getloginfo</code>  [log ID (in hexadecimal 0xABCD)]</p></div></div><div class="refsect1" title="Description"><a id="idp182456"/><h2>Description</h2><p>
-      When the server emits a NOTIFICATION, ERROR or CRITICAL trace,
-      you can see a unique ID in it.
-    </p><p>
-      This command allows you to recover more information about the
-      error without need to refer the main document.
-    </p></div><div class="refsect1" title="Example"><a id="idp183576"/><h2>Example</h2><p>
-      scripts/getloginfo 0x1234
-    </p></div></div></div></div></body></html>
+      <img src="resources/ns_servers.png" style="text-align: middle" width="450"/>
+    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp79008"/>NS-UA-WS</h3></div></div></div><p>
+          The NS_UA_WS server is the frontend for mobile devices.
+          This server will attend the clients using HTTP protocols
+          (HTTP GET and WebSockets)  
+        </p><p>
+          This server offers to channels:
+          </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">
+              Retrieve a valid User Agent token used to identify each handset.
+              This token will be delivered via HTTP GET method to
+              the /token URL.
+            </li><li class="listitem"><p>
+                Maintain a Websocket connection with the clients.
+                This WebSocket will be maintained open in order to deliver push
+                messages through it.
+              </p><p>
+                This server will store on the MongoDB all registered nodes and
+                applications. Also will receive from the Message Queue all the
+                messages to be delivered to the connected handsets.
+              </p></li></ul></div><p>
+        </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp65776"/>NS-UA-UDP</h3></div></div></div><p>
+          The NS_UA_UDP server is the responsible to intermediate between the
+          central Notification Server infrastructure and each NS_WakeUp
+          deployed in each OB.
+        </p><p>
+          As told before, this server will be connected to the message queue
+          and for each received wake-up petition this server will retrieve from
+          the MongoDB the NS_WakeUp server address and send a HTTP message to
+          it querying to wake-up a handset.
+        </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp67808"/>NS-WakeUp</h3></div></div></div><p>
+          The NS_WakeUp server is a proxy between the central NS servers and
+          the client equipment (device). This service will receive petitions
+          through a standard HTTP port and will send UDP datagrams or TCP packets
+          (for pinging purposes) inside the OB private network to the private
+          IP of the client equipment. This server must be placed inside the OB
+          private network or in a zone that must see that private IPs.
+        </p><p>
+          The Wake-Up Proxy server is responsible to ping to the correct
+          client inside each OB (using UDP datagrams). It must be placed inside
+          the OB or in a zone that can see the devices inside that
+          private network.
+        </p><p>
+          This server will receive the ping orders through a standard HTTP
+          port which will be connected to InterNodo network to receive the
+          data from the VDC inside Telefónica network.
+        </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp70704"/>NS-AS</h3></div></div></div><p>
+          The NS_AS server is the frontend for application servers. This server
+          will attend the third party servers through HTTPS POST petitions.
+        </p><p>
+          This server will expose a HTTPS POST in /notify method in order to
+          receive messages from the third party application servers.
+          The received messages will be stored on the MongoDB and will notify
+          other servers through the Message Queue.
+        </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp165616"/>NS-Monitor</h3></div></div></div><p>
+          The NS_Monitor is the responsible to deliver messages to the correct
+          recipient. So this server will be monitoring all inbound messages,
+          deliver them and verify if re-deliver is needed.
+        </p><p>
+          The monitor reads the /newMessage queue (which frontends from the
+          NS_AS puts all the received messages), and finds in the database
+          which nodes need to be notified, sending the message to the correct
+          queue the node (user agent) is subscribed to.
+        </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp167696"/>Message Queue (RabbitMQ)</h3></div></div></div><p>
+          A Message Queue cluster is used to act as a message dispatcher
+          between all the other servers. RabbitMQ or ActiveMQ will be used.
+        </p><p>
+          This is a standard Message Queue which supports STOMP or AMQP protocol.
+        </p><p>
+          Because huge load, this server will be deployed in cluster mode.
+        </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp169872"/>NO-SQL Database (MongoDB)</h3></div></div></div><p>
+          A MongoDB cluster is needed to use as persistent storage system.
+          It is used to save the registered devices, registered apps and
+          received messages.
+        </p><p>
+          This is a non relational database.
+        </p><p>
+          Because huge load, this server will be deployed in cluster mode.
+        </p></div></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="performance"/>Chapter 5. Notification Server Performance</h1></div></div></div><p>
+    This chapter shows some performance test done to the notification server
+  </p></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="deployment"/>Chapter 6. Notification Server Deployment</h1></div></div></div><p>
+    This chapter explains how is the notification server will be deployed
+  </p></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="lessons_learned"/>Chapter 7. Lessons learned</h1></div></div></div><p>
+    In this chapter we will explain the lessons we learned during the daily work
+    in a high scalable and high performance server infrastructure
+  </p></div></div></body></html>
