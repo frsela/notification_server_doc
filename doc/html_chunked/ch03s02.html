@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>API between the User Agent and the Notification Server</title><meta name="generator" content="DocBook XSL Stylesheets V1.77.1"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch03.html" title="Chapter 3. Notification server API"><link rel="prev" href="ch03.html" title="Chapter 3. Notification server API"><link rel="next" href="ch03s03.html" title="API between the Application Server and the Notification Server"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">API between the User Agent and the Notification Server</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a> </td><th width="60%" align="center">Chapter 3. Notification server API</th><td width="20%" align="right"> <a accesskey="n" href="ch03s03.html">Next</a></td></tr></table><hr></div><div lang="en" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="api_ua_ns"></a>API between the User Agent and the Notification Server</h2></div></div></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>API between the User Agent and the Notification Server</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="Notification Server"><link rel="up" href="ch03.html" title="Chapter 3. Notification server API"><link rel="prev" href="ch03.html" title="Chapter 3. Notification server API"><link rel="next" href="ch03s03.html" title="API between the Application Server and the Notification Server"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">API between the User Agent and the Notification Server</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a> </td><th width="60%" align="center">Chapter 3. Notification server API</th><td width="20%" align="right"> <a accesskey="n" href="ch03s03.html">Next</a></td></tr></table><hr></div><div lang="en" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="api_ua_ns"></a>API between the User Agent and the Notification Server</h2></div></div></div><p>
     With this API the client device is able to register his applications and
     itself into the selected notification server.
   </p><p>
@@ -7,215 +7,371 @@
   </p><p>
     The UA-NS API is divided in two transport protocols:
     </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
-        POST API: Through the HTTP POST transport protocol the NS will deliver
-        valid UATokens to the device.
+        HTTP API: Through the HTTP transport protocol the NS will deliver
+        some information about server status.
       </li><li class="listitem">
         WebSocket API: This is the most important one since all the
-        communications (except to recover tokens) with the NS SHALL be driven
-        through this API.
+        communications with the NS SHALL be driven through this API.
         <p>
           On future releases will be supported another channels as Long-Polling
           solutions in order to cover devices which don't support Web Sockets.
         </p></li></ul></div><p>
-    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp217200"></a>HTTP POST API</h4></div></div></div><p>
-        This channel only offers one method to get a valid UAToken.
-      </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp218304"></a>GET UA TOKEN</h5></div></div></div><p>
-          This method SHOULD be protected to avoid DoS attacks getting millions of
-          valid tokens, in any case, this is out of the scope of this protocol.
-        </p><p>
-          The TOKEN method is called with a simple URL:
-          <code class="code">https://&lt;notification_server_base_URL&gt;/token</code>
-        </p><p>
-          The server will respond with an AES encrypted valid token.
-          This token SHALL be used to identify the device in future connections.
-        </p></div></div><p>
-    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp221152"></a>WebSocket API</h4></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp49423520"></a>HTTP API</h4></div></div></div><p>
+        This channel only offers one method to get server information.
+      </p><div lang="en" class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49424800"></a>about</h5></div></div></div><p>
+    This method responds an HTML page with general information about the
+    running server like number of connections, number of process running...
+  </p></div><div lang="en" class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49427200"></a>status</h5></div></div></div><p>
+    This method is used to check if the server is available or not.
+    Is designed to be used by load balancers when the server is under
+    maintance.
+  </p><p>
+    The server will responde 200 (OK) if the server is enabled or
+    503 (Under Maintance).
+  </p><p>
+    To set the server into maintance mode (tell the load balancer that the
+    server is not available) is needed to send a SIGUSR1 signal to the proccess:
+    </p><pre class="programlisting">
+      
+      kill -SIGUSR1 &lt;pid&gt;
+      
+    </pre><p>
+  </p><p>
+    To set the server into normal mode (tell the load balancer that the
+    server is available) is needed to send a SIGUSR2 signal to the proccess:
+    </p><pre class="programlisting">
+      
+      kill -SIGUSR2 &lt;pid&gt;
+      
+    </pre><p>
+  </p></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp49432848"></a>WebSocket API</h4></div></div></div><p>
         Through this channel the device will register itself, his applications,
         and also will be used to deliver PUSH notifications
       </p><p>
-        All methods sent through this channel will have the same JSON structure:
+        The websocket API supports multiple subprotocols identified each one
+        with it's name:
+        </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+            push-notification
+            <p>
+              Simple protocol defined by Mozilla and Telefonica and described
+              here:
+              <a class="link" href="https://wiki.mozilla.org/WebAPI/SimplePush/Protocol" target="_top">
+                [https://wiki.mozilla.org/WebAPI/SimplePush/Protocol]
+              </a>.
+            </p></li><li class="listitem">
+            push-notification-binary
+            <p>
+              Binary version of the push-notification protocol
+            </p></li><li class="listitem">
+            push-extended-notification
+            <p>
+              Telefonica extended solution which provides more functionalities
+            </p></li></ul></div><p>
+      </p><div lang="en" class="section"><div class="titlepage"><div><div><h5 class="title"><a name="api_ua_ns_websocket_pushnotification"></a>WebSocket: push-notification</h5></div></div></div><p>
+    Also know as "Simple push protocol" and defined by Mozilla and Telefonica.
+  </p><p>
+    This protocol is based in the
+    <a class="link" href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/pubs/archive/37474.pdf" target="_top">
+      Thialfi protocol
+    </a>.
+    described by Google.
+  </p><p>
+    Also you can read more about this protocol in the Mozilla Wiki:
+    <a class="link" href="https://wiki.mozilla.org/WebAPI/SimplePush/Protocol" target="_top">
+      [https://wiki.mozilla.org/WebAPI/SimplePush/Protocol]
+    </a>.
+  </p><p>
+    In order to use this subprotocol, the "push-notification"
+    string shall be sent into the websocket handsake headers.
+  </p><p>
+    All methods sent through this channel will have the same JSON structure:
+  </p><pre class="programlisting">
+  
+  {
+    messageType: "&lt;type of message&gt;",
+    ... other data ...
+  }
+  
+  </pre><p>
+    In which messageType defines one of these commands:
+  </p><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp49516832"></a>hello</h6></div></div></div><p>
+      With this method the device is able to register itself.
+    </p><p>
+      The device is responsible to give the server a valid UAID. If the
+      provided UAID is not valid or is "null", the server will respond
+      with a valid one.
+    </p><p>
+      In next connections the UAID given by the server SHALL be used.
+    </p><p>
+      When a device is registering to a notification server, it SHALL send
+      his own valid UAID and also the device can send additional information
+      that can be used to optimize the way the messages will be delivered
+      to this device.
+    </p><p>
+      If it's not the first connection, the device can send a list of
+      registered channels in order to syncronize client and server data.
+      This mechanism allows a way to recover channels after a server crash.
+    </p><pre class="programlisting">
+    
+    {
+      messageType: "hello",
+      uaid: "&lt;a valid UAToken&gt;",
+      channelIDs: [&lt;a list of channels to sync [OPTIONAL]&gt;],
+      wakeup_hostport: {
+        ip: "&lt;current device IP address&gt;",
+        port: "&lt;TCP or UDP port in which the device is waiting for wake up notifications&gt;"
+      },
+      mobilenetwork: {
+        mcc: "&lt;Mobile Country Code&gt;",
+        mnc: "&lt;Mobile Network Code&gt;"
+      }
+    }
+    
+    </pre><p>
+      The wakeup_hostport and mobilenetwork optional data will be used by the server
+      to identify if it has the required infrastructure into the user's mobile
+      network in order to send wakeup messages to the IP and port indicated
+      in the wakeup_hostport data so it's able to close the WebSocket channel to reduce
+      signalling and battery consume.
+    </p><p>
+      The channelIDs array is sent by the client in order to synchronize server
+      and client.
+    </p><p>
+      When the server receives a new hello message and the UAID provided by the
+      client is a valid one (in other words, is the same returned to the client)
+      the channelIDs list will be used to syncronize the server information with
+      the client one.
+    </p><p>
+      For example, after a server crash, all client channels
+      will be recovered with this simple method.
+    </p><p>
+      Another example, if the client uninstalled an app when the handset was
+      offline, next time it connects will send tne channel list with one less,
+      so the server will unregister this channel.
+    </p><p>
+      The server response can be one of these:
       </p><pre class="programlisting">
       
       {
-        messageType: "&lt;type of message&gt;",
-        ... other data ...
+        messageType: "hello",
+        uaid: "&lt;a valid UAID&gt;",
+        status: 200
       }
       
       </pre><p>
-        In which messageType defines one of these commands:
-      </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp224000"></a>registerUA</h5></div></div></div><p>
-          With this method the device is able to register itself.
-        </p><p>
-          When a device is registering to a notification server, it SHALL send
-          his own valid UAToken and also the device can send additional information
-          that can be used to optimize the way the messages will be delivered
-          to this device.
-        </p><pre class="programlisting">
-        
+      if it's connected through a permanent websocket, or:
+      </p><pre class="programlisting">
+      
+      {
+        messageType: "hello",
+        uaid: "&lt;a valid UAID&gt;",
+        status: 201
+      }
+      
+      </pre><p>
+      if it's connected to a wakeup channel (UDP).
+      </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>
+        This hello response differenciation is pending to change
+        in order to use Websocket close status:
+        <a class="link" href="https://github.com/telefonicaid/notification_server/issues/178" target="_top">
+          on this Github Pull Request
+        </a>.
+      </div><p>
+      </p><pre class="programlisting">
+      
+      {
+        messageType: "hello",
+        status: 4xx,
+        reason: "&lt;any reason&gt;"
+      }
+      
+      </pre><p>
+      on any error case, like:
+      </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">460: Error registering UAID</li></ul></div><p>
+    </p><p>
+      This method is also used to anounce a new IP address or a network change.
+    </p><p>
+      </p><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="450"><tr><td align="center"><img src="resources/seqdiags/change_ip.png" align="middle" width="450"></td></tr></table><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp49532416"></a>register</h6></div></div></div><p>
+      This method is used to register push channels. Each application can
+      register as many channels as it wants. Each channel maintains an
+      independent counter about the last version of the channel.
+    </p><p>
+      This shall be send to the notification server after a valid UA
+      registration.
+    </p><p>
+      Normally, this method will be used each time an application requires a
+      new channel to receive Thialfi like notifications. A new endpoint URL
+      will be delivered (through the WA-UA API).
+    </p><p>
+      No data is required at application level, only the UA client is
+      responsible to generate a unique channelID for the handset. The channelID
+      can be the same in different devices since the UAID will be used in the
+      endpoint URL hash.
+    </p><pre class="programlisting">
+    
+    {
+      messageType: "register",
+      channelID: "&lt;a new channelID&gt;"
+    }
+    
+    </pre><p>
+      The server response can be:
+      </p><pre class="programlisting">
+      
+      {
+        messageType: "register",
+        status: 200,
+        pushEndpoint: "&lt;publicURL required to send notifications&gt;",
+        channelID: "&lt;the channelID&gt;"
+      }
+      
+      </pre><p>
+      </p><pre class="programlisting">
+      
+      {
+        messageType: "register",
+        status: 4xx,
+        reason: "&lt;any reason&gt;"
+      }
+      
+      </pre><p>
+      on any error case, like:
+      </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">457: Not valid channelID</li><li class="listitem">408: Server is not ready yet</li></ul></div><p>
+    </p><p>
+      The device service should redirect the received URL to the correct
+      application.
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp49540736"></a>unregister</h6></div></div></div><p>
+      This method is used to unregister a push channel.
+    </p><p>
+      This shall be send to the notification server after a valid UA
+      registration.
+    </p><pre class="programlisting">
+    
+    {
+      messageType: "unregister",
+      channelID: "&lt;a new channelID&gt;"
+    }
+    
+    </pre><p>
+      The server response can be:
+      </p><pre class="programlisting">
+      
+      {
+        messageType: "register",
+        channelID: "&lt;a new channelID&gt;"
+        status: 202
+      }
+      
+      </pre><p>
+      </p><pre class="programlisting">
+      
+      {
+        messageType: "register",
+        status: 4xx,
+        reason: "&lt;any reason&gt;"
+      }
+      
+      </pre><p>
+      on any error case, like:
+      </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">408: Server is not ready yet</li></ul></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp49546528"></a>notification</h6></div></div></div><p>
+      This message will be used by the server to inform about new notification
+      to the device.
+    </p><p>
+      All recieved notification(s) will have this structure:
+    </p><pre class="programlisting">
+    
+    {
+      messageType: "notification",
+      updates: [
         {
-          messageType: "registerUA",
-          data: {
-            uatoken: "&lt;a valid UAToken&gt;",
-            interface: {
-              ip: "&lt;current device IP address&gt;",
-              port: "&lt;TCP or UDP port in which the device is waiting for wake up notifications&gt;"
-            },
-            mobilenetwork: {
-              mcc: "&lt;Mobile Country Code&gt;",
-              mnc: "&lt;Mobile Network Code&gt;"
-            }
-          }
-        }
-        
-        </pre><p>
-          The interface and mobilenetwork optional data will be used by the server
-          to identify if it has the required infrastructure into the user's mobile
-          network in order to send wakeup messages to the IP and port indicated
-          in the interface data so it's able to close the WebSocket channel to reduce
-          signalling and battery consume.
-        </p><p>
-          The server response can be:
-          </p><pre class="programlisting">
-          
-          {
-            status: "REGISTERED",
-            statusCode: 200,
-            messageType: "registerUA"
-          }
-          
-          </pre><p>
-          </p><pre class="programlisting">
-          
-          {
-            status: "ERROR",
-            statusCode: 40x,
-            reason: "Data received is not a valid JSON package",
-            messageType: "registerUA"
-          }
-          
-          </pre><p>
-          </p><pre class="programlisting">
-          
-          {
-            status: "ERROR",
-            statusCode: 40x,
-            reason: "Token is not valid for this server",
-            messageType: "registerUA"
-          }
-          
-          </pre><p>
-          </p><pre class="programlisting">
-          
-          {
-            status: "ERROR",
-            statusCode: 40x,
-            reason: "...",
-            messageType: "registerUA"
-          }
-          
-          </pre><p>
-        </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp231440"></a>registerWA</h5></div></div></div><p>
-          This method is used to register installed applications on the device.
-          This shall be send to the notification server after a valid UA registration.
-        </p><p>
-          Normally, this method will be used each time an application requires a
-          new push notification URL (through the WA-UA API) or also each time the
-          device is powered on and is re-registering previously registered applications.
-        </p><p>
-          The required data for application registration is the WAToken and the
-          public key.
-        </p><pre class="programlisting">
-        
+          channelID: "&lt;channelID&gt;",
+          version: "&lt;versionNumber&gt;"
+        },
         {
-          messageType: "registerWA",
-          data: {
-            uatoken: "&lt;a valid UAToken&gt;",
-            watoken: "&lt;the WAToken&gt;",
-            pbkbase64: "&lt;BASE64 coded public key&gt;"
-          }
-        }
-        
-        </pre><p>
-          The server response can be:
-          </p><pre class="programlisting">
-          
-          {
-            status: "REGISTERED",
-            statusCode: 200,
-            url: "&lt;publicURL required to send notifications&gt;",
-            messageType: "registerUA"
-          }
-          
-          </pre><p>
-          </p><pre class="programlisting">
-          
-          {
-            status: "ERROR",
-            statusCode: 40x,
-            reason: "...",
-            messageType: "registerWA"
-          }
-          
-          </pre><p>
-        </p><p>
-          The device service should redirect the received URL to the correct
-          application.
-        </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp237376"></a>getAllMessages</h5></div></div></div><p>
-          This method is used to retrieve all pending messages for one device.
-        </p><p>
-          This will be used each time the device is Waked Up, so it's polling
-          pending messages.
-        </p><pre class="programlisting">
-        
+          channelID: "&lt;channelID&gt;",
+          version: "&lt;versionNumber&gt;"
+        },
+        ...
+      ]
+    }
+    
+    </pre><p>
+      On updates list, is returned all the list of pending notifications (last
+      version of each channel)
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp49550000"></a>desktop-notification</h6></div></div></div><p>
+      This message will be used by the server to inform about new desktop
+      notification to the device.
+    </p><p>
+      These notifications SHOULD be showed into the device notification area.
+    </p><p>
+      All recieved notification(s) will have this structure:
+    </p><pre class="programlisting">
+    
+    {
+      messageType: "desktopNotification",
+      updates: [
         {
-          messageType: "getAllMessages",
-          data: {
-            uatoken: "&lt;a valid UAToken&gt;"
-          }
-        }
-        
-        </pre><p>
-          The server response can be:
-          </p><pre class="programlisting">
-          
-          {
-            messageType: "getAllMessages",
-            [
-              &lt;Array of notifications with the same format
-               as defined in the notification method&gt;
-            ]
-          }
-          
-          </pre><p>
-        </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp241216"></a>notification</h5></div></div></div><p>
-          This message will be used by the server to inform about new notification
-          to the device.
-        </p><p>
-          All recieved notification will have this structure:
-        </p><pre class="programlisting">
-        
+          channelID: "&lt;channelID&gt;",
+          _internal_id: "&lt;id&gt;",
+          body: "&lt;some text&gt;"
+        },
         {
-          messageType: "notification",
-          id: "&lt;ID used by the Application Server&gt;",
-          message: "&lt;Message payload&gt;",
-          timestamp: "&lt;Since EPOCH Time&gt;",
-          priority: "&lt;prio&gt;",
-          messageId: "&lt;ID of the message&gt;",
-          url: "&lt;publicURL which identifies the final application&gt;"
-        }
-        
-        </pre></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp243936"></a>ack</h5></div></div></div><p>
-          For each received notification through notification or getAllMessages,
-          the server SHOULD be notified in order to free resources related to
-          this notifications.
-        </p><p>
-          This message is used to acknoledge the message reception.
-        </p><pre class="programlisting">
-          
+          channelID: "&lt;channelID&gt;",
+          _internal_id: "&lt;id&gt;",
+          body: "&lt;some text&gt;"
+        },
+        ...
+      ]
+    }
+    
+    </pre><p>
+      On updates list, is returned all the list of pending notifications (last
+      version of each channel)
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp49554048"></a>ack</h6></div></div></div><p>
+      For each received notification through notification, the server SHOULD be
+      notified in order to free resources related to this notifications.
+    </p><p>
+      This message is used to acknoledge the message reception.
+    </p><pre class="programlisting">
+      
+      {
+        messageType: "ack",
+        updates: [
           {
-            messageType: "ack",
-            messageId: "&lt;ID of the received message&gt;"
-          }
-          
-          </pre></div></div><p>
+            channelID: "&lt;channelID&gt;",
+            version: "&lt;versionNumber&gt;"
+          },
+          {
+            channelID: "&lt;channelID&gt;",
+            version: "&lt;versionNumber&gt;"
+          },
+          ...
+        ]
+      }
+      
+      </pre></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp49557056"></a>Keep-alive algorithm</h6></div></div></div><p>
+      If it's needed a way to maintaint the socket open along time, a PING-PONG
+      mechanism is also implemented.
+    </p><p>
+      The client sents an empty JSON object "{}" and the server will respond another
+      empty object "{}" and/or a notification response (if pending notifications).
+    </p><p>
+      A more refined version is on working
+      <a class="link" href="https://github.com/telefonicaid/notification_server/pull/137" target="_top">
+        on this Github Pull Request
+      </a>.
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a name="idp49560400"></a>Wakeup websocket close</h6></div></div></div><p>
+      As explained before, when the client informs about the mobile network is in and
+      the server has the required infrastructure in that mobile network, the websocket
+      will be closed by the server after a predefined inactivity time (10 seconds).
+    </p><p>
+      When this timer fires, the websocket will be closed with the 4774 status code.
+    </p><p>
+      <a class="link" href="http://tools.ietf.org/html/rfc6455#page-45" target="_top">
+        [WebSocket protocol]
+      </a>.
+    </p></div></div></div><p>
   </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch03s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 3. Notification server API </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> API between the Application Server and the Notification Server</td></tr></table></div></body></html>
