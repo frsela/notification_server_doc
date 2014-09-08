@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Notification Server</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"/></head><body><div xml:lang="en" class="book"><div class="titlepage"><div><div><h1 class="title"><a id="push_notification_server_architecture"/>Notification Server</h1></div><div><h2 class="subtitle">Architecture</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Fernando</span> <span class="surname">Rodriguez Sela</span></h3></div><div class="author"><h3 class="author"><span class="firstname">Guillermo</span> <span class="surname">Lopez Leal</span></h3></div></div></div><div><p class="copyright">Copyright © 2012 Telefonica Digital (PDI), All rights reserved.</p></div><div><div class="revhistory"><table summary="Revision History"><tr><th align="left" valign="top" colspan="3"><strong>Revision History</strong></th></tr><tr><td align="left">Revision 1.0</td><td align="left">November 2012</td><td align="left">FRS</td></tr><tr><td align="left" colspan="3">First Edition</td></tr><tr><td align="left">Revision 1.1</td><td align="left">March 2013</td><td align="left">FRS</td></tr><tr><td align="left" colspan="3">Simple API</td></tr></table></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="chapter"><a href="#intro">1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47470240">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47473184">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="#idp47430016">Service Description</a></span></dt><dt><span class="section"><a href="#idp47432144">Adventages for developers</a></span></dt></dl></dd><dt><span class="chapter"><a href="#network_issues">2. Mobile network issues with current PUSH platforms</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47438848">Mobile networks in a Private or Public LAN</a></span></dt><dt><span class="section"><a href="#idp47441712">Mobile Network. Circuit domain states</a></span></dt><dt><span class="section"><a href="#idp47483984">Mobile Network. Package domain states</a></span></dt><dt><span class="section"><a href="#idp47500256">Mobile Network. States relation</a></span></dt><dt><span class="section"><a href="#idp47583216">Mobile Network. Signalling storms</a></span></dt><dt><span class="section"><a href="#idp47586096">Mobile Network. Battery comsuption</a></span></dt></dl></dd><dt><span class="chapter"><a href="#api">3. Notification server API</a></span></dt><dd><dl><dt><span class="section"><a href="#api_wa_ua">API between WebApp and the User Agent</a></span></dt><dt><span class="section"><a href="#api_ua_ns">API between the User Agent and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_as_ns">API between the Application Server and the Notification Server</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47807216">Generic API</a></span></dt><dt><span class="section"><a href="#api_as_ns_simplepush">Simple PUSH API</a></span></dt></dl></dd><dt><span class="section"><a href="#api_wa_as">API between the WA and the AS</a></span></dt><dt><span class="section"><a href="#api_tokens">Tokens</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47830848">channelID</a></span></dt><dt><span class="section"><a href="#idp47837696">UAID</a></span></dt><dt><span class="section"><a href="#idp47839712">endpointURL</a></span></dt></dl></dd><dt><span class="section"><a href="#idp47842064">WakeUp</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47845136">status</a></span></dt><dt><span class="section"><a href="#idp47850624">Wake up method</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#logtraces">4. Log traces</a></span></dt><dd><dl><dt><span class="section"><a href="#logtraces_NOTIFY_generated">NOTIFY level</a></span></dt><dt><span class="section"><a href="#logtraces_ERROR_generated">ERROR level</a></span></dt><dt><span class="section"><a href="#logtraces_CRITICAL_generated">CRITICAL level</a></span></dt></dl></dd><dt><span class="reference"><a href="#cmd_reference">I. Command reference</a></span></dt><dd><dl><dt><span class="refentrytitle"><a href="#cmd_load_mcc_mnc_onmongo">load_mcc_mnc_onmongo.awk</a></span><span class="refpurpose"> — loads a mobile operator list into the central MongoDB</span></dt><dt><span class="refentrytitle"><a href="#cmd_add_wakeupserver_ip">add_wakeupserver_ip</a></span><span class="refpurpose"> — links a wakeup server IP and Port to a MCC-MNC pair</span></dt><dt><span class="refentrytitle"><a href="#cmd_empty_mongo">empty_mongo</a></span><span class="refpurpose"> — simple script to clean all MongoDB collections</span></dt><dt><span class="refentrytitle"><a href="#cmd_getloginfo">getloginfo</a></span><span class="refpurpose"> — shows the detailed log trace description</span></dt></dl></dd></dl></div><div class="list-of-tables"><p><strong>List of Tables</strong></p><dl><dt>2.1. <a href="#idp47501888">RCC - GMM relation</a></dt></dl></div><div class="list-of-examples"><p><strong>List of Examples</strong></p><dl><dt>3.1. <a href="#idp47833632">Multiple device messages</a></dt><dt>3.2. <a href="#idp47836032">Message broadcast</a></dt></dl></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="intro"/>Chapter 1. Introduction</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#idp47470240">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47473184">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="#idp47430016">Service Description</a></span></dt><dt><span class="section"><a href="#idp47432144">Adventages for developers</a></span></dt></dl></div><p>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Notification Server</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"/></head><body><div xml:lang="en" class="book"><div class="titlepage"><div><div><h1 class="title"><a id="push_notification_server_architecture"/>Notification Server</h1></div><div><h2 class="subtitle">Architecture</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Fernando</span> <span class="surname">Rodriguez Sela</span></h3></div><div class="author"><h3 class="author"><span class="firstname">Guillermo</span> <span class="surname">Lopez Leal</span></h3></div></div></div><div><p class="copyright">Copyright © 2012 Telefonica Digital (PDI), All rights reserved.</p></div><div><div class="revhistory"><table summary="Revision History"><tr><th align="left" valign="top" colspan="3"><strong>Revision History</strong></th></tr><tr><td align="left">Revision 1.0</td><td align="left">November 2012</td><td align="left">FRS</td></tr><tr><td align="left" colspan="3">First Edition</td></tr><tr><td align="left">Revision 1.1</td><td align="left">March 2013</td><td align="left">FRS</td></tr><tr><td align="left" colspan="3">Simple API</td></tr></table></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="chapter"><a href="#intro">1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47470608">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47473552">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="#idp47427088">Service Description</a></span></dt><dt><span class="section"><a href="#idp47429216">Adventages for developers</a></span></dt></dl></dd><dt><span class="chapter"><a href="#network_issues">2. Mobile network issues with current PUSH platforms</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47435792">Mobile networks in a Private or Public LAN</a></span></dt><dt><span class="section"><a href="#idp47438656">Mobile Network. Circuit domain states</a></span></dt><dt><span class="section"><a href="#idp47483808">Mobile Network. Package domain states</a></span></dt><dt><span class="section"><a href="#idp47500064">Mobile Network. States relation</a></span></dt><dt><span class="section"><a href="#idp47582912">Mobile Network. Signalling storms</a></span></dt><dt><span class="section"><a href="#idp47585792">Mobile Network. Battery comsuption</a></span></dt></dl></dd><dt><span class="chapter"><a href="#api">3. Notification server API</a></span></dt><dd><dl><dt><span class="section"><a href="#api_wa_ua">API between WebApp and the User Agent</a></span></dt><dt><span class="section"><a href="#api_ua_ns">API between the User Agent and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_as_ns">API between the Application Server and the Notification Server</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47804528">Generic API</a></span></dt><dt><span class="section"><a href="#api_as_ns_simplepush">Simple PUSH API</a></span></dt></dl></dd><dt><span class="section"><a href="#api_wa_as">API between the WA and the AS</a></span></dt><dt><span class="section"><a href="#api_tokens">Tokens</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47828160">channelID</a></span></dt><dt><span class="section"><a href="#idp47835008">UAID</a></span></dt><dt><span class="section"><a href="#idp47837024">endpointURL</a></span></dt></dl></dd><dt><span class="section"><a href="#idp47839376">WakeUp</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47842448">status</a></span></dt><dt><span class="section"><a href="#idp47847936">Wake up method</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#logtraces">4. Log traces</a></span></dt><dt><span class="reference"><a href="#cmd_reference">I. Command reference</a></span></dt><dd><dl><dt><span class="refentrytitle"><a href="#cmd_load_mcc_mnc_onmongo">load_mcc_mnc_onmongo.awk</a></span><span class="refpurpose"> — loads a mobile operator list into the central MongoDB</span></dt><dt><span class="refentrytitle"><a href="#cmd_add_wakeupserver_ip">add_wakeupserver_ip</a></span><span class="refpurpose"> — links a wakeup server IP and Port to a MCC-MNC pair</span></dt><dt><span class="refentrytitle"><a href="#cmd_empty_mongo">empty_mongo</a></span><span class="refpurpose"> — simple script to clean all MongoDB collections</span></dt><dt><span class="refentrytitle"><a href="#cmd_getloginfo">getloginfo</a></span><span class="refpurpose"> — shows the detailed log trace description</span></dt></dl></dd></dl></div><div class="list-of-tables"><p><strong>List of Tables</strong></p><dl><dt>2.1. <a href="#idp47501696">RCC - GMM relation</a></dt></dl></div><div class="list-of-examples"><p><strong>List of Examples</strong></p><dl><dt>3.1. <a href="#idp47830944">Multiple device messages</a></dt><dt>3.2. <a href="#idp47833344">Message broadcast</a></dt></dl></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="intro"/>Chapter 1. Introduction</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#idp47470608">State of the art</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47473552">Current Internet solutions issues</a></span></dt></dl></dd><dt><span class="section"><a href="#idp47427088">Service Description</a></span></dt><dt><span class="section"><a href="#idp47429216">Adventages for developers</a></span></dt></dl></div><p>
     Today mobile applications retrieve asynchronously information from multiple sites.
     Developers have two ways to retrieve this information:
   </p><p>
@@ -21,7 +21,7 @@
     with existing solutions and finally how Telefónica Digital, within the framework
     of the development of Firefox OS operating system, a new solution designed
     friendlier to the network and low battery consumption on mobile terminals.
-  </p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47470240"/>State of the art</h2></div></div></div><p>
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47470608"/>State of the art</h2></div></div></div><p>
       Historically mobile operators offered (and offer) real mechanisms PUSH notifications,
       also known as WAP PUSH. WAP PUSH can "wake up" applications when any action
       is required of them by the server side (without interaction from the user).
@@ -38,7 +38,7 @@
       (Apple iOS and Google Android) have implemented a parallel solution that would
       work regardless of the mobile network to which the user belongs and it can
       run smoothly when they are using WiFi networks.
-    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47473184"/>Current Internet solutions issues</h3></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47473552"/>Current Internet solutions issues</h3></div></div></div><p>
         Internet PUSH solutions are based on a public accesible server which handles
         all the notification delivery.
       </p><p>
@@ -50,7 +50,7 @@
         consume.
         For more information about this, please refer to the
         "<a class="xref" href="#network_issues" title="Chapter 2. Mobile network issues with current PUSH platforms">Mobile network issues with current PUSH platforms</a>" chapter
-      </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47430016"/>Service Description</h2></div></div></div><p>
+      </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47427088"/>Service Description</h2></div></div></div><p>
       The Notification Server platform is aimed to deliver push notifications
       (small messages like a real-time chat, a JSON data structure defining
       the goal of a soccer match) to web based terminals inside mobile networks.
@@ -60,7 +60,7 @@
       consumption and traffic generated is reduced to the minimal.
       It is developed for working on stable Internet connections, like on
       Wi-Fi or Ethernet.
-    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47432144"/>Adventages for developers</h2></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47429216"/>Adventages for developers</h2></div></div></div><p>
       Since we want a service to be used, we think it to be very easy to use
       and to be great for developers.
     </p><p>
@@ -77,14 +77,14 @@
         </li><li class="listitem">
           Bigger payloads and more messages per application
         </li></ul></div><p>
-    </p></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="network_issues"/>Chapter 2. Mobile network issues with current PUSH platforms</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#idp47438848">Mobile networks in a Private or Public LAN</a></span></dt><dt><span class="section"><a href="#idp47441712">Mobile Network. Circuit domain states</a></span></dt><dt><span class="section"><a href="#idp47483984">Mobile Network. Package domain states</a></span></dt><dt><span class="section"><a href="#idp47500256">Mobile Network. States relation</a></span></dt><dt><span class="section"><a href="#idp47583216">Mobile Network. Signalling storms</a></span></dt><dt><span class="section"><a href="#idp47586096">Mobile Network. Battery comsuption</a></span></dt></dl></div><p>
+    </p></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="network_issues"/>Chapter 2. Mobile network issues with current PUSH platforms</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#idp47435792">Mobile networks in a Private or Public LAN</a></span></dt><dt><span class="section"><a href="#idp47438656">Mobile Network. Circuit domain states</a></span></dt><dt><span class="section"><a href="#idp47483808">Mobile Network. Package domain states</a></span></dt><dt><span class="section"><a href="#idp47500064">Mobile Network. States relation</a></span></dt><dt><span class="section"><a href="#idp47582912">Mobile Network. Signalling storms</a></span></dt><dt><span class="section"><a href="#idp47585792">Mobile Network. Battery comsuption</a></span></dt></dl></div><p>
     This chapter explains why current solutions are bad for the mobile networks
     and how we designed this server to solve this issues.
   </p><p>
     In order to understand the complete problem, we need to introduce you on how
     the mobile nerworks work at radio level and also how the carriers have their
     network infrastructure. So, go ahead !
-  </p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47438848"/>Mobile networks in a Private or Public LAN</h2></div></div></div><p>
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47435792"/>Mobile networks in a Private or Public LAN</h2></div></div></div><p>
       Since on IPv4 the amount of free adresses is really low, celular networks
       were divided into the ones with real IPv4 adresses (normally for 3G modems)
       and private adressing model for handsets.
@@ -98,7 +98,7 @@
       it's teorically possible to send the message directly making third party
       solutions unuseful, however in order to protect users, carriers can deploy
       firewalls to avoid direct access from Internet to the handset.
-    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47441712"/>Mobile Network. Circuit domain states</h2></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47438656"/>Mobile Network. Circuit domain states</h2></div></div></div><p>
       In the 3GPP TS 25.331 specification, we can query all the circuit domain
       statues of the RRC Layer (Radio Resource Control).
     </p><p>
@@ -172,7 +172,7 @@
       power comsuption on the device:
     </p><p>
       <img src="resources/rcc_states.png" style="text-align: middle" width="450"/>
-    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47483984"/>Mobile Network. Package domain states</h2></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47483808"/>Mobile Network. Package domain states</h2></div></div></div><p>
       In the 3GPP TS 23.060 specification, we can analyse all the package domain
       states of the GMM Layer (GPRS Mobility Management).
     </p><p>
@@ -198,12 +198,12 @@
         <p>
           In this state, the handset hasn't a PDP context established so it hasn't
           a valid IP address.
-        </p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47500256"/>Mobile Network. States relation</h2></div></div></div><p>
+        </p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47500064"/>Mobile Network. States relation</h2></div></div></div><p>
       In this section we show the relation between RRC and GMM states.
     </p><p>
       In order to simplify this table, we only consider the handset is only using
       data channels, so no voice nor SMS (circuit domain) is being used.
-    </p><div class="table"><a id="idp47501888"/><p class="title"><strong>Table 2.1. RCC - GMM relation</strong></p><div class="table-contents"><table summary="RCC - GMM relation" border="1"><colgroup><col style="text-align: left" class="RCC"/><col style="text-align: left" class="GMM"/><col style="text-align: left" class="Desc"/></colgroup><thead><tr><th style="text-align: left">RCC State</th><th style="text-align: left">GMM State (2G/3G)</th><th style="text-align: left">Description</th></tr></thead><tfoot><tr><th style="text-align: left">RCC State</th><th style="text-align: left">GMM State (2G/3G)</th><th style="text-align: left">Description</th></tr></tfoot><tbody><tr><td style="text-align: left">Cell_DCH</td><td style="text-align: left">READY/PMM_CONNECTED</td><td style="text-align: left">
+    </p><div class="table"><a id="idp47501696"/><p class="title"><strong>Table 2.1. RCC - GMM relation</strong></p><div class="table-contents"><table summary="RCC - GMM relation" border="1"><colgroup><col style="text-align: left" class="RCC"/><col style="text-align: left" class="GMM"/><col style="text-align: left" class="Desc"/></colgroup><thead><tr><th style="text-align: left">RCC State</th><th style="text-align: left">GMM State (2G/3G)</th><th style="text-align: left">Description</th></tr></thead><tfoot><tr><th style="text-align: left">RCC State</th><th style="text-align: left">GMM State (2G/3G)</th><th style="text-align: left">Description</th></tr></tfoot><tbody><tr><td style="text-align: left">Cell_DCH</td><td style="text-align: left">READY/PMM_CONNECTED</td><td style="text-align: left">
               <p>
                 The handset is transmiting or receiving data information using a
                 dedicated channel or a HSPA shared channel.
@@ -260,7 +260,7 @@
                 Normally this state is after 24h of innactivity in the package
                 domain.
               </p>
-            </td></tr></tbody></table></div></div><br class="table-break"/></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47583216"/>Mobile Network. Signalling storms</h2></div></div></div><p>
+            </td></tr></tbody></table></div></div><br class="table-break"/></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47582912"/>Mobile Network. Signalling storms</h2></div></div></div><p>
       This is a carrier well-know effect after the big adoption of smartphones
       around the word.
     </p><p>
@@ -273,11 +273,11 @@
       opened, the efect is that the handsets is continously changing from one
       state to another producing a lot of signalling in the network and also
       consumes a lot of battery resources.
-    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47586096"/>Mobile Network. Battery comsuption</h2></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47585792"/>Mobile Network. Battery comsuption</h2></div></div></div><p>
       The battery comsuption depends on the Radio state. The following list
       represent the amount of battery needed on each state represented in
       relative units:
-    </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">RRC IDLE: 1 relative unit</li><li class="listitem">Cell_PCH: &lt; 2 relative unit</li><li class="listitem">URA_PCH: &lt; or equal than Cell_PCH</li><li class="listitem">Cell_FACH: 40 relative units</li><li class="listitem">Cell_DCH: 100 relative units</li></ul></div></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="api"/>Chapter 3. Notification server API</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#api_wa_ua">API between WebApp and the User Agent</a></span></dt><dt><span class="section"><a href="#api_ua_ns">API between the User Agent and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_as_ns">API between the Application Server and the Notification Server</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47807216">Generic API</a></span></dt><dt><span class="section"><a href="#api_as_ns_simplepush">Simple PUSH API</a></span></dt></dl></dd><dt><span class="section"><a href="#api_wa_as">API between the WA and the AS</a></span></dt><dt><span class="section"><a href="#api_tokens">Tokens</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47830848">channelID</a></span></dt><dt><span class="section"><a href="#idp47837696">UAID</a></span></dt><dt><span class="section"><a href="#idp47839712">endpointURL</a></span></dt></dl></dd><dt><span class="section"><a href="#idp47842064">WakeUp</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47845136">status</a></span></dt><dt><span class="section"><a href="#idp47850624">Wake up method</a></span></dt></dl></dd></dl></div><p>
+    </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">RRC IDLE: 1 relative unit</li><li class="listitem">Cell_PCH: &lt; 2 relative unit</li><li class="listitem">URA_PCH: &lt; or equal than Cell_PCH</li><li class="listitem">Cell_FACH: 40 relative units</li><li class="listitem">Cell_DCH: 100 relative units</li></ul></div></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="api"/>Chapter 3. Notification server API</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#api_wa_ua">API between WebApp and the User Agent</a></span></dt><dt><span class="section"><a href="#api_ua_ns">API between the User Agent and the Notification Server</a></span></dt><dt><span class="section"><a href="#api_as_ns">API between the Application Server and the Notification Server</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47804528">Generic API</a></span></dt><dt><span class="section"><a href="#api_as_ns_simplepush">Simple PUSH API</a></span></dt></dl></dd><dt><span class="section"><a href="#api_wa_as">API between the WA and the AS</a></span></dt><dt><span class="section"><a href="#api_tokens">Tokens</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47828160">channelID</a></span></dt><dt><span class="section"><a href="#idp47835008">UAID</a></span></dt><dt><span class="section"><a href="#idp47837024">endpointURL</a></span></dt></dl></dd><dt><span class="section"><a href="#idp47839376">WakeUp</a></span></dt><dd><dl><dt><span class="section"><a href="#idp47842448">status</a></span></dt><dt><span class="section"><a href="#idp47847936">Wake up method</a></span></dt></dl></dd></dl></div><p>
     The Notification Server API is based on the W3C draft:
     <a class="link" href="http://dvcs.w3.org/hg/push/raw-file/default/index.html">
       [http://dvcs.w3.org/hg/push/raw-file/default/index.html]
@@ -345,7 +345,7 @@
       </li><li class="listitem">
         registrations
       </li></ul></div><p>
-    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47658864"/>navigator.push.register</h4></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47645728"/>navigator.push.register</h4></div></div></div><p>
         This method allows the application to register a new channel.
         </p><pre class="programlisting">
         
@@ -367,7 +367,7 @@
         
       </pre></div><p>
 
-    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47662416"/>navigator.push.unregister</h4></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47649280"/>navigator.push.unregister</h4></div></div></div><p>
         This method allows the application to unregister a previously registered
         channel.
       </p><pre class="programlisting">
@@ -463,12 +463,12 @@
           On future releases will be supported another channels as Long-Polling
           solutions in order to cover devices which don't support Web Sockets.
         </p></li></ul></div><p>
-    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47604832"/>HTTP API</h4></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47664096"/>HTTP API</h4></div></div></div><p>
         This channel only offers one method to get server information.
-      </p><div xml:lang="en" class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp47606112"/>about</h5></div></div></div><p>
+      </p><div xml:lang="en" class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp47665376"/>about</h5></div></div></div><p>
     This method responds an HTML page with general information about the
     running server like number of connections, number of process running...
-  </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp47608512"/>status</h5></div></div></div><p>
+  </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h5 class="title"><a id="idp47667776"/>status</h5></div></div></div><p>
     This method is used to check if the server is available or not.
     Is designed to be used by load balancers when the server is under
     maintance.
@@ -492,7 +492,7 @@
       
     </pre><p>
   </p></div></div><p>
-    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47614160"/>WebSocket API</h4></div></div></div><p>
+    </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47741664"/>WebSocket API</h4></div></div></div><p>
         Through this channel the device will register itself, his applications,
         and also will be used to deliver PUSH notifications
       </p><p>
@@ -542,7 +542,7 @@
   
   </pre><p>
     In which messageType defines one of these commands:
-  </p><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47756368"/>hello</h6></div></div></div><p>
+  </p><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47754960"/>hello</h6></div></div></div><p>
       With this method the device is able to register itself.
     </p><p>
       The device is responsible to give the server a valid UAID. If the
@@ -640,7 +640,7 @@
       This method is also used to anounce a new IP address or a network change.
     </p><p>
       <img src="resources/seqdiags/change_ip.png" style="text-align: middle" width="450"/>
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47771952"/>register</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47770544"/>register</h6></div></div></div><p>
       This method is used to register push channels. Each application can
       register as many channels as it wants. Each channel maintains an
       independent counter about the last version of the channel.
@@ -689,7 +689,7 @@
     </p><p>
       The device service should redirect the received URL to the correct
       application.
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47780272"/>unregister</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47778864"/>unregister</h6></div></div></div><p>
       This method is used to unregister a push channel.
     </p><p>
       This shall be send to the notification server after a valid UA
@@ -723,7 +723,7 @@
       </pre><p>
       on any error case, like:
       </p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">408: Server is not ready yet</li></ul></div><p>
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47786064"/>notification</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47784656"/>notification</h6></div></div></div><p>
       This message will be used by the server to inform about new notification
       to the device.
     </p><p>
@@ -748,7 +748,7 @@
     </pre><p>
       On updates list, is returned all the list of pending notifications (last
       version of each channel)
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47789536"/>desktop-notification</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47788128"/>desktop-notification</h6></div></div></div><p>
       This message will be used by the server to inform about new desktop
       notification to the device.
     </p><p>
@@ -777,7 +777,7 @@
     </pre><p>
       On updates list, is returned all the list of pending notifications (last
       version of each channel)
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47793584"/>ack</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47792176"/>ack</h6></div></div></div><p>
       For each received notification through notification, the server SHOULD be
       notified in order to free resources related to this notifications.
     </p><p>
@@ -799,18 +799,13 @@
         ]
       }
       
-      </pre></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47796592"/>Keep-alive algorithm</h6></div></div></div><p>
+      </pre></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47795184"/>Keep-alive algorithm</h6></div></div></div><p>
       If it's needed a way to maintaint the socket open along time, a PING-PONG
       mechanism is also implemented.
     </p><p>
       The client sents an empty JSON object "{}" and the server will respond another
       empty object "{}" and/or a notification response (if pending notifications).
-    </p><p>
-      A more refined version is on working
-      <a class="link" href="https://github.com/telefonicaid/notification_server/pull/137">
-        on this Github Pull Request
-      </a>.
-    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47799936"/>Wakeup websocket close</h6></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h6 class="title"><a id="idp47797248"/>Wakeup websocket close</h6></div></div></div><p>
       As explained before, when the client informs about the mobile network is in and
       the server has the required infrastructure in that mobile network, the websocket
       will be closed by the server after a predefined inactivity time (10 seconds).
@@ -823,10 +818,10 @@
     </p></div></div></div><p>
   </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="api_as_ns"/>API between the Application Server and the Notification Server</h2></div></div></div><p>
     This chapter explains the different APIs available to third party servers
-  </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47807216"/>Generic API</h3></div></div></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47808080"/>about</h4></div></div></div><p>
+  </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47804528"/>Generic API</h3></div></div></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47805392"/>about</h4></div></div></div><p>
     This method responds an HTML page with general information about the
     running server like number of connections, number of process running...
-  </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47810480"/>status</h4></div></div></div><p>
+  </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h4 class="title"><a id="idp47807792"/>status</h4></div></div></div><p>
     This method is used to check if the server is available or not.
     Is designed to be used by load balancers when the server is under
     maintance.
@@ -884,7 +879,7 @@
     </p></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="api_tokens"/>Tokens</h2></div></div></div><p>
     The tokens are an important part of this API since it identifies each
     (user) actor (device and applications) in a unique or shared way.
-  </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47830848"/>channelID</h3></div></div></div><p>
+  </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47828160"/>channelID</h3></div></div></div><p>
       This token identifies the user or group of users and on extended API
       SHALL be a secret but in simple push API (thialfi like) it's not needed
       to be a secret.
@@ -898,7 +893,7 @@
       will identify a unique user with multiple devices. In this case, the returned
       URL will be unique per user but each URL will identify multiple devices
       the user is using.
-    </p><div class="example"><a id="idp47833632"/><p class="title"><strong>Example 3.1. Multiple device messages</strong></p><div class="example-contents"><p>
+    </p><div class="example"><a id="idp47830944"/><p class="title"><strong>Example 3.1. Multiple device messages</strong></p><div class="example-contents"><p>
         This can be used by applications in which the user require the same
         information across his devices, like the mobile and the desktop app.
         Can be used, for example, by e-mail clients.
@@ -908,22 +903,22 @@
       identify all instances of the same application. In this case each notification
       received in the publicURL will be delivered to ALL the devices which have
       the application installed (and registered). This will be a BROADCAST message.
-    </p><div class="example"><a id="idp47836032"/><p class="title"><strong>Example 3.2. Message broadcast</strong></p><div class="example-contents"><p>
+    </p><div class="example"><a id="idp47833344"/><p class="title"><strong>Example 3.2. Message broadcast</strong></p><div class="example-contents"><p>
         This can be used by applications in which all users require exactly the
         same information at the same time, like weather applications, latest news, ...
-      </p></div></div><br class="example-break"/></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47837696"/>UAID</h3></div></div></div><p>
+      </p></div></div><br class="example-break"/></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47835008"/>UAID</h3></div></div></div><p>
       This token identifies each customer device in a unique way.
     </p><p>
       This token is also used as an identification key since this isn't a random
       one. This token is an AES encrypted string which will be checked for
       validaty each time it's used.
-    </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47839712"/>endpointURL</h3></div></div></div><p>
+    </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47837024"/>endpointURL</h3></div></div></div><p>
       Automatic generated token by the notification server which identifies the
       application + user/device as in a unique fashion.
     </p><p>
       This token is included in the publicURL which identifies the application,
       and normally is a SHA256 hashed string with the WATokent + the Public Key.
-    </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47842064"/>WakeUp</h2></div></div></div><p>
+    </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp47839376"/>WakeUp</h2></div></div></div><p>
       When the handset is inside a mobile operator network, we can close the
       websocket to reduce battery comsuption and also network resources.
     </p><p>
@@ -934,7 +929,7 @@
       interfaces in order to pull all pending messages.
     </p><p>
       The WakeUp server offers a simple HTTP API:
-    </p><div xml:lang="en" class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47845136"/>status</h3></div></div></div><p>
+    </p><div xml:lang="en" class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47842448"/>status</h3></div></div></div><p>
     This method is used to check if the server is available or not.
     Is designed to be used by load balancers when the server is under
     maintance.
@@ -957,7 +952,7 @@
       kill -SIGUSR2 &lt;pid&gt;
       
     </pre><p>
-  </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47850624"/>Wake up method</h3></div></div></div><p>
+  </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="idp47847936"/>Wake up method</h3></div></div></div><p>
         To wakeup a device, sent a HTTP GET method to the WakeUp server with the
         ip and port parameters. The protocol is optional:
       </p><p>
@@ -973,18 +968,18 @@
         PROTOCOL_UDPv4 = 1
       </p><p>
         PROTOCOL_TCPv4 = 2
-      </p></div></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="logtraces"/>Chapter 4. Log traces</h1></div></div></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#logtraces_NOTIFY_generated">NOTIFY level</a></span></dt><dt><span class="section"><a href="#logtraces_ERROR_generated">ERROR level</a></span></dt><dt><span class="section"><a href="#logtraces_CRITICAL_generated">CRITICAL level</a></span></dt></dl></div><p>
+      </p></div></div></div><div xml:lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="logtraces"/>Chapter 4. Log traces</h1></div></div></div><p>
     This chapter describes each log message, his ID and how to interpret it.
   </p><p>
     It covers NOTIFY, ERROR and CRITICAL traces. DEBUG and INFO traces are not documented.
   </p><p>
     Next sections describes each log level:
-  </p><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="logtraces_NOTIFY_generated"/>NOTIFY level</h2></div></div></div></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="logtraces_ERROR_generated"/>ERROR level</h2></div></div></div></div><div xml:lang="en" class="section"><div class="titlepage"><div><div><h2 class="title"><a id="logtraces_CRITICAL_generated"/>CRITICAL level</h2></div></div></div></div></div><div xml:lang="en" class="reference"><div class="titlepage"><div><div><h1 class="title"><a id="cmd_reference"/>Command reference</h1></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="refentrytitle"><a href="#cmd_load_mcc_mnc_onmongo">load_mcc_mnc_onmongo.awk</a></span><span class="refpurpose"> — loads a mobile operator list into the central MongoDB</span></dt><dt><span class="refentrytitle"><a href="#cmd_add_wakeupserver_ip">add_wakeupserver_ip</a></span><span class="refpurpose"> — links a wakeup server IP and Port to a MCC-MNC pair</span></dt><dt><span class="refentrytitle"><a href="#cmd_empty_mongo">empty_mongo</a></span><span class="refpurpose"> — simple script to clean all MongoDB collections</span></dt><dt><span class="refentrytitle"><a href="#cmd_getloginfo">getloginfo</a></span><span class="refpurpose"> — shows the detailed log trace description</span></dt></dl></div><div xml:lang="en" class="refentry"><a id="cmd_load_mcc_mnc_onmongo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>load_mcc_mnc_onmongo — loads a mobile operator list into the central MongoDB</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">awk -f scripts/load_mcc_mnc_onmongo.awk</code>  [mcc_mnc_list.txt]</p></div></div><div class="refsect1"><a id="idp47497200"/><h2>Description</h2><p>
+  </p><span style="color: red">&lt;xi:include&gt;&lt;/xi:include&gt;</span><span style="color: red">&lt;xi:include&gt;&lt;/xi:include&gt;</span><span style="color: red">&lt;xi:include&gt;&lt;/xi:include&gt;</span></div><div xml:lang="en" class="reference"><div class="titlepage"><div><div><h1 class="title"><a id="cmd_reference"/>Command reference</h1></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="refentrytitle"><a href="#cmd_load_mcc_mnc_onmongo">load_mcc_mnc_onmongo.awk</a></span><span class="refpurpose"> — loads a mobile operator list into the central MongoDB</span></dt><dt><span class="refentrytitle"><a href="#cmd_add_wakeupserver_ip">add_wakeupserver_ip</a></span><span class="refpurpose"> — links a wakeup server IP and Port to a MCC-MNC pair</span></dt><dt><span class="refentrytitle"><a href="#cmd_empty_mongo">empty_mongo</a></span><span class="refpurpose"> — simple script to clean all MongoDB collections</span></dt><dt><span class="refentrytitle"><a href="#cmd_getloginfo">getloginfo</a></span><span class="refpurpose"> — shows the detailed log trace description</span></dt></dl></div><div xml:lang="en" class="refentry"><a id="cmd_load_mcc_mnc_onmongo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>load_mcc_mnc_onmongo — loads a mobile operator list into the central MongoDB</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">awk -f scripts/load_mcc_mnc_onmongo.awk</code>  [mcc_mnc_list.txt]</p></div></div><div class="refsect1"><a id="idp47623680"/><h2>Description</h2><p>
       Reads the mcc_mnc_list.txt file and loads all the mobile operators list
       into the central MongoDB database.
     </p><p>
       This command should only be used for the first system provision.
-    </p></div></div><div xml:lang="en" class="refentry"><div class="refentry.separator"><hr/></div><a id="cmd_add_wakeupserver_ip"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>add_wakeupserver_ip.sh — links a wakeup server IP and Port to a MCC-MNC pair</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/add_wakeupserver_ip.sh</code>  [mcc] [mnc] [wakeup server URL]</p></div></div><div class="refsect1"><a id="idp47628320"/><h2>Description</h2><p>
+    </p></div></div><div xml:lang="en" class="refentry"><div class="refentry.separator"><hr/></div><a id="cmd_add_wakeupserver_ip"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>add_wakeupserver_ip.sh — links a wakeup server IP and Port to a MCC-MNC pair</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/add_wakeupserver_ip.sh</code>  [mcc] [mnc] [wakeup server URL]</p></div></div><div class="refsect1"><a id="idp47731632"/><h2>Description</h2><p>
       Updates the operators collection linking a WakeUp server to the
       mcc-mnc pair.
     </p><p>
@@ -995,22 +990,22 @@
     </p><p>
       With an empty URL into the third parameter, the WakeUp server will be disabled
       into next runnings
-    </p></div><div class="refsect1"><a id="idp47631360"/><h2>Example</h2><p>Enabling:</p><p>
+    </p></div><div class="refsect1"><a id="idp47734672"/><h2>Example</h2><p>Enabling:</p><p>
       scripts/add_wakeupserver_ip.sh 214 07 http://1.2.3.4:4567
     </p><p>Disabling:</p><p>
       scripts/add_wakeupserver_ip.sh 214 07
-    </p></div></div><div xml:lang="en" class="refentry"><div class="refentry.separator"><hr/></div><a id="cmd_empty_mongo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>empty_mongo.sh — simple script to clean all MongoDB collections</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/empty_mongo.sh</code> </p></div></div><div class="refsect1"><a id="idp47736672"/><h2>Description</h2><p>
+    </p></div></div><div xml:lang="en" class="refentry"><div class="refentry.separator"><hr/></div><a id="cmd_empty_mongo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>empty_mongo.sh — simple script to clean all MongoDB collections</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/empty_mongo.sh</code> </p></div></div><div class="refsect1"><a id="idp47717216"/><h2>Description</h2><p>
       Drops all notification server collections from the MongoDB.
     </p><p>
       Use it if you really know what're you doing.
-    </p></div><div class="refsect1"><a id="idp47738400"/><h2>Example</h2><p>
+    </p></div><div class="refsect1"><a id="idp47718944"/><h2>Example</h2><p>
       scripts/empty_mongo.sh
-    </p></div></div><div xml:lang="en" class="refentry"><div class="refentry.separator"><hr/></div><a id="cmd_getloginfo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>getloginfo — shows the detailed log trace description</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/getloginfo</code>  [log ID (in hexadecimal 0xABCD)]</p></div></div><div class="refsect1"><a id="idp47559136"/><h2>Description</h2><p>
+    </p></div></div><div xml:lang="en" class="refentry"><div class="refentry.separator"><hr/></div><a id="cmd_getloginfo"/><div class="titlepage"/><div class="refnamediv"><h2>Name</h2><p>getloginfo — shows the detailed log trace description</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">scripts/getloginfo</code>  [log ID (in hexadecimal 0xABCD)]</p></div></div><div class="refsect1"><a id="idp47590688"/><h2>Description</h2><p>
       When the server emits a NOTIFICATION, ERROR or CRITICAL trace,
       you can see a unique ID in it.
     </p><p>
       This command allows you to recover more information about the
       error without need to refer the main document.
-    </p></div><div class="refsect1"><a id="idp47561136"/><h2>Example</h2><p>
+    </p></div><div class="refsect1"><a id="idp47592688"/><h2>Example</h2><p>
       scripts/getloginfo 0x1234
     </p></div></div></div></div></body></html>
