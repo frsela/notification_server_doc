@@ -4,8 +4,10 @@
 SYS=$(shell uname -s)
 ifeq ($(SYS),Darwin)
 XSL_BASE=/usr/local/Cellar/docbook-xsl/1.78.1/docbook-xsl-ns/
+XSL_FO=own_darwin.xsl
 else
 XSL_BASE=/usr/share/xml/docbook/stylesheet/docbook-xsl-ns/
+XSL_FO=own_linux.xsl
 endif
 
 SUBDIRS = sequence_diagrams books
@@ -32,7 +34,7 @@ html_chunked:
 
 pdf:
 	mkdir -p output/pdf
-	xsltproc --xinclude -o output/db.fo own.xsl books/notification_server.xml
+	xsltproc --xinclude -o output/db.fo $(XSL_FO) books/notification_server.xml
 	fop output/db.fo -pdf output/pdf/main.pdf
 	rm -f output/db.fo
 

@@ -5,8 +5,6 @@
   xmlns:d="http://docbook.org/ns/docbook"
   exclude-result-prefixes="d">
 
-  <xsl:import href="/usr/local/Cellar/docbook-xsl/1.78.1/docbook-xsl-ns/fo/docbook.xsl"/>
-
   <xsl:param name="paper.type">A4</xsl:param>
   <xsl:param name="body.font.size">12.5</xsl:param>
   <xsl:param name="normal.para.spacing">1.5</xsl:param>

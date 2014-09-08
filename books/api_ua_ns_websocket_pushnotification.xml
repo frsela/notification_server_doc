@@ -368,12 +368,6 @@
       The client sents an empty JSON object "{}" and the server will respond another
       empty object "{}" and/or a notification response (if pending notifications).
     </para>
-    <para>
-      A more refined version is on working
-      <link xlink:href="https://github.com/telefonicaid/notification_server/pull/137">
-        on this Github Pull Request
-      </link>.
-    </para>
   </section>
   <section>
     <title>Wakeup websocket close</title>
